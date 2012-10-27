@@ -10,4 +10,17 @@
  android:layout_height="wrap_content"
  android:text="@string/frag2_text">
 </TextView>
+
+<TextView
+    android:id="@+id/textView1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="TextView" />
+
+<Button
+    android:id="@+id/button1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Button" />
+
 </LinearLayout>

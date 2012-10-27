@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 public class MainActivity extends FragmentActivity { 
 	 FragmentTransaction fTrans;
@@ -18,7 +16,7 @@ public class MainActivity extends FragmentActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
      frag1 = new Fragment1();
-    
+     frag2 = new Fragment2();
  fTrans = getSupportFragmentManager().beginTransaction();
     fTrans.add(R.id.frgmCont, frag1);
     fTrans.commit();  
