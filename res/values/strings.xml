@@ -7,6 +7,6 @@
     <string name="frag1_text">Fragment 1</string>
 <string name="frag2_text">Fragment 2</string>
 <string name="frag3_text">Fragment 3</string>
-
+<string name="title_second_activity">SecondActivity</string>
 
 </resources>
