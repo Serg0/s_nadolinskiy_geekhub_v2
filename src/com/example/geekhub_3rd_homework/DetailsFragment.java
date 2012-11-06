@@ -3,6 +3,7 @@ package com.example.geekhub_3rd_homework;
 import java.net.URLEncoder;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
@@ -24,6 +25,11 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	// TODO Auto-generated method stub
 	return inflater.inflate(R.layout.fragment_details, null);
 }
+
+@Override
+public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    }
 
 @SuppressWarnings("deprecation")
 @Override
