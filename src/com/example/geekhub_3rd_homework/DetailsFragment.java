@@ -1,5 +1,7 @@
 package com.example.geekhub_3rd_homework;
 
+import java.net.URLEncoder;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	return inflater.inflate(R.layout.fragment_details, null);
 }
 
+@SuppressWarnings("deprecation")
 @Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -35,7 +38,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	   // TextView text = (TextView) getActivity().findViewById(R.id.textView2);
 	    WebView webview = (WebView) getActivity().findViewById(R.id.WebView1);
 	//    text.setMovementMethod(new ScrollingMovementMethod()); 
-	    webview.loadData(content,"text/html", "UTF-8");
+	    webview.loadData(URLEncoder.encode(content).replaceAll("\\+"," "),"text/html", "UTF-8");
 	   // webview.loadData(content, mimeType, encoding)
 	  
 		
