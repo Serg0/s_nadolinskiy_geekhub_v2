@@ -18,6 +18,7 @@ public class DataProvider {
 	
 	public static ArrayList<Article> getConnection(){
 	
+		if(array == null){
 	 Thread thread = new Thread() {
  	    public void run() {
  	    	try {
@@ -40,10 +41,12 @@ public class DataProvider {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		}
 	return array;
      
 	
 }
+	
 
 	private static ArrayList<Article> readStream(InputStream in) throws JSONException {
 		// TODO Auto-generated method stub
@@ -74,9 +77,7 @@ public class DataProvider {
       	        String content = oneObjectsItem2.getString("$t");
     	        localArray.add(new Article (title, content));
     	        
-    	       
     	    }
-    	  
     	    
     	  } catch (IOException e) {
     	    e.printStackTrace();
@@ -93,4 +94,16 @@ public class DataProvider {
     	  return localArray;
 
     }
+	
+	public static ArrayList<String> getTitles(){
+		ArrayList<String> titleStringArray = new ArrayList<String>();
+		
+		for (Article v:getConnection())
+	    {
+			titleStringArray.add(v.title);
+	    }
+		return titleStringArray;
+	
+		
+	}
 }

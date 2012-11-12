@@ -26,10 +26,6 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	return inflater.inflate(R.layout.fragment_details, null);
 }
 
-@Override
-public void onConfigurationChanged(Configuration newConfig) {
-    super.onConfigurationChanged(newConfig);
-    }
 
 @SuppressWarnings("deprecation")
 @Override
@@ -37,12 +33,12 @@ public void onConfigurationChanged(Configuration newConfig) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
        
-	  Intent intent2 = this.getActivity().getIntent();
-	    String content2 = intent2.getStringExtra("content");
+	  Intent intent = this.getActivity().getIntent();
+	    String content = intent.getStringExtra("content");
 	    WebView webview = (WebView) getActivity().findViewById(R.id.WebView1);
     String query = null;
 		try {
-			query = URLEncoder.encode(content2, "utf-8").replaceAll("\\+"," ");
+			query = URLEncoder.encode(content, "utf-8").replaceAll("\\+"," ");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

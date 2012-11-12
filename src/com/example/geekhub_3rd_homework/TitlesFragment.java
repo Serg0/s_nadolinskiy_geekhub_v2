@@ -20,22 +20,18 @@ import android.widget.ListView;
 
 public class TitlesFragment extends Fragment {
 	ArrayList<Article> aLocal;
-	ArrayList<String> titleStringArray = new ArrayList<String>();
+//	ArrayList<String> titleStringArray = new ArrayList<String>();
 	//ArrayList<String> contentStringArray = new ArrayList<String>();
 	
 	FragmentTransaction fragmentTransaction;
 	DetailsFragment detailsFragment;
 	
-	public TitlesFragment(ArrayList<Article> array) {
-		// TODO Auto-generated constructor stub
-		aLocal = array;
-		
-		for (Article v:aLocal)
-	    {
-			titleStringArray.add(v.title);
-	    }
-	
-    }
+//	public TitlesFragment(ArrayList<Article> array) {
+//		// TODO Auto-generated constructor stub
+//		aLocal = array;
+//		
+//		
+//    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,7 +59,7 @@ public class TitlesFragment extends Fragment {
 		// TODO Auto-generated method stub
 		
 		ListView lvMain = (ListView) getView().findViewById(R.id.listView1);
-	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, titleStringArray);
+	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, DataProvider.getTitles());
 	    lvMain.setAdapter(adapter);
 	    
 	    lvMain.setOnItemClickListener(new OnItemClickListener() {
@@ -72,7 +68,7 @@ public class TitlesFragment extends Fragment {
 
 	        	if (MainActivity.isTablet(getActivity())) {
 					Intent intent = getActivity().getIntent();
-					 intent.putExtra("content", aLocal.get(position).content);
+					intent.putExtra("content", DataProvider.getConnection().get(position).content);
 		           
 		            detailsFragment = new DetailsFragment();
 		            fragmentTransaction = getFragmentManager().beginTransaction();
@@ -82,7 +78,7 @@ public class TitlesFragment extends Fragment {
 				}else
 				{
 	        		Intent intent = new Intent(getActivity(), SecondActivity.class); 
-	        		 intent.putExtra("content", aLocal.get(position).content);
+	        		intent.putExtra("content", DataProvider.getConnection().get(position).content);
 		            startActivity(intent);
 		            
 				}	

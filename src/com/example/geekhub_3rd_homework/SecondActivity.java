@@ -10,12 +10,7 @@ public class SecondActivity extends FragmentActivity {
 	FragmentTransaction fragmentTransaction;
 	DetailsFragment detailsFragment;
 	
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		setContentView(R.layout.second_activity);
-	    super.onConfigurationChanged(newConfig);
-	    }
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
