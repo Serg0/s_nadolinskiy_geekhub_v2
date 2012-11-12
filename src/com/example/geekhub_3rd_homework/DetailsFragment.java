@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 
 public class DetailsFragment extends Fragment {
@@ -46,15 +47,12 @@ public void onConfigurationChanged(Configuration newConfig) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-//	    String url = "http://stackoverflow.com/search?q=" + query;
- //webview.loadData(URLEncoder.encode(content2).replaceAll("\\+"," "),"text/html" , "CP 866");
-// webview.loadData(query,"text/html" , "utf-8");
+
  String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
+ webview.getSettings().setBuiltInZoomControls(true);
+ webview.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
  webview.loadData(header+query, "text/html; charset=UTF-8", null);
-//	  
-	//Toast.makeText(getActivity(), URLDecoder.decode(content2), Toast.LENGTH_LONG).show();
-//	Toast.makeText(getActivity(), content2, Toast.LENGTH_LONG).show();
-		
+ 
+
 	}
 }

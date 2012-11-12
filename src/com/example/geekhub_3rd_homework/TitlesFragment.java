@@ -21,7 +21,7 @@ import android.widget.ListView;
 public class TitlesFragment extends Fragment {
 	ArrayList<Article> aLocal;
 	ArrayList<String> titleStringArray = new ArrayList<String>();
-	ArrayList<String> contentStringArray = new ArrayList<String>();
+	//ArrayList<String> contentStringArray = new ArrayList<String>();
 	
 	FragmentTransaction fragmentTransaction;
 	DetailsFragment detailsFragment;
@@ -29,14 +29,10 @@ public class TitlesFragment extends Fragment {
 	public TitlesFragment(ArrayList<Article> array) {
 		// TODO Auto-generated constructor stub
 		aLocal = array;
-		//aLocal.get(all).all
 		
 		for (Article v:aLocal)
 	    {
-//			aLocal[1]
-			
 			titleStringArray.add(v.title);
-			//contentStringArray.add(v.content);
 	    }
 	
     }
@@ -76,7 +72,6 @@ public class TitlesFragment extends Fragment {
 
 	        	if (MainActivity.isTablet(getActivity())) {
 					Intent intent = getActivity().getIntent();
-		          // intent.putExtra("content", contentStringArray.get(position));
 					 intent.putExtra("content", aLocal.get(position).content);
 		           
 		            detailsFragment = new DetailsFragment();
