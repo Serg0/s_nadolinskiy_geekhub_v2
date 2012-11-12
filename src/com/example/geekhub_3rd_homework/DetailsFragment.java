@@ -1,20 +1,19 @@
 package com.example.geekhub_3rd_homework;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.TextView;
 
 public class DetailsFragment extends Fragment {
-	
+	String content2;
 	public DetailsFragment() {
 		// TODO Auto-generated constructor stub
 	}
@@ -36,17 +35,26 @@ public void onConfigurationChanged(Configuration newConfig) {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-//		WebView webview = new WebView(this);
-//        setContentView(webview);
-//        
-		Intent intent = getActivity().getIntent();
-	    String content = intent.getStringExtra("content");
-	   // TextView text = (TextView) getActivity().findViewById(R.id.textView2);
+       
+	  Intent intent2 = this.getActivity().getIntent();
+	    String content2 = intent2.getStringExtra("content");
 	    WebView webview = (WebView) getActivity().findViewById(R.id.WebView1);
-	//    text.setMovementMethod(new ScrollingMovementMethod()); 
-	    webview.loadData(URLEncoder.encode(content).replaceAll("\\+"," "),"text/html", "UTF-8");
-	   // webview.loadData(content, mimeType, encoding)
-	  
+    String query = null;
+		try {
+			query = URLEncoder.encode(content2, "utf-8").replaceAll("\\+"," ");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+//	    String url = "http://stackoverflow.com/search?q=" + query;
+ //webview.loadData(URLEncoder.encode(content2).replaceAll("\\+"," "),"text/html" , "CP 866");
+// webview.loadData(query,"text/html" , "utf-8");
+ String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
+ webview.loadData(header+query, "text/html; charset=UTF-8", null);
+//	  
+	//Toast.makeText(getActivity(), URLDecoder.decode(content2), Toast.LENGTH_LONG).show();
+//	Toast.makeText(getActivity(), content2, Toast.LENGTH_LONG).show();
 		
 	}
 }

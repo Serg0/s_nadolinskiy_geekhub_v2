@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -19,44 +20,73 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 
 public class MainActivity extends FragmentActivity {
-	FragmentTransaction fTrans;
-	TitlesFragment tFragment;
-	//Content array[];
-	ArrayList<Content> array = new ArrayList<Content>();
+	FragmentTransaction fragmentTransaction;
+	TitlesFragment titlesFragment;
+	ArrayList<Article> array = null;
+
+	
+	public static boolean isTablet(Context context) {
+	    boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4);
+	    boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+	    return (xlarge || large);
+	}
 	
 	
-    @Override
+	
+    @SuppressWarnings("static-access")
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       
-       // array[] = null;
+
+        Thread thread = new Thread() {
+    	    public void run() {
+    	    	try {
+                    
+    	    			URL url = new URL("http://android-developers.blogspot.com/feeds/posts/default?alt=json");
+                 	 	HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                 		long i = 0; 
+                 		array = readStream(con.getInputStream());
+
+                 }
+                	catch (Exception e) {
+                     	  e.printStackTrace();
+                     }
+  
+    	    }
+    	 };
+    	 thread.start();
+    	 try {
+    		 thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
-        try {
-        	  URL url = new URL("http://android-developers.blogspot.com/feeds/posts/default?alt=json");
-        	  HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        	  array = readStream(con.getInputStream());
-        	 // con.getContent();
-        	  //Toast.makeText(getBaseContext(), (CharSequence) con.getContent() , Toast.LENGTH_SHORT).show();
+       // Content.getConnection();
+   
+    	
+        titlesFragment = new TitlesFragment(array);
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        
+        if (isTablet(this)) {
+        	fragmentTransaction.add(R.id.frgmCont3, titlesFragment);
+        }else
+        {
         	
-        	  } catch (Exception e) {
-        	  e.printStackTrace();
-        	 
-        	}
-        tFragment = new TitlesFragment(array);
+        	fragmentTransaction.add(R.id.frgmCont, titlesFragment);
+        }
         
-        fTrans = getSupportFragmentManager().beginTransaction();
-         fTrans.add(R.id.frgmCont, tFragment);
-                 fTrans.commit();  
-		//Toast.makeText(getBaseContext(), res , Toast.LENGTH_SHORT).show();
-        
+        fragmentTransaction.commit();  
+                 
+              
     }
 
-    private ArrayList<Content> readStream(InputStream in) throws JSONException {
+    private ArrayList<Article> readStream(InputStream in) throws JSONException {
 		// TODO Auto-generated method stub
     	StringBuilder sb = new StringBuilder();
     	BufferedReader reader = null;
-    	ArrayList<Content> localArray = new ArrayList<Content>();
+    	ArrayList<Article> localArray = new ArrayList<Article>();
     	  try {
     	    reader = new BufferedReader(new InputStreamReader(in));
     	    String line = "";
@@ -71,33 +101,19 @@ public class MainActivity extends FragmentActivity {
     	    JSONObject jObject = new JSONObject(result);
     	    JSONObject feed = jObject.getJSONObject("feed");
     	    JSONArray jArray = feed.getJSONArray("entry");
-    	    //jArray.get(index)
-   /* 	    TextView text = (TextView) findViewById(R.id.textView1);
-     text.setMovementMethod(new ScrollingMovementMethod()); */
-    	  //  text.setText("afa");
      
     	    for (int i=0; i < jArray.length(); i++)
     	    {
     	        JSONObject oneObject = jArray.getJSONObject(i);
-    	        // Pulling items from the array
-    	        //String oneObjectsItem = oneObject.getString("title");
     	        JSONObject oneObjectsItem = oneObject.getJSONObject("title");
     	        String title = oneObjectsItem.getString("$t");
-    	      //  oneObject.getJSONObject(name)
-    	     //   String oneObjectsItem2 = oneObject.getString("content");
     	        JSONObject oneObjectsItem2 = oneObject.getJSONObject("content");
       	        String content = oneObjectsItem2.getString("$t");
+    	        localArray.add(new Article (title, content));
     	        
-      	      localArray.add(new Content (title, content));
-    	        
-    	    /*    text.append(title);
-    	        text.append("\n--------------------------------\n");*/
-    	       
-        	    
     	       
     	    }
     	  
-    	    //text.setText("12412");
     	    
     	  } catch (IOException e) {
     	    e.printStackTrace();
@@ -117,7 +133,9 @@ public class MainActivity extends FragmentActivity {
     
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+    	setContentView(R.layout.activity_main);
         super.onConfigurationChanged(newConfig);
+        
         }
 
 	@Override

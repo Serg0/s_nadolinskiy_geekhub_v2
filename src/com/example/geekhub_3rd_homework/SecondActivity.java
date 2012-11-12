@@ -7,24 +7,25 @@ import android.support.v4.app.FragmentTransaction;
 
 public class SecondActivity extends FragmentActivity {
 
-	public FragmentTransaction fTrans2;
-	DetailsFragment dFragment;
+	FragmentTransaction fragmentTransaction;
+	DetailsFragment detailsFragment;
+	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
+		setContentView(R.layout.second_activity);
 	    super.onConfigurationChanged(newConfig);
 	    }
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		 super.onCreate(savedInstanceState);
 		setContentView(R.layout.second_activity);
 		
-		dFragment = new DetailsFragment();
-//        
-		fTrans2 = getSupportFragmentManager().beginTransaction();
-		fTrans2.add(R.id.frgmCont2, dFragment);
-        fTrans2.commit();  
-//                 
+		detailsFragment = new DetailsFragment();
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.frgmCont2, detailsFragment);
+		fragmentTransaction.commit();  
                  
 	   
 	}
