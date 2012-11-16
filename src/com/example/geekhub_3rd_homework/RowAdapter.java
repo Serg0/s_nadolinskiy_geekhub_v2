@@ -33,16 +33,7 @@ public class RowAdapter extends ArrayAdapter<String> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView1);
         textView.setText(titles.get(position));
         textView2.setText(dates.get(position));
-        // Изменение иконки для Windows и iPhone
-//        String s = values[position];
-//        if (s.startsWith("Windows7") || s.startsWith("iPhone")
-//                || s.startsWith("Solaris")) {
-//            imageView.setImageResource(R.drawable.no);
-//        } else {
-//            imageView.setImageResource(R.drawable.ok);
-//        }
-//    
-        
+ 
         return rowView;
     }
 }
