@@ -5,7 +5,6 @@ package com.example.geekhub_3rd_homework;
 
 import java.util.ArrayList;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class TitlesFragment extends Fragment {
 	ArrayList<Article> aLocal;
@@ -59,29 +58,36 @@ public class TitlesFragment extends Fragment {
 		// TODO Auto-generated method stub
 		
 		ListView lvMain = (ListView) getView().findViewById(R.id.listView1);
-	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, DataProvider.getTitles());
-	    lvMain.setAdapter(adapter);
+		// ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_expandable_list_item_1, DataProvider.getTitles());
+	//	 SimpleAdapter adapter = new SimpleAdapter(getActivity(), android.R.layout.simple_list_item_1, DataProvider.getTitles(),DataProvider.getPublishDates());
+		 RowAdapter adapter = new RowAdapter(getActivity(),  DataProvider.getTitles(), DataProvider.getPublishDates());
+
+		 //SimpleAdapter adapter = new SimpleAdapter(getActivity(), data, resource, from, to) 
+		 
+		lvMain.setAdapter(adapter);
 	    
 	    lvMain.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View view,
 	                int position, long id) {
-
-	        	if (MainActivity.isTablet(getActivity())) {
-					Intent intent = getActivity().getIntent();
-					intent.putExtra("content", DataProvider.getConnection().get(position).content);
-		           
-		            detailsFragment = new DetailsFragment();
-		            fragmentTransaction = getFragmentManager().beginTransaction();
-		            fragmentTransaction.replace(R.id.frgmCont4, detailsFragment);
-		            fragmentTransaction.commit();
-		            
-				}else
-				{
-	        		Intent intent = new Intent(getActivity(), SecondActivity.class); 
-	        		intent.putExtra("content", DataProvider.getConnection().get(position).content);
-		            startActivity(intent);
-		            
-				}	
+	        	
+	        	
+	        	Toast.makeText(getActivity().getBaseContext(), DataProvider.getFeed().get(position).getPublished(), Toast.LENGTH_LONG).show();
+//	        	if (MainActivity.isTablet(getActivity())) {
+//					Intent intent = getActivity().getIntent();
+//					intent.putExtra("content", DataProvider.getFeed().get(position).getContent());
+//		           
+//		            detailsFragment = new DetailsFragment();
+//		            fragmentTransaction = getFragmentManager().beginTransaction();
+//		            fragmentTransaction.replace(R.id.frgmCont4, detailsFragment);
+//		            fragmentTransaction.commit();
+//		            
+//				}else
+//				{
+//	        		Intent intent = new Intent(getActivity(), SecondActivity.class); 
+//	        		intent.putExtra("content", DataProvider.getFeed().get(position).getContent());
+//		            startActivity(intent);
+//		            
+//				}	
 	        }
 
 			

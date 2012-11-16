@@ -16,7 +16,7 @@ public class DataProvider {
 
 	static ArrayList<Article> array;
 	
-	public static ArrayList<Article> getConnection(){
+	public static ArrayList<Article> getFeed(){
 	
 		if(array == null){
 	 Thread thread = new Thread() {
@@ -75,7 +75,10 @@ public class DataProvider {
     	        String title = oneObjectsItem.getString("$t");
     	        JSONObject oneObjectsItem2 = oneObject.getJSONObject("content");
       	        String content = oneObjectsItem2.getString("$t");
-    	        localArray.add(new Article (title, content));
+      	        JSONObject oneObjectsItem3 = oneObject.getJSONObject("published");
+    	        String published = oneObjectsItem3.getString("$t");
+    	        
+    	        localArray.add(new Article (title, content, published));
     	        
     	    }
     	    
@@ -98,11 +101,22 @@ public class DataProvider {
 	public static ArrayList<String> getTitles(){
 		ArrayList<String> titleStringArray = new ArrayList<String>();
 		
-		for (Article v:getConnection())
+		for (Article v:getFeed())
 	    {
 			titleStringArray.add(v.title);
 	    }
 		return titleStringArray;
+	
+		
+	}
+	public static ArrayList<String> getPublishDates(){
+		ArrayList<String> publishStringArray = new ArrayList<String>();
+		
+		for (Article v:getFeed())
+	    {
+			publishStringArray.add(v.published);
+	    }
+		return publishStringArray;
 	
 		
 	}
