@@ -14,6 +14,9 @@ import android.webkit.WebView;
 
 public class DetailsFragment extends Fragment {
 	String content2;
+	String content;
+	int contentPos;
+
 	public DetailsFragment() {
 		// TODO Auto-generated constructor stub
 	}
@@ -31,23 +34,41 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-       
-	  Intent intent = this.getActivity().getIntent();
-	    String content = intent.getStringExtra("content");
+//       if(savedInstanceState != null){
+//    	   content = savedInstanceState.getString("content");
+//       }
+//    	   
+//	  Intent intent = this.getActivity().getIntent();
+//	    content = intent.getStringExtra("content");
+//	    
+	    Intent intent = this.getActivity().getIntent();
+	    contentPos = intent.getIntExtra("contentPos", -1);
+	    
 	    WebView webview = (WebView) getActivity().findViewById(R.id.WebView1);
     String query = null;
 		try {
-			query = URLEncoder.encode(content, "utf-8").replaceAll("\\+"," ");
+			query = URLEncoder.encode(DataProvider.getFeed().get(contentPos).getContent(), "utf-8").replaceAll("\\+"," ");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+String title ="<h2>" + DataProvider.getFeed().get(contentPos).getTitle() + "</h2><br>";
  String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
  webview.getSettings().setBuiltInZoomControls(true);
  webview.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
- webview.loadData(header+query, "text/html; charset=UTF-8", null);
+ webview.loadData(header+title+query, "text/html; charset=UTF-8", null);
  
 
 	}
+//public void onSaveInstanceState(Bundle outState) {
+//	// TODO Auto-generated method stub
+//	super.onSaveInstanceState(outState);
+//	
+//	outState.putString("content", content);
+//}
+//public void  onRestoreInstanceState(Bundle savedInstanceState) {
+//    super.onRestoreInstanceState(savedInstanceState);
+//    content = savedInstanceState.getString("content");
+//  }
+
 }

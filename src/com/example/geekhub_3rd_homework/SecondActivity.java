@@ -9,7 +9,7 @@ public class SecondActivity extends FragmentActivity {
 	FragmentTransaction fragmentTransaction;
 	DetailsFragment detailsFragment;
 	
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

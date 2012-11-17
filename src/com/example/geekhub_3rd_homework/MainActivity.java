@@ -49,17 +49,7 @@ public class MainActivity extends FragmentActivity {
         
         fragmentTransaction.commit();  
               
-        
-//        if ((isTablet(this))&&(!isLandscape(this))) {
-//        	Toast.makeText(this.getBaseContext(), "This is tablet in portrait", Toast.LENGTH_LONG).show();
-//        }else 
-//        	if ((isTablet(this))&&(isLandscape(this))){
-//        		Toast.makeText(this.getBaseContext(), "This is tablet in landscape", Toast.LENGTH_LONG).show();
-//        	}
-//        {
-//        	Toast.makeText(this.getBaseContext(), "This is phone", Toast.LENGTH_LONG).show();
-//        }
-//    }
+ 
     }
 
    

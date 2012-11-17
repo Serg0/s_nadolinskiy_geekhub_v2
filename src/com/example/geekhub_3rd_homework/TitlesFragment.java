@@ -69,8 +69,11 @@ public class TitlesFragment extends Fragment {
 //	        	Toast.makeText(getActivity().getBaseContext(), DataProvider.getFeed().get(position).getPublished(), Toast.LENGTH_LONG).show();
 	        	
 	        	if ((MainActivity.isTablet(getActivity()))&&(MainActivity.isLandscape(getActivity()))) {
-					Intent intent = getActivity().getIntent();
-					intent.putExtra("content", DataProvider.getFeed().get(position).getContent());
+//					Intent intent = getActivity().getIntent();
+//					intent.putExtra("content", DataProvider.getFeed().get(position).getContent());
+					//getActivity().getIntent().putExtra("content", DataProvider.getFeed().get(position).getContent());
+					getActivity().getIntent().putExtra("contentPos", position);
+		           
 		           
 		            detailsFragment = new DetailsFragment();
 		            fragmentTransaction = getFragmentManager().beginTransaction();
@@ -80,7 +83,7 @@ public class TitlesFragment extends Fragment {
 				}else
 				{
 	        		Intent intent = new Intent(getActivity(), SecondActivity.class); 
-	        		intent.putExtra("content", DataProvider.getFeed().get(position).getContent());
+	        		intent.putExtra("contentPos", position);
 		            startActivity(intent);
 		            
 				}	
