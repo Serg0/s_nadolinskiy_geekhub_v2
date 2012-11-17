@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class TitlesFragment extends Fragment {
 	ArrayList<Article> aLocal;
@@ -42,22 +41,22 @@ public class TitlesFragment extends Fragment {
 		
 	}
 	
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-    	
-    	  
-        super.onConfigurationChanged(newConfig);
-        
-        detailsFragment = new DetailsFragment();
-        fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frgmCont4, detailsFragment);
-        fragmentTransaction.commit();
-        }
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//    	
+//    	  
+//        super.onConfigurationChanged(newConfig);
+//        
+//        detailsFragment = new DetailsFragment();
+//        fragmentTransaction = getFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.frgmCont4, detailsFragment);
+//        fragmentTransaction.commit();
+//        }
     
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		
+		super.onActivityCreated(savedInstanceState);
 		ListView lvMain = (ListView) getView().findViewById(R.id.listView1);
 		 RowAdapter adapter = new RowAdapter(getActivity(),  DataProvider.getTitles(), DataProvider.getPublishDates());
 		lvMain.setAdapter(adapter);
@@ -69,7 +68,7 @@ public class TitlesFragment extends Fragment {
 	        	
 //	        	Toast.makeText(getActivity().getBaseContext(), DataProvider.getFeed().get(position).getPublished(), Toast.LENGTH_LONG).show();
 	        	
-	        	if (MainActivity.isTablet(getActivity())) {
+	        	if ((MainActivity.isTablet(getActivity()))&&(MainActivity.isLandscape(getActivity()))) {
 					Intent intent = getActivity().getIntent();
 					intent.putExtra("content", DataProvider.getFeed().get(position).getContent());
 		           
@@ -89,7 +88,7 @@ public class TitlesFragment extends Fragment {
 
 			
 	    });
-		super.onActivityCreated(savedInstanceState);
+		
 	}
 
 }
