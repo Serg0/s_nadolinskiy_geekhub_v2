@@ -68,8 +68,8 @@ public class TitlesFragment extends Fragment {
             fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frgmCont4, detailsFragment);
             fragmentTransaction.commit();
-            Log.d(LOG_TAG, "Creating new activity"+ getActivity().getClass());
-            return;
+            Log.d(LOG_TAG, "Creating new frag in "+ getActivity().getClass()+" ");
+         return;
          //   getActivity().getIntent().putExtra("contentPos",savedInstanceState.getInt("contentPos"));
 		
 		}
