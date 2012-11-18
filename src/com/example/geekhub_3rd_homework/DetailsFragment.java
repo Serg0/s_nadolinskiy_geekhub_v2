@@ -37,7 +37,8 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 	// TODO Auto-generated method stub
 	super.onSaveInstanceState(savedInstanceState);
 	savedInstanceState.putInt("contentPos", contentPos);
-	System.out.println("contentPos in saveInstance" + contentPos);
+	Log.d(LOG_TAG, "savedInstanceState.putIntcontentPos )"+ contentPos);
+	
 }
 
 @SuppressWarnings("deprecation")
@@ -49,32 +50,37 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 		 if (savedInstanceState != null){
 			    contentPos = savedInstanceState.getInt("contentPos");
 			    Log.d(LOG_TAG, "onSaveInstanceState"+contentPos);
+			    
 			    if (MainActivity.isTablet(getActivity())&&(!MainActivity.isLandscape(getActivity()))){
 			    Intent intent = new Intent(this.getActivity(), SecondActivity.class); 
         		intent.putExtra("contentPos", contentPos);
+        	//	savedInstanceState = null;
         		startActivity(intent);
-//        		try {
+        		
+        		try {
 //        			getActivity().finish();
-//        			
-//					Log.d(LOG_TAG, "fINALIZED");
-//					return;
-//				} catch (Throwable e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+        			Log.d(LOG_TAG, "not fINALIZED " + getActivity().getClass());
+					//Log.d(LOG_TAG, "fINALIZED");
+					return;
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+                	}
+        		
         		return;
 			    }else 
 			    	if (MainActivity.isTablet(getActivity())&&(MainActivity.isLandscape(getActivity()))){
-//			    	try {
-//	        			getActivity().finish();
-//	        			
-//						Log.d(LOG_TAG, "fINALIZED");
-//						return;
-//					} catch (Throwable e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-			    	
+			    	try {
+			    		//this.getActivity().getCurrentFocus().getContext().finish();
+	        			
+						Log.d(LOG_TAG, "not fINALIZED " + this.getActivity().getClass());
+					//	savedInstanceState = null;
+						return;
+					} catch (Throwable e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			   return; 	
         		//this.getActivity().getFragmentManager().getFragment(getArguments(), getTag());
 			    
     }
@@ -83,9 +89,12 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 				  Log.d(LOG_TAG, "NON SAVED INSTANCE");
 				  Intent intent = this.getActivity().getIntent();
 				    contentPos = intent.getIntExtra("contentPos", -1);
+					  Log.d(LOG_TAG, "getting extra contentPos  = "+contentPos+" from"+this.getActivity().getClass());
+					 // savedInstanceState = null;
 			  }
 
-	    
+	//	 savedInstanceState.putInt("contentPos", contentPos);
+		 
 		 Log.d(LOG_TAG, "after Destroy");
 	    WebView webview = (WebView) getActivity().findViewById(R.id.WebView1);
     String query = null;
@@ -95,6 +104,7 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 String title ="<h2>" + DataProvider.getFeed().get(contentPos).getTitle() + "</h2><br>";
  String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
  webview.getSettings().setBuiltInZoomControls(true);

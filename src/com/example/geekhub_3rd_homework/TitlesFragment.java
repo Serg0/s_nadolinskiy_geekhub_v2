@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class TitlesFragment extends Fragment {
 	
 	FragmentTransaction fragmentTransaction;
 	DetailsFragment detailsFragment;
-	
+	final String LOG_TAG = "myLogs";
 //	public TitlesFragment(ArrayList<Article> array) {
 //		// TODO Auto-generated constructor stub
 //		aLocal = array;
@@ -60,7 +61,17 @@ public class TitlesFragment extends Fragment {
 		ListView lvMain = (ListView) getView().findViewById(R.id.listView1);
 		 RowAdapter adapter = new RowAdapter(getActivity(),  DataProvider.getTitles(), DataProvider.getPublishDates());
 		lvMain.setAdapter(adapter);
-	    
+		
+		if ((savedInstanceState != null)&&(MainActivity.isTablet(getActivity()))&&(MainActivity.isLandscape(getActivity()))){
+			
+		    detailsFragment = new DetailsFragment();
+            fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frgmCont4, detailsFragment);
+            fragmentTransaction.commit();
+         //   getActivity().getIntent().putExtra("contentPos",savedInstanceState.getInt("contentPos"));
+		
+		}
+		
 	    lvMain.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View view,
 	                int position, long id) {
@@ -83,6 +94,8 @@ public class TitlesFragment extends Fragment {
 				}else
 				{
 	        		Intent intent = new Intent(getActivity(), SecondActivity.class); 
+	        		Log.d(LOG_TAG, "Creating new activity"+ getActivity().getClass());
+	        		
 	        		intent.putExtra("contentPos", position);
 		            startActivity(intent);
 		            
