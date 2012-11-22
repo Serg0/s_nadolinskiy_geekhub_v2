@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationHandler;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -12,13 +13,32 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DataProvider {
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.view.View;
+import android.widget.ProgressBar;
 
+public class DataProvider  extends Object{
+
+	public static boolean isOnline(Context context) {
+	    ConnectivityManager cm =
+	        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
+	} 
 	static ArrayList<Article> array;
 	
 	public static ArrayList<Article> getFeed(){
 	
 		if(array == null){
+			// Handler handler = new Handler();
+			
 	 Thread thread = new Thread() {
  	    public void run() {
  	    	try {

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 public class TitlesFragment extends Fragment {
 	ArrayList<Article> aLocal;
@@ -59,8 +60,14 @@ public class TitlesFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		ListView lvMain = (ListView) getView().findViewById(R.id.listView1);
+		
 		 RowAdapter adapter = new RowAdapter(getActivity(),  DataProvider.getTitles(), DataProvider.getPublishDates());
+		
 		lvMain.setAdapter(adapter);
+		// myProgressBar.setVisibility(View.INVISIBLE);
+		 ProgressBar myProgressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar1);
+	        
+         myProgressBar.setVisibility(View.INVISIBLE);  
 		
 		if ((savedInstanceState != null)&&(MainActivity.isTablet(getActivity()))&&(MainActivity.isLandscape(getActivity()))){
 			
