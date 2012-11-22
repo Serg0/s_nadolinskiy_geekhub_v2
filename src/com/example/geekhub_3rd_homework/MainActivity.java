@@ -20,7 +20,7 @@ public class MainActivity extends FragmentActivity {
 	FragmentTransaction fragmentTransaction;
 	TitlesFragment titlesFragment;
 	ArrayList<Article> array = null;
-	
+	private static Context context;
 
 	
 	public static boolean isTablet(Context context) {
@@ -34,14 +34,18 @@ public class MainActivity extends FragmentActivity {
 	return (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
 	}
 	
+	public static Context getAppContext() {
+        return MainActivity.context;
+    }
+	
     @SuppressWarnings("static-access")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+        MainActivity.context = getApplicationContext();
       //  Toast.makeText(this.getBaseContext(), "Landscape is " + Boolean.toString(isLandscape(this)), Toast.LENGTH_LONG).show();
-       if (DataProvider.isOnline(this)){
+       if (DataProvider.isOnline()){
     	 // Toast.makeText(this.getBaseContext(), "Connection is UP" , Toast.LENGTH_LONG).show();
     	   
            titlesFragment = new TitlesFragment();

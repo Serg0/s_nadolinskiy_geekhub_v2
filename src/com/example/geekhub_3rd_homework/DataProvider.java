@@ -23,7 +23,8 @@ import android.widget.ProgressBar;
 
 public class DataProvider  extends Object{
 
-	public static boolean isOnline(Context context) {
+	public static boolean isOnline() {
+		Context context = MainActivity.getAppContext();
 	    ConnectivityManager cm =
 	        (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
