@@ -2,26 +2,45 @@ package com.example.geekhub_3rd_homework;
 
 import java.util.ArrayList;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.content.BroadcastReceiver;
+import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity {
 	FragmentTransaction fragmentTransaction;
 	TitlesFragment titlesFragment;
 	ArrayList<Article> array = null;
 	private static Context context;
-
+	private static MainActivity Instance;
+	static String message = null;
+	final public static String CONNECTION_CHECK_UPDATER = "com.example.geekhub_3rd_homework.CONNECTION_CHECK_UPDATER";
+	private static final String LOG_TAG = "MyLog";
+	
+	private boolean isMyServiceRunning() {
+	    ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+	        if (ConnectionCheckUpdateServise.class.getName().equals(service.service.getClassName())) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
 	
 	public static boolean isTablet(Context context) {
 	    boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4);
@@ -30,7 +49,7 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	public static boolean isLandscape(Context context){
-	//if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {}
+	
 	return (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
 	}
 	
@@ -44,9 +63,20 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MainActivity.context = getApplicationContext();
-      //  Toast.makeText(this.getBaseContext(), "Landscape is " + Boolean.toString(isLandscape(this)), Toast.LENGTH_LONG).show();
+        Instance = this;
+        ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
+        
+       if (!isMyServiceRunning()){ 
+    	  startService(new Intent(this, ConnectionCheckUpdateServise.class));
+    	  Log.d(LOG_TAG, "Servise is started");
+    	  }else
+    	  { Log.d(LOG_TAG, "Servise not restarted");}
+        
+        
+        
+     
        if (DataProvider.isOnline()){
-    	 // Toast.makeText(this.getBaseContext(), "Connection is UP" , Toast.LENGTH_LONG).show();
+
     	   
            titlesFragment = new TitlesFragment();
            fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -96,5 +126,24 @@ public class MainActivity extends FragmentActivity {
     }
 
 
+
+
+
+public static class BroadcastListener extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (Instance == null || intent == null) {
+            return;
+        }
+        
+        if (DataProvider.isOnline()){message = "Connection is UP";} else {message = "Connection is DOWN";}
+
+        String action = intent.getAction();
+        if (action.equals(CONNECTION_CHECK_UPDATER)) {
+            ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
+        }
+    }
+}
 
 }

@@ -5,12 +5,7 @@
     android:background="#7700ff00"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/frag1_text" >
-    </TextView>
-
+   
     <ListView
         android:id="@+id/listView1"
         android:cacheColorHint="@android:color/transparent"

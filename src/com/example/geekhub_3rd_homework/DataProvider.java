@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class DataProvider  extends Object{
 
@@ -63,6 +64,7 @@ public class DataProvider  extends Object{
 			e.printStackTrace();
 		}
 		}
+		
 	return array;
      
 	

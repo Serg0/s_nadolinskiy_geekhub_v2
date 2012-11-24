@@ -16,6 +16,19 @@
 			</intent-filter>
 		</activity>
 		<activity android:name=".SecondActivity" ></activity>
+		<service android:name="ConnectionCheckUpdateServise"></service>
+		 <receiver
+                android:name="com.example.geekhub_3rd_homework.MainActivity$BroadcastListener">
+            <intent-filter>
+                <action	android:name="com.example.geekhub_3rd_homework.CONNECTION_CHECK_UPDATER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+                android:name="com.example.geekhub_3rd_homework.SecondActivity$BroadcastListener">
+            <intent-filter>
+                <action	android:name="com.example.geekhub_3rd_homework.CONNECTION_CHECK_UPDATER" />
+            </intent-filter>
+        </receiver>
 	</application>
 
 </manifest>

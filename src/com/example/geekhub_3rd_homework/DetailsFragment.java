@@ -47,58 +47,9 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		 //------------------------------------------------
-//		Log.d(LOG_TAG, "befor Destroy");
-//		 if (savedInstanceState != null){
-//			    contentPos = savedInstanceState.getInt("contentPos");
-//			    Log.d(LOG_TAG, "onSaveInstanceState"+contentPos);
-//			    
-//			    if (MainActivity.isTablet(getActivity())&&(!MainActivity.isLandscape(getActivity()))){
-//			    Intent intent = new Intent(this.getActivity(), SecondActivity.class); 
-//        		intent.putExtra("contentPos", contentPos);
-//        	//	savedInstanceState = null;
-//        		startActivity(intent);
-//        		
-//        		try {
-//        		//	this.getActivity().finish();
-//        			//Log.d(LOG_TAG, " fINALIZED " + this.getActivity().getClass());
-//        			
-//					//Log.d(LOG_TAG, "fINALIZED");
-//					return;
-//				} catch (Throwable e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//                	}
-//        		
-//        		return;
-//			    }else 
-//			    	if (MainActivity.isTablet(getActivity())&&(MainActivity.isLandscape(getActivity()))){
-//			    	try {
-//			    		//this.getActivity().getCurrentFocus().getContext().finish();
-//			    		this.getActivity().finish();
-//						Log.d(LOG_TAG, " fINALIZED " + this.getActivity().getClass());
-//					//	savedInstanceState = null;
-//						//return;
-//					} catch (Throwable e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//			   return; 	
-//			   
-//        		//this.getActivity().getFragmentManager().getFragment(getArguments(), getTag());
-//			    
-//    }
-//			   
-//			  }else{
-//				  Log.d(LOG_TAG, "NON SAVED INSTANCE");
-//				  Intent intent = this.getActivity().getIntent();
-//				    contentPos = intent.getIntExtra("contentPos", -1);
-//				 //   if (savedInstanceState != null){contentPos = savedInstanceState.getInt("contentPos");}
-//					  Log.d(LOG_TAG, "getting extra contentPos  = "+contentPos+" from"+this.getActivity().getClass());
-//					 // savedInstanceState = null;
-//			  }
+
 		 //------------------------------------------------
 		if (savedInstanceState != null){
-//			if (MainActivity.isTablet(getActivity())&&(!MainActivity.isLandscape(getActivity())))
 		    contentPos = savedInstanceState.getInt("contentPos");
 			
 			if (MainActivity.isTablet(getActivity())){
@@ -108,24 +59,18 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
         		intent.putExtra("contentPos", contentPos);
         		
         		startActivity(intent);
-        		//this.getActivity().finish();
-        	//	Log.d(LOG_TAG, " befor return " );
         	return;
 				}else
 				
 				{
 				
-				//if (this.getActivity().getClass().toString().equalsIgnoreCase("com.example.geekhub_3rd_homework.SecondActivity") ) {
 					
 					if (getView().getContext().getClass().equals(SecondActivity.class)) {
 						
 						Log.d(LOG_TAG, " fINALIZED " + this.getActivity().getClass());
 						this.getActivity().finish();
 						}
-					// this.getActivity().finishActivity(getTargetRequestCode()); 
 					Log.d(LOG_TAG, " View in " + getView().getContext().getClass().toString());
-				//	return;
-				//	}	
 				
 				}
 				
@@ -133,22 +78,14 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 
 			Log.d(LOG_TAG, " Clearing instance"+savedInstanceState.getInt("contentPos"));
 			savedInstanceState.remove("contentPos");
-			//savedInstanceState = null;
-		//	Log.d(LOG_TAG, " Cleared instance is "+savedInstanceState.getInt("contentPos"));
-			
 			
 		    
 		}else{
 		 Intent intent = this.getActivity().getIntent();
 		    contentPos = intent.getIntExtra("contentPos", 0);
 		}
-		 //   if (savedInstanceState != null){contentPos = savedInstanceState.getInt("contentPos");}
-	//		  Log.d(LOG_TAG, "getting extra contentPos  = "+contentPos+" from"+this.getActivity().getClass());
 
-	//	 savedInstanceState.putInt("contentPos", contentPos);
-		// savedInstanceState = null;
-	//	 Log.d(LOG_TAG, "after Destroy");
-	    WebView webview = (WebView) getActivity().findViewById(R.id.WebView1);
+		WebView webview = (WebView) getActivity().findViewById(R.id.WebView1);
     String query = null;
 		try {
 			query = URLEncoder.encode(DataProvider.getFeed().get(contentPos).getContent(), "utf-8").replaceAll("\\+"," ");
