@@ -3,6 +3,11 @@ package com.example.geekhub_3rd_homework;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +19,7 @@ import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-public class DetailsFragment extends Fragment {
+public class DetailsFragment extends SherlockDialogFragment {
 //	String content2;
 //	String content;
 	int contentPos;
@@ -24,6 +29,7 @@ public class DetailsFragment extends Fragment {
 	public DetailsFragment() {
 		// TODO Auto-generated constructor stub
 	}
+	
 
 @Override
 public View onCreateView(LayoutInflater inflater, ViewGroup container,

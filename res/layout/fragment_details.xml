@@ -5,11 +5,11 @@
     android:background="#77000000"
     android:orientation="vertical" >
 
+
     <WebView
-         android:id="@+id/WebView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/frag1_text" >
-    </WebView>
+        android:id="@+id/WebView1"
+        android:layout_width="fill_parent"
+        android:layout_height="424dp"
+        android:text="@string/frag1_text" />
 
 </LinearLayout>
