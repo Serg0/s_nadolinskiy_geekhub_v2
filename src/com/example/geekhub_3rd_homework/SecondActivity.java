@@ -8,6 +8,7 @@ import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -56,6 +57,16 @@ public class SecondActivity extends SherlockFragmentActivity {
 		{
 		case R.id.addLike:
 			Toast.makeText(getApplicationContext(), "Like added!!", Toast.LENGTH_LONG).show();
+			MyDBContent arg0 = new MyDBContent(detailsFragment.getContentPos());
+			try {
+				HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBContent(detailsFragment.getContentPos()));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (java.sql.SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return true;
 		case R.id.showAllLikes:
 			Toast.makeText(getApplicationContext(), "All likes showed!!", Toast.LENGTH_LONG).show();

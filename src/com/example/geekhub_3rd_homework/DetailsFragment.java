@@ -30,6 +30,7 @@ public class DetailsFragment extends SherlockDialogFragment {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public int getContentPos(){return contentPos;}
 
 @Override
 public View onCreateView(LayoutInflater inflater, ViewGroup container,

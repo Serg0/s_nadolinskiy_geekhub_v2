@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
+import android.app.PendingIntent.OnFinished;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -68,6 +69,8 @@ public class MainActivity extends FragmentActivity {
         
        if (!isMyServiceRunning()){ 
     	  startService(new Intent(this, ConnectionCheckUpdateServise.class));
+    	 // DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
+           HelperFactory.SetHelper(getApplicationContext());
     	  Log.d(LOG_TAG, "Servise is started");
     	  }else
     	  { Log.d(LOG_TAG, "Servise not restarted");}
@@ -145,5 +148,11 @@ public static class BroadcastListener extends BroadcastReceiver {
         }
     }
 }
+
+//private void OnFinished() {
+//	// TODO Auto-generated method stub
+//	 HelperFactory.ReleaseHelper();
+//}
+
 
 }
