@@ -1,5 +1,7 @@
 package com.example.geekhub_3rd_homework;
 
+import java.util.ListIterator;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -70,6 +72,23 @@ public class SecondActivity extends SherlockFragmentActivity {
 			return true;
 		case R.id.showAllLikes:
 			Toast.makeText(getApplicationContext(), "All likes showed!!", Toast.LENGTH_LONG).show();
+			
+			try {
+				
+				 ListIterator<MyDBContent> iter = HelperFactory.GetHelper().getMyDBcontentDAO().getAllMyDBcontent().listIterator();
+				 while (iter.hasNext()){
+				Log.d(LOG_TAG, HelperFactory.GetHelper().getMyDBcontentDAO().getAllMyDBcontent().get(iter.nextIndex()).getTitle().toString());
+				iter.next();
+				 
+				 }
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (java.sql.SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			return true;
 			
 		}
