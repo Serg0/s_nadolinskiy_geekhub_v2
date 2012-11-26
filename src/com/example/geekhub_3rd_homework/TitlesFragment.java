@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -60,9 +61,24 @@ public class TitlesFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		ListView lvMain = (ListView) getView().findViewById(R.id.listView1);
-		
-		 RowAdapter adapter = new RowAdapter(getActivity(),  DataProvider.getTitles(), DataProvider.getPublishDates());
-		
+		//get from string
+		// RowAdapter adapter = new RowAdapter(getActivity(),  DataProvider.getTitles(), DataProvider.getPublishDates());
+		//get from DB
+		Log.d(LOG_TAG, "Berofe getDB ");
+		 RowAdapter adapter = null;
+		try {
+			adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(), DataProvider.getPublishDatesFromDB());
+			Log.d(LOG_TAG, "in time of GetDB ");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			Log.d(LOG_TAG, "SQLException ");
+			e.printStackTrace();
+		} catch (java.sql.SQLException e) {
+			// TODO Auto-generated catch block
+			Log.d(LOG_TAG, "java.sql.SQLException ");
+			e.printStackTrace();
+		}
+		Log.d(LOG_TAG, "After getDB ");
 		lvMain.setAdapter(adapter);
 		// myProgressBar.setVisibility(View.INVISIBLE);
 		 ProgressBar myProgressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar1);

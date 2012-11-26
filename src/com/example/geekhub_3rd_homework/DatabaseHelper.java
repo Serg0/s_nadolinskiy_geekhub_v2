@@ -23,7 +23,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	   //ссылки на DAO соответсвующие сущностям, хранимым в БД
 	  
 	   private MyDBcontentDAO myDBcontentDAO = null;
-	
+	   private ArticleDAO articleDAO = null; 
+	   
 	   public DatabaseHelper(Context context){
 	       super(context,DATABASE_NAME, null, DATABASE_VERSION);
 	   }
@@ -35,8 +36,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	       {
 	           try {
 				TableUtils.createTable(connectionSource, MyDBContent.class);
+				TableUtils.createTable(connectionSource, Article.class);
 			} catch (java.sql.SQLException e) {
 				// TODO Auto-generated catch block
+				 Log.e(TAG, "error creating DB java.sql.SQLException e " + DATABASE_NAME);
 				e.printStackTrace();
 			}
 	       }
@@ -53,6 +56,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	       try{
 	        //Так делают ленивые, гораздо предпочтительнее не удаляя БД аккуратно вносить изменения
 	           TableUtils.dropTable(connectionSource, MyDBContent.class, true);
+	           TableUtils.dropTable(connectionSource, Article.class, true);
 	           onCreate(db, connectionSource);
 	       }
 	       catch (SQLException e){
@@ -73,6 +77,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	   public void close(){
 	       super.close();
 	       myDBcontentDAO = null;
+	       articleDAO = null;
 	   }
 
 	  
@@ -83,6 +88,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	       return myDBcontentDAO;
 	   }
 	   
+	   public ArticleDAO getArticleDAO() throws SQLException, java.sql.SQLException{
+	       if(articleDAO == null){
+	    	   articleDAO = new ArticleDAO(getConnectionSource(), Article.class);
+	       }
+	       return articleDAO;
+	   }
 	   
 	   
 	}

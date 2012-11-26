@@ -68,7 +68,10 @@ public class MainActivity extends SherlockFragmentActivity {
         MainActivity.context = getApplicationContext();
         Instance = this;
         ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
+        HelperFactory.SetHelper(getApplicationContext());
+        DataProvider.getFeed();
         
+    
        if (!isMyServiceRunning()){ 
     	  startService(new Intent(this, ConnectionCheckUpdateServise.class));
     	 // DatabaseHelper helper = new DatabaseHelper(getApplicationContext());

@@ -14,15 +14,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class DataProvider  extends Object{
+
+	private static final String LOG_TAG = "DataProvider";
 
 	public static boolean isOnline() {
 		Context context = MainActivity.getAppContext();
@@ -70,13 +74,19 @@ public class DataProvider  extends Object{
 	
 }
 	
-
-	private static ArrayList<Article> readStream(InputStream in) throws JSONException {
+	//HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBContent(detailsFragment.getContentPos()));
+	
+	
+	private static ArrayList<Article> readStream(InputStream in) throws JSONException, SQLException, java.sql.SQLException {
 		// TODO Auto-generated method stub
-    	StringBuilder sb = new StringBuilder();
-    	BufferedReader reader = null;
-    	ArrayList<Article> localArray = new ArrayList<Article>();
-    	  try {
+		final ArrayList<Article> localArray = new ArrayList<Article>();
+    	 
+//    	Thread thread2 = new Thread() {
+//     	    public void run() {
+     	    	StringBuilder sb = new StringBuilder();
+     	    	BufferedReader reader = null;
+     	    	
+    	try {
     	    reader = new BufferedReader(new InputStreamReader(in));
     	    String line = "";
    
@@ -100,14 +110,26 @@ public class DataProvider  extends Object{
       	        String content = oneObjectsItem2.getString("$t");
       	        JSONObject oneObjectsItem3 = oneObject.getJSONObject("published");
     	        String published = oneObjectsItem3.getString("$t");
+    	        Article article = new Article (title, content, published);
+    	        Log.d(LOG_TAG, "Adding new Article "+article.getTitle());
+    	        HelperFactory.GetHelper().getArticleDAO().create(article);
     	        
-    	        localArray.add(new Article (title, content, published));
+    	        localArray.add(article);
     	        
     	    }
     	    
     	  } catch (IOException e) {
     	    e.printStackTrace();
-    	  } finally {
+    	  } catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (java.sql.SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
     	    if (reader != null) {
     	      try {
     	        reader.close();
@@ -116,7 +138,16 @@ public class DataProvider  extends Object{
     	        }
     	    }
     	  }
-    	  
+//     		 };
+//    	};
+//    	thread2.start();
+//     	 	 try {
+//     	 		 thread2.join();
+//     			} catch (InterruptedException e) {
+//     				// TODO Auto-generated catch block
+//     				e.printStackTrace();
+//     			}
+     			
     	  return localArray;
 
     }
@@ -126,7 +157,7 @@ public class DataProvider  extends Object{
 		
 		for (Article v:getFeed())
 	    {
-			titleStringArray.add(v.title);
+			titleStringArray.add(v.getTitle());
 	    }
 		return titleStringArray;
 	
@@ -137,10 +168,37 @@ public class DataProvider  extends Object{
 		
 		for (Article v:getFeed())
 	    {
-			publishStringArray.add(v.published);
+			publishStringArray.add(v.getPublished());
 	    }
 		return publishStringArray;
 	
 		
 	}
+	//HelperFactory.GetHelper().getMyDBcontentDAO().getAllMyDBcontent().get(iter.nextIndex()).getTitle().toString()
+	public static ArrayList<String> getTitlesFromDB() throws SQLException, java.sql.SQLException{
+		ArrayList<String> titleStringArray = new ArrayList<String>();
+		
+		for (Article v:HelperFactory.GetHelper().getArticleDAO().getAllArticle())
+	    {
+			titleStringArray.add(v.getTitle());
+			Log.d(LOG_TAG, "new title "+v.getTitle());
+	    }
+		
+		return titleStringArray;
+		
+		
+	}
+	public static ArrayList<String> getPublishDatesFromDB() throws SQLException, java.sql.SQLException{
+		ArrayList<String> publishStringArray = new ArrayList<String>();
+		
+		for (Article v:HelperFactory.GetHelper().getArticleDAO().getAllArticle())
+	    {
+			publishStringArray.add(v.getPublished());
+			Log.d(LOG_TAG, "new publish date "+v.getPublished());
+	    }
+		return publishStringArray;
+	
+		
+	}
+	
 }
