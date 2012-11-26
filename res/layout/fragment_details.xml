@@ -4,12 +4,11 @@
     android:layout_height="match_parent"
     android:background="#77000000"
     android:orientation="vertical" >
-
-
+
     <WebView
         android:id="@+id/WebView1"
         android:layout_width="fill_parent"
-        android:layout_height="424dp"
+        android:layout_height="match_parent"
         android:text="@string/frag1_text" />
 
 </LinearLayout>

@@ -2,6 +2,8 @@ package com.example.geekhub_3rd_homework;
 
 import java.util.ArrayList;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
@@ -23,7 +25,7 @@ import android.widget.Toast;
 import android.content.BroadcastReceiver;
 import android.widget.TextView;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends SherlockFragmentActivity {
 	FragmentTransaction fragmentTransaction;
 	TitlesFragment titlesFragment;
 	ArrayList<Article> array = null;
@@ -122,11 +124,11 @@ public class MainActivity extends FragmentActivity {
     }
     
    
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
+//	@Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.activity_main, menu);
+//        return true;
+//    }
 
 
 
@@ -149,10 +151,10 @@ public static class BroadcastListener extends BroadcastReceiver {
     }
 }
 
-//private void OnFinished() {
-//	// TODO Auto-generated method stub
-//	 HelperFactory.ReleaseHelper();
-//}
+private void OnFinished() {
+	// TODO Auto-generated method stub
+	 HelperFactory.ReleaseHelper();
+}
 
 
 }
