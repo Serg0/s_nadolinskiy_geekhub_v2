@@ -9,6 +9,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 
 import android.content.Intent;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -95,8 +96,16 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 		WebView webview = (WebView) getActivity().findViewById(R.id.WebView1);
     String query = null;
 		try {
-			query = URLEncoder.encode(DataProvider.getFeed().get(contentPos).getContent(), "utf-8").replaceAll("\\+"," ");
+			//query = URLEncoder.encode(DataProvider.getFeed().get(contentPos).getContent(), "utf-8").replaceAll("\\+"," ");
+			query = URLEncoder.encode(HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(contentPos).getContent(), "utf-8").replaceAll("\\+"," ");
+			
 		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (java.sql.SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

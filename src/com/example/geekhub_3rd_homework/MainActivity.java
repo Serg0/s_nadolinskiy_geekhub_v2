@@ -68,8 +68,8 @@ public class MainActivity extends SherlockFragmentActivity {
         MainActivity.context = getApplicationContext();
         Instance = this;
         ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
-        HelperFactory.SetHelper(getApplicationContext());
-        DataProvider.getFeed();
+       // HelperFactory.SetHelper(getApplicationContext());
+       
         
     
        if (!isMyServiceRunning()){ 
@@ -81,7 +81,7 @@ public class MainActivity extends SherlockFragmentActivity {
     	  { Log.d(LOG_TAG, "Servise not restarted");}
         
         
-        
+       DataProvider.getFeed();
      
        if (DataProvider.isOnline()){
 

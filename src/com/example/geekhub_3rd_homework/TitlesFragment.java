@@ -66,8 +66,12 @@ public class TitlesFragment extends Fragment {
 		//get from DB
 		Log.d(LOG_TAG, "Berofe getDB ");
 		 RowAdapter adapter = null;
+		
 		try {
-			adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(), DataProvider.getPublishDatesFromDB());
+			ArrayList<Article> article = (ArrayList<Article>) HelperFactory.GetHelper().getArticleDAO().getAllArticle();
+			adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(article), DataProvider.getPublishDatesFromDB(article));
+			//adapter = new RowAdapter(getActivity(),  HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(Iterator), DataProvider.getPublishDatesFromDB());
+			//HelperFactory.GetHelper().getArticleDAO().getAllArticle()
 			Log.d(LOG_TAG, "in time of GetDB ");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -80,10 +84,11 @@ public class TitlesFragment extends Fragment {
 		}
 		Log.d(LOG_TAG, "After getDB ");
 		lvMain.setAdapter(adapter);
+		Log.d(LOG_TAG, "After SetAdapter ");
 		// myProgressBar.setVisibility(View.INVISIBLE);
-		 ProgressBar myProgressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar1);
-	        
-         myProgressBar.setVisibility(View.INVISIBLE);  
+//		 ProgressBar myProgressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar1);
+//	        
+//         myProgressBar.setVisibility(View.INVISIBLE);  
 		
 		if ((savedInstanceState != null)&&(MainActivity.isTablet(getActivity()))&&(MainActivity.isLandscape(getActivity()))){
 			

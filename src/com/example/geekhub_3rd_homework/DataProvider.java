@@ -8,6 +8,8 @@ import java.lang.reflect.InvocationHandler;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,12 +41,14 @@ public class DataProvider  extends Object{
 	    return false;
 	} 
 	static ArrayList<Article> array;
+	static ArrayList<String> publishStringArray;
+	static ArrayList<String> titleStringArray;
 	
 	public static ArrayList<Article> getFeed(){
 	
 		if(array == null){
 			// Handler handler = new Handler();
-			
+			Log.d(LOG_TAG, "Array is null");
 	 Thread thread = new Thread() {
  	    public void run() {
  	    	try {
@@ -175,27 +179,30 @@ public class DataProvider  extends Object{
 		
 	}
 	//HelperFactory.GetHelper().getMyDBcontentDAO().getAllMyDBcontent().get(iter.nextIndex()).getTitle().toString()
-	public static ArrayList<String> getTitlesFromDB() throws SQLException, java.sql.SQLException{
+	public static ArrayList<String> getTitlesFromDB(ArrayList<Article> list) throws SQLException, java.sql.SQLException{
+		//if (titleStringArray == null){
 		ArrayList<String> titleStringArray = new ArrayList<String>();
-		
-		for (Article v:HelperFactory.GetHelper().getArticleDAO().getAllArticle())
+		for (Article v:list)
 	    {
 			titleStringArray.add(v.getTitle());
 			Log.d(LOG_TAG, "new title "+v.getTitle());
 	    }
-		
+		//}
 		return titleStringArray;
 		
 		
 	}
-	public static ArrayList<String> getPublishDatesFromDB() throws SQLException, java.sql.SQLException{
-		ArrayList<String> publishStringArray = new ArrayList<String>();
+	public static ArrayList<String> getPublishDatesFromDB(ArrayList<Article> list) throws SQLException, java.sql.SQLException{
 		
-		for (Article v:HelperFactory.GetHelper().getArticleDAO().getAllArticle())
+		//if (publishStringArray == null){
+			ArrayList<String> publishStringArray = new ArrayList<String>();
+		for (Article v:list)
 	    {
 			publishStringArray.add(v.getPublished());
 			Log.d(LOG_TAG, "new publish date "+v.getPublished());
 	    }
+		
+	//	}
 		return publishStringArray;
 	
 		

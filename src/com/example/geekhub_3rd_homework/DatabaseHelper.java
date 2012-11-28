@@ -58,6 +58,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	           TableUtils.dropTable(connectionSource, MyDBContent.class, true);
 	           TableUtils.dropTable(connectionSource, Article.class, true);
 	           onCreate(db, connectionSource);
+	           Log.e(TAG, "Clear dsts from DB " + DATABASE_NAME);
 	       }
 	       catch (SQLException e){
 	           Log.e(TAG,"error upgrading db "+DATABASE_NAME+"from ver "+oldVer);
