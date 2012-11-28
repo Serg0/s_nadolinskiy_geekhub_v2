@@ -14,11 +14,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewDebug.IntToString;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class TitlesFragment extends Fragment {
 	ArrayList<Article> aLocal;
@@ -107,7 +109,7 @@ public class TitlesFragment extends Fragment {
 	                int position, long id) {
 	        	
 	        	
-//	        	Toast.makeText(getActivity().getBaseContext(), DataProvider.getFeed().get(position).getPublished(), Toast.LENGTH_LONG).show();
+	        	//Toast.makeText(MainActivity.getAppContext().getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG).show();
 	        	
 	        	if ((MainActivity.isTablet(getActivity()))&&(MainActivity.isLandscape(getActivity()))) {
 //					Intent intent = getActivity().getIntent();

@@ -15,15 +15,20 @@ public class Article {
 	@DatabaseField
 	private String published;
 	@DatabaseField
+	private String updated;
+	@DatabaseField
+	private String id;	
+	@DatabaseField
 	private Boolean isLiked;
 	
-	public Article(String OuterTitle, String OuterContent, String OuterPublished) {
+	public Article(String OuterTitle, String OuterContent, String OuterPublished, String updated, String id) {
 		// TODO Auto-generated constructor stub
 		title=OuterTitle;
 		content=OuterContent;
 		
 		// 2012-10-18T12:05:16.918-07:00
 		published = OuterPublished.substring(0, 10)+" "+OuterPublished.substring(11, 16);
+		
 		isLiked = false;
 		
 	}

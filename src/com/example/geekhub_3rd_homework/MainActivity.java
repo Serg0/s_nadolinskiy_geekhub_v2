@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.content.BroadcastReceiver;
+import android.database.SQLException;
 import android.widget.TextView;
 
 public class MainActivity extends SherlockFragmentActivity {
@@ -154,9 +155,10 @@ public static class BroadcastListener extends BroadcastReceiver {
     }
 }
 
-private void OnFinished() {
+private void OnFinished() throws SQLException, java.sql.SQLException {
 	// TODO Auto-generated method stub
-	 HelperFactory.ReleaseHelper();
+	HelperFactory.GetHelper().getArticleDAO().getAllArticle().clear();
+	HelperFactory.ReleaseHelper();
 }
 
 

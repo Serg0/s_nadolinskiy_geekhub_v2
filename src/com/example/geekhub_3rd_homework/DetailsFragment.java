@@ -95,10 +95,16 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 
 		WebView webview = (WebView) getActivity().findViewById(R.id.WebView1);
     String query = null;
+    
 		try {
 			//query = URLEncoder.encode(DataProvider.getFeed().get(contentPos).getContent(), "utf-8").replaceAll("\\+"," ");
 			query = URLEncoder.encode(HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(contentPos).getContent(), "utf-8").replaceAll("\\+"," ");
-			
+			String title ="<h2>" + HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(contentPos).getTitle() + "</h2><br>";
+			String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
+			 webview.getSettings().setBuiltInZoomControls(true);
+			 webview.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+			 webview.loadData(header+title+query, "text/html; charset=UTF-8", null);
+			 
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -110,11 +116,8 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 			e.printStackTrace();
 		}
 		
-String title ="<h2>" + DataProvider.getFeed().get(contentPos).getTitle() + "</h2><br>";
- String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
- webview.getSettings().setBuiltInZoomControls(true);
- webview.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
- webview.loadData(header+title+query, "text/html; charset=UTF-8", null);
+
+ 
  
 
 	}

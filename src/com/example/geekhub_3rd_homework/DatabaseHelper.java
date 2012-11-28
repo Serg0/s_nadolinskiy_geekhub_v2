@@ -22,7 +22,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	   
 	   //ссылки на DAO соответсвующие сущностям, хранимым в БД
 	  
-	   private MyDBcontentDAO myDBcontentDAO = null;
+	   private MyDBPropertiesDAO myDBcontentDAO = null;
 	   private ArticleDAO articleDAO = null; 
 	   
 	   public DatabaseHelper(Context context){
@@ -35,7 +35,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	       try
 	       {
 	           try {
-				TableUtils.createTable(connectionSource, MyDBContent.class);
+				TableUtils.createTable(connectionSource, MyDBProperties.class);
 				TableUtils.createTable(connectionSource, Article.class);
 			} catch (java.sql.SQLException e) {
 				// TODO Auto-generated catch block
@@ -55,10 +55,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	           int newVer){
 	       try{
 	        //Так делают ленивые, гораздо предпочтительнее не удаляя БД аккуратно вносить изменения
-	           TableUtils.dropTable(connectionSource, MyDBContent.class, true);
+	           TableUtils.dropTable(connectionSource, MyDBProperties.class, true);
 	           TableUtils.dropTable(connectionSource, Article.class, true);
 	           onCreate(db, connectionSource);
-	           Log.e(TAG, "Clear dsts from DB " + DATABASE_NAME);
+	           Log.e(TAG, "Clear this from DB " + DATABASE_NAME);
 	       }
 	       catch (SQLException e){
 	           Log.e(TAG,"error upgrading db "+DATABASE_NAME+"from ver "+oldVer);
@@ -82,9 +82,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 	   }
 
 	  
-	   public MyDBcontentDAO getMyDBcontentDAO() throws SQLException, java.sql.SQLException{
+	   public MyDBPropertiesDAO getMyDBPropertiesDAO() throws SQLException, java.sql.SQLException{
 	       if(myDBcontentDAO == null){
-	    	   myDBcontentDAO = new MyDBcontentDAO(getConnectionSource(), MyDBContent.class);
+	    	   myDBcontentDAO = new MyDBPropertiesDAO(getConnectionSource(), MyDBProperties.class);
 	       }
 	       return myDBcontentDAO;
 	   }

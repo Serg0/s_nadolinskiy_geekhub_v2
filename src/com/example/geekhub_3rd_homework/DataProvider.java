@@ -29,7 +29,14 @@ import android.widget.Toast;
 public class DataProvider  extends Object{
 
 	private static final String LOG_TAG = "DataProvider";
-
+	static ArrayList<Article> array;
+	static ArrayList<String> publishStringArray;
+	static ArrayList<String> titleStringArray;
+	
+	static boolean ShowLikes = false;
+	static int contentPos = -1;
+	static int contentPosLikes = -1;
+	
 	public static boolean isOnline() {
 		Context context = MainActivity.getAppContext();
 	    ConnectivityManager cm =
@@ -40,11 +47,8 @@ public class DataProvider  extends Object{
 	    }
 	    return false;
 	} 
-	static ArrayList<Article> array;
-	static ArrayList<String> publishStringArray;
-	static ArrayList<String> titleStringArray;
 	
-	public static ArrayList<Article> getFeed(){
+	public static  void getFeed(){
 	
 		if(array == null){
 			// Handler handler = new Handler();
@@ -55,8 +59,25 @@ public class DataProvider  extends Object{
                  
  	    			URL url = new URL("http://android-developers.blogspot.com/feeds/posts/default?alt=json");
               	 	HttpURLConnection con = (HttpURLConnection) url.openConnection();
-              		array = readStream(con.getInputStream());
-
+              	Log.d(LOG_TAG, "ETag From DB is " + HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().size()); 
+//              	Log.d(LOG_TAG, "ETag is " + con.getHeaderField("ETag").toString());
+//              	Log.d(LOG_TAG, "Last-Modified is " + con.getHeaderField("Last-Modified").toString()); 
+//              	Log.d(LOG_TAG, "Host is "		+ con.getHeaderField("Host").toString());
+             // 	 Log.d(LOG_TAG, "myDBProperties is " + con.getHeaderField("ETag").toString());
+              	int MyDBPropertiesSize = HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().size();
+              	 	if ((MyDBPropertiesSize == 0)||(!HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().get(MyDBPropertiesSize).getETag().equals(con.getHeaderField("ETag"))))
+              	 	{
+              	 	            		//array = readStream(con.getInputStream());
+              	 		readStream(con.getInputStream());
+              	 	}
+              	 	//HelperFactory.GetHelper()..
+              	 		HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().clear();
+              	 		MyDBProperties myDBProperties = new MyDBProperties(con.getHeaderField("ETag").toString(),con.getHeaderField("Last-Modified").toString(),url.toString());
+              	 		HelperFactory.GetHelper().getMyDBPropertiesDAO().create(myDBProperties);
+              	 		
+              	 		
+              	 	
+              		
               }
              	catch (Exception e) {
                   	  e.printStackTrace();
@@ -73,7 +94,7 @@ public class DataProvider  extends Object{
 		}
 		}
 		
-	return array;
+	//return array;
      
 	
 }
@@ -81,7 +102,7 @@ public class DataProvider  extends Object{
 	//HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBContent(detailsFragment.getContentPos()));
 	
 	
-	private static ArrayList<Article> readStream(InputStream in) throws JSONException, SQLException, java.sql.SQLException {
+	private static  void readStream(InputStream in) throws JSONException{
 		// TODO Auto-generated method stub
 		final ArrayList<Article> localArray = new ArrayList<Article>();
     	 
@@ -110,15 +131,20 @@ public class DataProvider  extends Object{
     	        JSONObject oneObject = jArray.getJSONObject(i);
     	        JSONObject oneObjectsItem = oneObject.getJSONObject("title");
     	        String title = oneObjectsItem.getString("$t");
-    	        JSONObject oneObjectsItem2 = oneObject.getJSONObject("content");
-      	        String content = oneObjectsItem2.getString("$t");
-      	        JSONObject oneObjectsItem3 = oneObject.getJSONObject("published");
-    	        String published = oneObjectsItem3.getString("$t");
-    	        Article article = new Article (title, content, published);
+    	        oneObjectsItem = oneObject.getJSONObject("content");
+      	        String content = oneObjectsItem.getString("$t");
+      	        oneObjectsItem = oneObject.getJSONObject("published");
+    	        String published = oneObjectsItem.getString("$t");
+    	        oneObjectsItem = oneObject.getJSONObject("updated");
+    	        String updated = oneObjectsItem.getString("$t");
+    	        oneObjectsItem = oneObject.getJSONObject("id");
+    	        String id = oneObjectsItem.getString("$t");
+    	        
+    	        Article article = new Article (title, content, published, updated, id);
     	        Log.d(LOG_TAG, "Adding new Article "+article.getTitle());
     	        HelperFactory.GetHelper().getArticleDAO().create(article);
     	        
-    	        localArray.add(article);
+    	        //localArray.add(article);
     	        
     	    }
     	    
@@ -152,40 +178,41 @@ public class DataProvider  extends Object{
 //     				e.printStackTrace();
 //     			}
      			
-    	  return localArray;
+    	//  return localArray;
 
     }
 	
-	public static ArrayList<String> getTitles(){
-		ArrayList<String> titleStringArray = new ArrayList<String>();
-		
-		for (Article v:getFeed())
-	    {
-			titleStringArray.add(v.getTitle());
-	    }
-		return titleStringArray;
-	
-		
-	}
-	public static ArrayList<String> getPublishDates(){
-		ArrayList<String> publishStringArray = new ArrayList<String>();
-		
-		for (Article v:getFeed())
-	    {
-			publishStringArray.add(v.getPublished());
-	    }
-		return publishStringArray;
-	
-		
-	}
+//	public static ArrayList<String> getTitles(){
+//		ArrayList<String> titleStringArray = new ArrayList<String>();
+//		
+//		for (Article v:getFeed())
+//	    {
+//			titleStringArray.add(v.getTitle());
+//	    }
+//		return titleStringArray;
+//	
+//		
+//	}
+//	public static ArrayList<String> getPublishDates(){
+//		ArrayList<String> publishStringArray = new ArrayList<String>();
+//		
+//		for (Article v:getFeed())
+//	    {
+//			publishStringArray.add(v.getPublished());
+//	    }
+//		return publishStringArray;
+//	
+//		
+//	}
 	//HelperFactory.GetHelper().getMyDBcontentDAO().getAllMyDBcontent().get(iter.nextIndex()).getTitle().toString()
 	public static ArrayList<String> getTitlesFromDB(ArrayList<Article> list) throws SQLException, java.sql.SQLException{
 		//if (titleStringArray == null){
+		Log.d(LOG_TAG, "new titles ");
 		ArrayList<String> titleStringArray = new ArrayList<String>();
 		for (Article v:list)
 	    {
 			titleStringArray.add(v.getTitle());
-			Log.d(LOG_TAG, "new title "+v.getTitle());
+			//Log.d(LOG_TAG, "new title "+v.getTitle());
 	    }
 		//}
 		return titleStringArray;
@@ -195,11 +222,12 @@ public class DataProvider  extends Object{
 	public static ArrayList<String> getPublishDatesFromDB(ArrayList<Article> list) throws SQLException, java.sql.SQLException{
 		
 		//if (publishStringArray == null){
+		Log.d(LOG_TAG, "new publish dates ");
 			ArrayList<String> publishStringArray = new ArrayList<String>();
 		for (Article v:list)
 	    {
 			publishStringArray.add(v.getPublished());
-			Log.d(LOG_TAG, "new publish date "+v.getPublished());
+		//	Log.d(LOG_TAG, "new publish date "+v.getPublished());
 	    }
 		
 	//	}

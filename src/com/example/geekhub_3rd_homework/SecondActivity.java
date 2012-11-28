@@ -61,24 +61,29 @@ public class SecondActivity extends SherlockFragmentActivity {
 			Toast.makeText(getApplicationContext(), "Like added!!", Toast.LENGTH_LONG).show();
 			//MyDBContent arg0 = new MyDBContent(detailsFragment.getContentPos());
 			try {
-				HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBContent(detailsFragment.getContentPos()));
+			//	HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBProperties(detailsFragment.getContentPos()));
 				//HelperFactory.GetHelper().getMyDBcontentDAO();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (java.sql.SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return true;
 		case R.id.showAllLikes:
-			Toast.makeText(getApplicationContext(), "All likes showed!!", Toast.LENGTH_LONG).show();
+			try {
+				Toast.makeText(getApplicationContext(), "All likes showed!!"+HelperFactory.GetHelper().getArticleDAO().getAllArticle().size(), Toast.LENGTH_LONG).show();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (java.sql.SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			try {
 				
-				 ListIterator<MyDBContent> iter = HelperFactory.GetHelper().getMyDBcontentDAO().getAllMyDBcontent().listIterator();
+				 ListIterator<MyDBProperties> iter = HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().listIterator();
 				 while (iter.hasNext()){
-				Log.d(LOG_TAG, HelperFactory.GetHelper().getMyDBcontentDAO().getAllMyDBcontent().get(iter.nextIndex()).getTitle().toString());
+				//Log.d(LOG_TAG, HelperFactory.GetHelper().getMyDBcontentDAO().getAllMyDBcontent().get(iter.nextIndex()).getTitle().toString());
 				iter.next();
 				 
 				 }

@@ -17,6 +17,7 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 
 	   public List<Article> getAllArticle() throws SQLException, java.sql.SQLException{
 			return this.queryForAll();
+			
 
 	   }
 	}
