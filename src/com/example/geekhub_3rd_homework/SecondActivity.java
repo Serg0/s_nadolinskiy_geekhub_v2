@@ -61,7 +61,11 @@ public class SecondActivity extends SherlockFragmentActivity {
 			Toast.makeText(getApplicationContext(), "Like added!!", Toast.LENGTH_LONG).show();
 			//MyDBContent arg0 = new MyDBContent(detailsFragment.getContentPos());
 			try {
-			//	HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBProperties(detailsFragment.getContentPos()));
+				
+				//HelperFactory.GetHelper().getArticleDAO().setLike(id)
+			
+				
+				//	HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBProperties(detailsFragment.getContentPos()));
 				//HelperFactory.GetHelper().getMyDBcontentDAO();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

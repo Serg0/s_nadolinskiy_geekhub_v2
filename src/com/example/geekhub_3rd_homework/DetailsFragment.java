@@ -44,7 +44,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
 public void onSaveInstanceState(Bundle savedInstanceState) {
 	// TODO Auto-generated method stub
 	super.onSaveInstanceState(savedInstanceState);
-	savedInstanceState.putInt("contentPos", contentPos);
+	//savedInstanceState.putInt("contentPos", contentPos);
 //	Log.d(LOG_TAG, "savedInstanceState.putIntcontentPos "+ contentPos);
 	
 }
@@ -55,16 +55,17 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		 //------------------------------------------------
-
+		contentPos = DataProvider.getContentPos();
 		 //------------------------------------------------
 		if (savedInstanceState != null){
-		    contentPos = savedInstanceState.getInt("contentPos");
+		   // contentPos = savedInstanceState.getInt("contentPos");
+			
 			
 			if (MainActivity.isTablet(getActivity())){
 					
 				if(!MainActivity.isLandscape(getActivity())){
 			    Intent intent = new Intent(this.getActivity(), SecondActivity.class); 
-        		intent.putExtra("contentPos", contentPos);
+        		//intent.putExtra("contentPos", contentPos);
         		
         		startActivity(intent);
         	return;
@@ -89,8 +90,8 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 			
 		    
 		}else{
-		 Intent intent = this.getActivity().getIntent();
-		    contentPos = intent.getIntExtra("contentPos", 0);
+//		 Intent intent = this.getActivity().getIntent();
+//		    contentPos = intent.getIntExtra("contentPos", 0);
 		}
 
 		WebView webview = (WebView) getActivity().findViewById(R.id.WebView1);

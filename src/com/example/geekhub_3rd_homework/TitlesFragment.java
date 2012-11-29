@@ -99,7 +99,7 @@ public class TitlesFragment extends Fragment {
 //	        
 //         myProgressBar.setVisibility(View.INVISIBLE);  
 		
-		if ((savedInstanceState != null)&&(MainActivity.isTablet(getActivity()))&&(MainActivity.isLandscape(getActivity()))){
+		if ((savedInstanceState != null)&&(MainActivity.isTablet(getActivity()))&&(MainActivity.isLandscape(getActivity()))&&(DataProvider.getContentPos() != -1)){
 			
 		    detailsFragment = new DetailsFragment();
             fragmentTransaction = getFragmentManager().beginTransaction();
@@ -115,6 +115,10 @@ public class TitlesFragment extends Fragment {
 	        public void onItemClick(AdapterView<?> parent, View view,
 	                int position, long id) {
 	        	
+	        	DataProvider.setContentPos(position);
+	        	Log.d(LOG_TAG, "Position is "+ Integer.toString(position));
+	        	Log.d(LOG_TAG, "Position is "+ Integer.toString(DataProvider.getContentPos()));
+	        	
 	        	
 	        	//Toast.makeText(MainActivity.getAppContext().getApplicationContext(), Integer.toString(position), Toast.LENGTH_LONG).show();
 	        	
@@ -122,7 +126,7 @@ public class TitlesFragment extends Fragment {
 //					Intent intent = getActivity().getIntent();
 //					intent.putExtra("content", DataProvider.getFeed().get(position).getContent());
 					//getActivity().getIntent().putExtra("content", DataProvider.getFeed().get(position).getContent());
-					getActivity().getIntent().putExtra("contentPos", position);
+					//getActivity().getIntent().putExtra("contentPos", position);
 		           
 		           
 		            detailsFragment = new DetailsFragment();
@@ -135,8 +139,8 @@ public class TitlesFragment extends Fragment {
 	        		Intent intent = new Intent(getActivity(), SecondActivity.class); 
 	        		Log.d(LOG_TAG, "Creating new activity"+ getActivity().getClass());
 	        		
-	        		intent.putExtra("contentPos", position);
-	        		getActivity().getIntent().putExtra("contentPos", position);
+//	        		intent.putExtra("contentPos", position);
+//	        		getActivity().getIntent().putExtra("contentPos", position);
 		            startActivity(intent);
 		            
 				}	

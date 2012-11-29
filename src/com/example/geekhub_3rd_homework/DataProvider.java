@@ -34,6 +34,7 @@ public class DataProvider  extends Object{
 	static ArrayList<String> titleStringArray;
 	
 	static boolean ShowLikes = false;
+	
 	public static boolean isShowLikes() {
 		return ShowLikes;
 	}
@@ -43,13 +44,13 @@ public class DataProvider  extends Object{
 	}
 
 	public static int getContentPos() {
-		if (isShowLikes()){return contentPos;}else{return contentPosLikes;}
+		if (isShowLikes()){return contentPosLikes;}else{return contentPos;}
 	}
 
 	
 
 	public static void setContentPos(int position) {
-		if (isShowLikes()){contentPos = position;}else{contentPosLikes= position;}
+		if (isShowLikes()){contentPosLikes = position;}else{contentPos= position;}
 	}
 	
 	
