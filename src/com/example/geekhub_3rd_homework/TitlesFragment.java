@@ -71,7 +71,14 @@ public class TitlesFragment extends Fragment {
 		
 		try {
 			ArrayList<Article> article = (ArrayList<Article>) HelperFactory.GetHelper().getArticleDAO().getAllArticle();
-			adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(article), DataProvider.getPublishDatesFromDB(article));
+			//DataProvider.getAllDatesFromDB(HelperFactory.GetHelper().getArticleDAO().getAllDates());
+		    adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(article), DataProvider.getPublishDatesFromDB(article));
+			//adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(article), HelperFactory.GetHelper().getArticleDAO().getAllDates());
+			
+		   // Log.d(LOG_TAG, "String " + HelperFactory.GetHelper().getArticleDAO().getAllDates()[1]);
+			
+			
+			
 			//adapter = new RowAdapter(getActivity(),  HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(Iterator), DataProvider.getPublishDatesFromDB());
 			//HelperFactory.GetHelper().getArticleDAO().getAllArticle()
 			Log.d(LOG_TAG, "in time of GetDB ");

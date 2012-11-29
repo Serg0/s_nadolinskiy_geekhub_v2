@@ -34,6 +34,25 @@ public class DataProvider  extends Object{
 	static ArrayList<String> titleStringArray;
 	
 	static boolean ShowLikes = false;
+	public static boolean isShowLikes() {
+		return ShowLikes;
+	}
+
+	public static void switchShowLikes() {
+		ShowLikes = !ShowLikes;
+	}
+
+	public static int getContentPos() {
+		if (isShowLikes()){return contentPos;}else{return contentPosLikes;}
+	}
+
+	
+
+	public static void setContentPos(int position) {
+		if (isShowLikes()){contentPos = position;}else{contentPosLikes= position;}
+	}
+	
+	
 	static int contentPos = -1;
 	static int contentPosLikes = -1;
 	
@@ -69,12 +88,14 @@ public class DataProvider  extends Object{
               	 	{
               	 	            		//array = readStream(con.getInputStream());
               	 		readStream(con.getInputStream());
-              	 	}
-              	 	//HelperFactory.GetHelper()..
               	 		HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().clear();
               	 		MyDBProperties myDBProperties = new MyDBProperties(con.getHeaderField("ETag").toString(),con.getHeaderField("Last-Modified").toString(),url.toString());
               	 		HelperFactory.GetHelper().getMyDBPropertiesDAO().create(myDBProperties);
               	 		
+              	 	}
+              	 	//HelperFactory.GetHelper()..
+              	 		
+              	 	
               	 		
               	 	
               		
@@ -129,14 +150,19 @@ public class DataProvider  extends Object{
     	    for (int i=0; i < jArray.length(); i++)
     	    {
     	        JSONObject oneObject = jArray.getJSONObject(i);
-    	        JSONObject oneObjectsItem = oneObject.getJSONObject("title");
+    	        
+    	        
+    	        JSONObject oneObjectsItem = oneObject.getJSONObject("updated");
+    	        String updated = oneObjectsItem.getString("$t");
+    	     //   if (updated<) TO-DO check if updated is newer than last modifyied else continue
+    	        
+    	        oneObjectsItem = oneObject.getJSONObject("title");
     	        String title = oneObjectsItem.getString("$t");
     	        oneObjectsItem = oneObject.getJSONObject("content");
       	        String content = oneObjectsItem.getString("$t");
       	        oneObjectsItem = oneObject.getJSONObject("published");
     	        String published = oneObjectsItem.getString("$t");
-    	        oneObjectsItem = oneObject.getJSONObject("updated");
-    	        String updated = oneObjectsItem.getString("$t");
+
     	        oneObjectsItem = oneObject.getJSONObject("id");
     	        String id = oneObjectsItem.getString("$t");
     	        
@@ -168,41 +194,9 @@ public class DataProvider  extends Object{
     	        }
     	    }
     	  }
-//     		 };
-//    	};
-//    	thread2.start();
-//     	 	 try {
-//     	 		 thread2.join();
-//     			} catch (InterruptedException e) {
-//     				// TODO Auto-generated catch block
-//     				e.printStackTrace();
-//     			}
-     			
-    	//  return localArray;
 
     }
 	
-//	public static ArrayList<String> getTitles(){
-//		ArrayList<String> titleStringArray = new ArrayList<String>();
-//		
-//		for (Article v:getFeed())
-//	    {
-//			titleStringArray.add(v.getTitle());
-//	    }
-//		return titleStringArray;
-//	
-//		
-//	}
-//	public static ArrayList<String> getPublishDates(){
-//		ArrayList<String> publishStringArray = new ArrayList<String>();
-//		
-//		for (Article v:getFeed())
-//	    {
-//			publishStringArray.add(v.getPublished());
-//	    }
-//		return publishStringArray;
-//	
-//		
 //	}
 	//HelperFactory.GetHelper().getMyDBcontentDAO().getAllMyDBcontent().get(iter.nextIndex()).getTitle().toString()
 	public static ArrayList<String> getTitlesFromDB(ArrayList<Article> list) throws SQLException, java.sql.SQLException{
@@ -232,6 +226,22 @@ public class DataProvider  extends Object{
 		
 	//	}
 		return publishStringArray;
+	
+		
+	}
+public static   void getAllDatesFromDB(List<String> publishStringArray) throws SQLException, java.sql.SQLException{
+		
+		//if (publishStringArray == null){
+		Log.d(LOG_TAG, "new publish dates ");
+			//List<String> publishStringArray = new ArrayList<String>();
+		for (String v:publishStringArray)
+	    {
+			
+			Log.d(LOG_TAG, "string  "+v);
+	    }
+		
+	//	}
+	//	return publishStringArray;
 	
 		
 	}

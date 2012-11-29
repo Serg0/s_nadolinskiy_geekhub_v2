@@ -20,4 +20,13 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 			
 
 	   }
+	   public String[] getAllDates() throws SQLException, java.sql.SQLException{
+		
+		// TODO Auto-generated method stub
+
+		  
+		   
+		   return  this.queryBuilder().selectColumns().queryRawFirst();
+		   
+	}
 	}
