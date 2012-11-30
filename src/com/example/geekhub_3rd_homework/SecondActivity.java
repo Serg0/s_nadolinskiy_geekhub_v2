@@ -58,39 +58,46 @@ public class SecondActivity extends SherlockFragmentActivity {
 		switch(item.getItemId())
 		{
 		case R.id.addLike:
-			Toast.makeText(getApplicationContext(), "Like added!!", Toast.LENGTH_LONG).show();
+			
 			//MyDBContent arg0 = new MyDBContent(detailsFragment.getContentPos());
 			try {
 				
-				//HelperFactory.GetHelper().getArticleDAO().setLike(id)
-			
 				
+			
+				String id = HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(DataProvider.getContentPos()).getId();
+				HelperFactory.GetHelper().getArticleDAO().setLike(id);
+				Toast.makeText(getApplicationContext(), "Like added!!"+id, Toast.LENGTH_LONG).show();
 				//	HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBProperties(detailsFragment.getContentPos()));
 				//HelperFactory.GetHelper().getMyDBcontentDAO();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (java.sql.SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			return true;
 		case R.id.showAllLikes:
-			try {
-				Toast.makeText(getApplicationContext(), "All likes showed!!"+HelperFactory.GetHelper().getArticleDAO().getAllArticle().size(), Toast.LENGTH_LONG).show();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (java.sql.SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+//			try {
+//				//Toast.makeText(getApplicationContext(), "All likes showed!!"+HelperFactory.GetHelper().getArticleDAO().getAllLikes().size(), Toast.LENGTH_LONG).show();
+//			} catch (SQLException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			} catch (java.sql.SQLException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
 			
 			try {
 				
-				 ListIterator<MyDBProperties> iter = HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().listIterator();
+				 ListIterator<Article> iter = HelperFactory.GetHelper().getArticleDAO().getAllLikes().listIterator();
 				 while (iter.hasNext()){
-				//Log.d(LOG_TAG, HelperFactory.GetHelper().getMyDBcontentDAO().getAllMyDBcontent().get(iter.nextIndex()).getTitle().toString());
+				Log.d(LOG_TAG,"likes  "+ HelperFactory.GetHelper().getArticleDAO().getAllLikes().get(iter.nextIndex()).getTitle().toString());
 				iter.next();
 				 
 				 }
+				 DataProvider.getLikesFromDB(HelperFactory.GetHelper().getArticleDAO().getAllLikes());
+				 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

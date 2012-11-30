@@ -113,11 +113,11 @@ public class MainActivity extends SherlockFragmentActivity {
     	           		   finish();
     	        		   startActivity(getIntent());
     	               }
-    	           }).setNegativeButton("Cancel",
+    	           }).setNegativeButton("Try from DB",
     	                   new DialogInterface.OnClickListener() {
     	                       public void onClick(DialogInterface dialog, int id) {
     	                         
-    	                    	   finish();
+    	                    	   //finish();
     	                       }
     	                   });
     	   builder.create().show();

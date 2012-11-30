@@ -8,27 +8,32 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable
 public class Article {
-	@DatabaseField
+	@DatabaseField(columnName = "title")
 	private String title;
-	@DatabaseField
+	@DatabaseField(columnName = "content")
 	private String content;
-	@DatabaseField
+	@DatabaseField(columnName = "published")
 	private String published;
-	@DatabaseField
+	@DatabaseField(columnName = "updated")
 	private String updated;
-	@DatabaseField
+	@DatabaseField(columnName = "id")
 	private String id;	
-	@DatabaseField
+	@DatabaseField(columnName = "isLiked")
 	private Boolean isLiked;
-	
-	public Article(String OuterTitle, String OuterContent, String OuterPublished, String updated, String id) {
+		
+	public String getId() {
+		return id;
+	}
+
+	public Article(String OuterTitle, String OuterContent, String OuterPublished, String OuterUpdated, String OuterId) {
 		// TODO Auto-generated constructor stub
 		title=OuterTitle;
 		content=OuterContent;
 		
 		// 2012-10-18T12:05:16.918-07:00
 		published = OuterPublished.substring(0, 10)+" "+OuterPublished.substring(11, 16);
-		
+		id = OuterId;
+		updated = OuterUpdated;
 		isLiked = false;
 		
 	}

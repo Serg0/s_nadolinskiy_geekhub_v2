@@ -240,11 +240,28 @@ public static   void getAllDatesFromDB(List<String> publishStringArray) throws S
 			
 			Log.d(LOG_TAG, "string  "+v);
 	    }
+}
 		
+		public static  void getLikesFromDB(List<Article> list){
+			
+			//if (publishStringArray == null){
+			Log.d(LOG_TAG, "new Likes  ");
+			//	ArrayList<String> publishStringArray = new ArrayList<String>();
+			for (Article v:list)
+		    {
+				//(v.getPublished());
+			Log.d(LOG_TAG, "new Likes  "+v.getTitle().toString()+" "+v.getId().toString()+" "+v.getIsLiked().toString());
+		    }
+			
+		//	}
+			//return publishStringArray;
+		
+			
+		}
 	//	}
 	//	return publishStringArray;
 	
 		
-	}
+	
 	
 }

@@ -6,7 +6,10 @@ import java.util.List;
 import android.database.SQLException;
 
 import com.j256.ormlite.dao.BaseDaoImpl;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
+import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 
 public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
@@ -34,12 +37,22 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 	   public void setLike(String id) throws SQLException, java.sql.SQLException{
 		   
 		   UpdateBuilder<Article, Integer> updateBuilder =  HelperFactory.GetHelper().getArticleDAO().updateBuilder();
-				 // update the password to be "none"
-				 updateBuilder.updateColumnValue("isLiked", "true");
-				 // only update the rows where password is null
-				 updateBuilder.where().ge("id", id);
+				 updateBuilder.where().eq("id", id);
+				 updateBuilder.updateColumnValue("isLiked", true);
 				 updateBuilder.update();   
 	  
 	   }
+	   public List<Article> getAllLikes() throws SQLException, java.sql.SQLException{
+		   
+		   QueryBuilder<Article, Integer> queryBuilder = queryBuilder();
+		   queryBuilder.where().eq("isLiked", true);
+		   PreparedQuery<Article> preparedQuery = queryBuilder.prepare();
+		   List<Article> ArticleList =query(preparedQuery);
+		   return ArticleList;
+		   
+		   
+		   
+	   }
+	   
 	   	
 	}
