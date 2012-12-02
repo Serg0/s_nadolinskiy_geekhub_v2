@@ -85,7 +85,8 @@ public class DataProvider  extends Object{
 //              	Log.d(LOG_TAG, "Host is "		+ con.getHeaderField("Host").toString());
              // 	 Log.d(LOG_TAG, "myDBProperties is " + con.getHeaderField("ETag").toString());
               	int MyDBPropertiesSize = HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().size();
-              	 	if ((MyDBPropertiesSize == 0)||(!HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().get(MyDBPropertiesSize).getETag().equals(con.getHeaderField("ETag"))))
+              	int MyDBPropertiesLastElement = MyDBPropertiesSize -1;
+              	 	if ((MyDBPropertiesSize == 0)||(!HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().get(MyDBPropertiesLastElement).getETag().equals(con.getHeaderField("ETag"))))
               	 	{
               	 	            		//array = readStream(con.getInputStream());
               	 		readStream(con.getInputStream());

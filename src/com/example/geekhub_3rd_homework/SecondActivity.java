@@ -78,6 +78,11 @@ public class SecondActivity extends SherlockFragmentActivity {
 			}
 			return true;
 		case R.id.showAllLikes:
+			DataProvider.switchShowLikes();
+			DataProvider.setContentPos(0);
+			//MainActivity.getAppContext().notifyAll();
+			//this.invalidateOptionsMenu();
+			//this.recreate();
 //			try {
 //				//Toast.makeText(getApplicationContext(), "All likes showed!!"+HelperFactory.GetHelper().getArticleDAO().getAllLikes().size(), Toast.LENGTH_LONG).show();
 //			} catch (SQLException e1) {

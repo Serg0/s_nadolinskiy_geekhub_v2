@@ -99,8 +99,8 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
     
 		try {
 			//query = URLEncoder.encode(DataProvider.getFeed().get(contentPos).getContent(), "utf-8").replaceAll("\\+"," ");
-			query = URLEncoder.encode(HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(contentPos).getContent(), "utf-8").replaceAll("\\+"," ");
-			String title ="<h2>" + HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(contentPos).getTitle() + "</h2><br>";
+			query = URLEncoder.encode(DataProvider.getContent().get(contentPos).getContent(), "utf-8").replaceAll("\\+"," ");
+			String title ="<h2>" + DataProvider.getContent().get(contentPos).getTitle() + "</h2><br>";
 			String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
 			 webview.getSettings().setBuiltInZoomControls(true);
 			 webview.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);

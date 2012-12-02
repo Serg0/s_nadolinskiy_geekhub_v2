@@ -45,22 +45,22 @@ public class RowAdapter extends ArrayAdapter<Article> {
     
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-    	Log.d(LOG_TAG, " LayoutInflater inflater");
+    //	Log.d(LOG_TAG, " LayoutInflater inflater");
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView;
-        Log.d(LOG_TAG, " View rowView; ");
+       // Log.d(LOG_TAG, " View rowView; ");
        rowView = inflater.inflate(R.layout.listview_row, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.textView1);
         TextView textView2 = (TextView) rowView.findViewById(R.id.textView2);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView1);
         Article article = articles.get(position);
         if (article!= null) {
-        Log.d(LOG_TAG, "Article is OK "+Integer.toString(position));
+      //  Log.d(LOG_TAG, "Article is OK "+Integer.toString(position));
         textView.setText(article.getTitle());
         textView2.setText(article.getPublished());
         }else
         {
-        	Log.d(LOG_TAG, "Article is null "+Integer.toString(position));
+       // 	Log.d(LOG_TAG, "Article is null "+Integer.toString(position));
         }
         
         return rowView;

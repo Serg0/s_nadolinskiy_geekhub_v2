@@ -1,8 +1,5 @@
 package com.example.geekhub_3rd_homework;
 
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,18 +22,10 @@ import android.widget.Toast;
 
 public class TitlesFragment extends Fragment {
 	ArrayList<Article> aLocal;
-//	ArrayList<String> titleStringArray = new ArrayList<String>();
-	//ArrayList<String> contentStringArray = new ArrayList<String>();
 	
 	FragmentTransaction fragmentTransaction;
 	DetailsFragment detailsFragment;
 	final String LOG_TAG = "myLogs";
-//	public TitlesFragment(ArrayList<Article> array) {
-//		// TODO Auto-generated constructor stub
-//		aLocal = array;
-//		
-//		
-//    }
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,35 +53,14 @@ public class TitlesFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		ListView lvMain = (ListView) getView().findViewById(R.id.listView1);
-		//get from string
-		// RowAdapter adapter = new RowAdapter(getActivity(),  DataProvider.getTitles(), DataProvider.getPublishDates());
-		//get from DB
 		Log.d(LOG_TAG, "Berofe getDB ");
 		 RowAdapter adapter = null;
 		
 		try {
 			
-			ArrayList<Article> article = (ArrayList<Article>) HelperFactory.GetHelper().getArticleDAO().getAllArticle();
-		//	DataProvider.getAllDatesFromDB(HelperFactory.GetHelper().getArticleDAO().getAllDates());
-		    adapter = new RowAdapter(getActivity(), /* DataProvider.getTitlesFromDB(article), DataProvider.getPublishDatesFromDB(article), */DataProvider.getContent());
-		    
-//		ArrayList<Article> article = DataProvider.getContentArray();
-//			adapter = new RowAdapter(getActivity(), article);
-			
-//			
-//			ArrayList<Article> article = (ArrayList<Article>) HelperFactory.GetHelper().getArticleDAO().getAllArticle();
-//			//DataProvider.getAllDatesFromDB(HelperFactory.GetHelper().getArticleDAO().getAllDates());
-//		    adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(article), DataProvider.getPublishDatesFromDB(article));
-//			
-//		    
-//		    //adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(article), HelperFactory.GetHelper().getArticleDAO().getAllDates());
-//			
-//		   // Log.d(LOG_TAG, "String " + HelperFactory.GetHelper().getArticleDAO().getAllDates()[1]);
-//			
-//			
-//			
-//			//adapter = new RowAdapter(getActivity(),  HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(Iterator), DataProvider.getPublishDatesFromDB());
-//			//HelperFactory.GetHelper().getArticleDAO().getAllArticle()
+			//ArrayList<Article> article = (ArrayList<Article>) HelperFactory.GetHelper().getArticleDAO().getAllArticle();
+		    adapter = new RowAdapter(getActivity(),DataProvider.getContent());
+		    DataProvider.getContentArray();
 			Log.d(LOG_TAG, "in time of GetDB ");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
