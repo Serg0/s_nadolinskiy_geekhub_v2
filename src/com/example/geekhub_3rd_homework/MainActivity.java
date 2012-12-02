@@ -101,6 +101,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
     	   Log.d(LOG_TAG, " titlesFragment");
            titlesFragment = new TitlesFragment();
+           titlesFragment.setHasOptionsMenu(true);
            fragmentTransaction = getSupportFragmentManager().beginTransaction();
            //Tablet land
            if ((isTablet(this))&&(isLandscape(this))) {

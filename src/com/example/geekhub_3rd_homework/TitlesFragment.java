@@ -34,7 +34,7 @@ public class TitlesFragment extends SherlockFragment {
 	FragmentTransaction fragmentTransaction;
 	DetailsFragment detailsFragment;
 	final String LOG_TAG = "myLogs";
-	public  RowAdapter adapter = null;
+	public  RowAdapter adapter;
 	public ListView lvMain;
 	
 	@Override
@@ -98,7 +98,7 @@ public class TitlesFragment extends SherlockFragment {
 		    adapter = new RowAdapter(getActivity(),DataProvider.getContent());
 		 //   DataProvider.getContentArray();
 			Log.d(LOG_TAG, "in time of GetDB ");
-			setHasOptionsMenu(true);
+		//	setHasOptionsMenu(true);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			Log.d(LOG_TAG, "SQLException ");
@@ -111,6 +111,7 @@ public class TitlesFragment extends SherlockFragment {
 		Log.d(LOG_TAG, "After getDB ");
 		lvMain.setAdapter(adapter);
 	//	lvMain.refreshDrawableState();
+		
 		Log.d(LOG_TAG, "After SetAdapter ");
 		// myProgressBar.setVisibility(View.INVISIBLE);
 //		 ProgressBar myProgressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar1);
