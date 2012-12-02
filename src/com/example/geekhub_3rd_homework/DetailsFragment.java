@@ -59,13 +59,14 @@ public void onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu, com.action
 @Override
 public boolean onOptionsItemSelected(MenuItem item) {
 switch (item.getItemId()) {
-case R.id.addLike:
+case R.id.AddLike:
 // Handle fragment menu item
 	String id;
 	try {
+		Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Like added!!", Toast.LENGTH_LONG).show();
 		id = HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(DataProvider.getContentPos()).getId();
 		HelperFactory.GetHelper().getArticleDAO().setLike(id);
-		Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Like added!!"+id, Toast.LENGTH_LONG).show();
+		
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

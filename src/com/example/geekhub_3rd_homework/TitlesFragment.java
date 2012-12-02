@@ -69,13 +69,15 @@ public class TitlesFragment extends SherlockFragment {
     switch (item.getItemId()) {
     case R.id.ShowItem:
     // Handle fragment menu item
-    	Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "@!!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
+    	Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Show all likes!!", Toast.LENGTH_SHORT).show();
     	DataProvider.switchShowLikes();
 		DataProvider.setContentPos(0);
-    	adapter.notifyDataSetChanged();
-    	lvMain.refreshDrawableState();
-    	lvMain.invalidate();
-    	Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "@&&&&&&&&&&", Toast.LENGTH_LONG).show();
+		
+//    	adapter.notifyDataSetChanged();
+//    	lvMain.refreshDrawableState();
+//    	lvMain.invalidate();
+    //	this.onConfigurationChanged(null);
+    //	Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "@&&&&&&&&&&", Toast.LENGTH_LONG).show();
     return true;
     default:
     // Not one of ours. Perform default menu processing
