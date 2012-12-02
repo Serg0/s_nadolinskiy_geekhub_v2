@@ -96,9 +96,6 @@ public class DataProvider  extends Object{
               	 	}
               	 	//HelperFactory.GetHelper()..
               	 		
-              	 	
-              	 		
-              	 	
               		
               }
              	catch (Exception e) {
@@ -197,6 +194,36 @@ public class DataProvider  extends Object{
     	  }
 
     }
+	
+
+	public static List<Article> getContent() throws SQLException, java.sql.SQLException{
+		
+		if (isShowLikes()){
+			return  HelperFactory.GetHelper().getArticleDAO().getAllLikes();
+		}else
+		{
+			return  HelperFactory.GetHelper().getArticleDAO().getAllArticle();
+		}
+		
+	}
+	
+public static ArrayList<Article> getContentArray() throws SQLException, java.sql.SQLException{
+	
+	ArrayList<Article> BuffArray = new ArrayList<Article>();
+	for (Article v:getContent())
+    {
+		BuffArray.add(v);
+		Log.d(LOG_TAG, "Converting title "+v.getTitle());
+    }
+	//}
+	
+	
+	return BuffArray;
+				
+	}
+	
+	
+	
 	
 //	}
 	//HelperFactory.GetHelper().getMyDBcontentDAO().getAllMyDBcontent().get(iter.nextIndex()).getTitle().toString()

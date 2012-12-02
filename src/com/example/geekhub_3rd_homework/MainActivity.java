@@ -66,6 +66,7 @@ public class MainActivity extends SherlockFragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
         MainActivity.context = getApplicationContext();
         Instance = this;
         ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
@@ -86,7 +87,7 @@ public class MainActivity extends SherlockFragmentActivity {
      
        if (DataProvider.isOnline()){
 
-    	   
+    	   Log.d(LOG_TAG, " titlesFragment");
            titlesFragment = new TitlesFragment();
            fragmentTransaction = getSupportFragmentManager().beginTransaction();
            //Tablet land
@@ -123,7 +124,7 @@ public class MainActivity extends SherlockFragmentActivity {
     	   builder.create().show();
        }
        
-
+       Log.d(LOG_TAG, " builder.create().show();");
        
     }
     

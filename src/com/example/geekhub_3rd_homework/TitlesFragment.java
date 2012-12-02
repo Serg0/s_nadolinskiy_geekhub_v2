@@ -4,6 +4,7 @@ package com.example.geekhub_3rd_homework;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -70,17 +71,28 @@ public class TitlesFragment extends Fragment {
 		 RowAdapter adapter = null;
 		
 		try {
+			
 			ArrayList<Article> article = (ArrayList<Article>) HelperFactory.GetHelper().getArticleDAO().getAllArticle();
-			//DataProvider.getAllDatesFromDB(HelperFactory.GetHelper().getArticleDAO().getAllDates());
-		    adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(article), DataProvider.getPublishDatesFromDB(article));
-			//adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(article), HelperFactory.GetHelper().getArticleDAO().getAllDates());
+		//	DataProvider.getAllDatesFromDB(HelperFactory.GetHelper().getArticleDAO().getAllDates());
+		    adapter = new RowAdapter(getActivity(), /* DataProvider.getTitlesFromDB(article), DataProvider.getPublishDatesFromDB(article), */DataProvider.getContent());
+		    
+//		ArrayList<Article> article = DataProvider.getContentArray();
+//			adapter = new RowAdapter(getActivity(), article);
 			
-		   // Log.d(LOG_TAG, "String " + HelperFactory.GetHelper().getArticleDAO().getAllDates()[1]);
-			
-			
-			
-			//adapter = new RowAdapter(getActivity(),  HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(Iterator), DataProvider.getPublishDatesFromDB());
-			//HelperFactory.GetHelper().getArticleDAO().getAllArticle()
+//			
+//			ArrayList<Article> article = (ArrayList<Article>) HelperFactory.GetHelper().getArticleDAO().getAllArticle();
+//			//DataProvider.getAllDatesFromDB(HelperFactory.GetHelper().getArticleDAO().getAllDates());
+//		    adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(article), DataProvider.getPublishDatesFromDB(article));
+//			
+//		    
+//		    //adapter = new RowAdapter(getActivity(),  DataProvider.getTitlesFromDB(article), HelperFactory.GetHelper().getArticleDAO().getAllDates());
+//			
+//		   // Log.d(LOG_TAG, "String " + HelperFactory.GetHelper().getArticleDAO().getAllDates()[1]);
+//			
+//			
+//			
+//			//adapter = new RowAdapter(getActivity(),  HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(Iterator), DataProvider.getPublishDatesFromDB());
+//			//HelperFactory.GetHelper().getArticleDAO().getAllArticle()
 			Log.d(LOG_TAG, "in time of GetDB ");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

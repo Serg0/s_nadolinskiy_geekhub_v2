@@ -1,6 +1,7 @@
 package com.example.geekhub_3rd_homework;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.database.SQLException;
@@ -24,15 +25,15 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 			
 
 	   }
-	   public String[] getAllDates() throws SQLException, java.sql.SQLException{
-		
-		// TODO Auto-generated method stub
-
-		  
-		   
-		   return  this.queryBuilder().selectColumns().queryRawFirst();
-		   
-	}
+//	   public String[] getAllDates() throws SQLException, java.sql.SQLException{
+//		
+//		// TODO Auto-generated method stub
+//
+//		  
+//		   
+//		   return  this.queryBuilder().selectColumns().queryRawFirst();
+//		   
+//	}
 	   
 	   public void setLike(String id) throws SQLException, java.sql.SQLException{
 		   
@@ -47,7 +48,7 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 		   QueryBuilder<Article, Integer> queryBuilder = queryBuilder();
 		   queryBuilder.where().eq("isLiked", true);
 		   PreparedQuery<Article> preparedQuery = queryBuilder.prepare();
-		   List<Article> ArticleList =query(preparedQuery);
+		   List<Article> ArticleList = query(preparedQuery);
 		   return ArticleList;
 		   
 		   
