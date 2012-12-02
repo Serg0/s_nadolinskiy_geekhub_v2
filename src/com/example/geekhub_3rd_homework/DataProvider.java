@@ -204,10 +204,10 @@ public class DataProvider  extends Object{
 	public static List<Article> getContent() throws SQLException, java.sql.SQLException{
 		
 		if (isShowLikes()){
-			return  HelperFactory.GetHelper().getArticleDAO().getAllLikes();
+			 return HelperFactory.GetHelper().getArticleDAO().getAllLikes();
 		}else
 		{
-			return  HelperFactory.GetHelper().getArticleDAO().getAllArticle();
+			 return HelperFactory.GetHelper().getArticleDAO().getAllArticle();
 		}
 		
 	}

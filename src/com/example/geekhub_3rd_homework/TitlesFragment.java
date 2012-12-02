@@ -72,7 +72,21 @@ public class TitlesFragment extends SherlockFragment {
     	Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Show all likes!!", Toast.LENGTH_SHORT).show();
     	DataProvider.switchShowLikes();
 		DataProvider.setContentPos(0);
-		
+		adapter.notifyDataSetChanged();
+		lvMain.invalidate();
+		lvMain.setAdapter(null);
+		lvMain.refreshDrawableState();
+		//adapter.notifyDataSetChanged();
+		try {
+			adapter = new RowAdapter(getActivity(),DataProvider.getContent());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (java.sql.SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		lvMain.setAdapter(adapter);
 //    	adapter.notifyDataSetChanged();
 //    	lvMain.refreshDrawableState();
 //    	lvMain.invalidate();
