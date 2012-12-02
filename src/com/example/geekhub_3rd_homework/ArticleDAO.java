@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.database.SQLException;
+import android.util.Log;
 
 import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -15,7 +16,9 @@ import com.j256.ormlite.support.ConnectionSource;
 
 public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 
-	   protected ArticleDAO(ConnectionSource connectionSource,
+	   private static final String LOG_TAG = "ArticleDAO";
+
+	protected ArticleDAO(ConnectionSource connectionSource,
 	           Class<Article> dataClass) throws SQLException, java.sql.SQLException{
 	       super(connectionSource, dataClass);
 	   }
@@ -55,5 +58,20 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 		   
 	   }
 	   
+ public List<Article> getPostByID(String PostID) throws SQLException, java.sql.SQLException{
+		   
+		   QueryBuilder<Article, Integer> queryBuilder = queryBuilder();
+		   queryBuilder.where().eq("ID", PostID);
+		   PreparedQuery<Article> preparedQuery = queryBuilder.prepare();
+		  // List<Article> ArticleList = query(preparedQuery);
+		   if (query(preparedQuery).isEmpty()){
+			   Log.d(LOG_TAG, "getPostByID query isEmpty ");
+			   
+			   return null;
+			   }else{return query(preparedQuery);}
+		   
+		   
+		   
+	   }
 	   	
 	}

@@ -38,6 +38,10 @@ public class Article {
 		
 	}
 	
+	public String getUpdated() {
+		return updated;
+	}
+
 	public Article(){}
 	
 	

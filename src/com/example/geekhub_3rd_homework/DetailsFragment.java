@@ -7,6 +7,7 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import android.content.Intent;
 import android.database.SQLException;
@@ -48,6 +49,39 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 //	Log.d(LOG_TAG, "savedInstanceState.putIntcontentPos "+ contentPos);
 	
 }
+public void onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu, com.actionbarsherlock.view.MenuInflater inflater) {
+	// TODO Auto-generated method stub
+
+	
+	inflater.inflate(R.menu.action_bar_menu2, menu);
+}
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+switch (item.getItemId()) {
+case R.id.addLike:
+// Handle fragment menu item
+	String id;
+	try {
+		id = HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(DataProvider.getContentPos()).getId();
+		HelperFactory.GetHelper().getArticleDAO().setLike(id);
+		Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Like added!!"+id, Toast.LENGTH_LONG).show();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (java.sql.SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
+return true;
+default:
+// Not one of ours. Perform default menu processing
+return super.onOptionsItemSelected(item);
+}
+}
+
 
 @SuppressWarnings("deprecation")
 @Override
@@ -56,6 +90,7 @@ public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		 //------------------------------------------------
 		contentPos = DataProvider.getContentPos();
+		setHasOptionsMenu(true);
 		 //------------------------------------------------
 		if (savedInstanceState != null){
 		   // contentPos = savedInstanceState.getInt("contentPos");

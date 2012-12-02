@@ -28,95 +28,93 @@ public class SecondActivity extends SherlockFragmentActivity {
 		com.actionbarsherlock.app.ActionBar actionBar;
 	private static SecondActivity Instance;
 	
-	
-//	final public static boolean isActive() {
-//		return active;
-//	}
-//	@Override
-//    public void onStart() {
-//       super.onStart();
-//       active = true;
-//    } 
-//	 @Override
-//     public void onStop() {
-//        super.onStop();
-//        active = false;
-//     }	
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		
-		com.actionbarsherlock.view.MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(R.menu.activity_main, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		switch(item.getItemId())
-		{
-		case R.id.addLike:
-			
-			//MyDBContent arg0 = new MyDBContent(detailsFragment.getContentPos());
-			try {
-				
-				
-			
-				String id = HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(DataProvider.getContentPos()).getId();
-				HelperFactory.GetHelper().getArticleDAO().setLike(id);
-				Toast.makeText(getApplicationContext(), "Like added!!"+id, Toast.LENGTH_LONG).show();
-				//	HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBProperties(detailsFragment.getContentPos()));
-				//HelperFactory.GetHelper().getMyDBcontentDAO();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (java.sql.SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return true;
-		case R.id.showAllLikes:
-			DataProvider.switchShowLikes();
-			DataProvider.setContentPos(0);
-			//MainActivity.getAppContext().notifyAll();
-			//this.invalidateOptionsMenu();
-			//this.recreate();
+
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// TODO Auto-generated method stub
+//		
+//		com.actionbarsherlock.view.MenuInflater inflater = getSupportMenuInflater();
+//		inflater.inflate(R.menu.activity_main, menu);
+//		return super.onCreateOptionsMenu(menu);
+//	}
+//	
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		// TODO Auto-generated method stub
+//		switch(item.getItemId())
+//		{
+//		case R.id.addLike:
+//			
+//			//MyDBContent arg0 = new MyDBContent(detailsFragment.getContentPos());
 //			try {
-//				//Toast.makeText(getApplicationContext(), "All likes showed!!"+HelperFactory.GetHelper().getArticleDAO().getAllLikes().size(), Toast.LENGTH_LONG).show();
-//			} catch (SQLException e1) {
+//				
+//				
+//			
+//				String id = HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(DataProvider.getContentPos()).getId();
+//				HelperFactory.GetHelper().getArticleDAO().setLike(id);
+//				Toast.makeText(getApplicationContext(), "Like added!!"+id, Toast.LENGTH_LONG).show();
+//				//	HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBProperties(detailsFragment.getContentPos()));
+//				//HelperFactory.GetHelper().getMyDBcontentDAO();
+//			} catch (SQLException e) {
 //				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			} catch (java.sql.SQLException e1) {
+//				e.printStackTrace();
+//			} catch (java.sql.SQLException e) {
 //				// TODO Auto-generated catch block
-//				e1.printStackTrace();
+//				e.printStackTrace();
 //			}
-			
-			try {
-				
-				 ListIterator<Article> iter = HelperFactory.GetHelper().getArticleDAO().getAllLikes().listIterator();
-				 while (iter.hasNext()){
-				Log.d(LOG_TAG,"likes  "+ HelperFactory.GetHelper().getArticleDAO().getAllLikes().get(iter.nextIndex()).getTitle().toString());
-				iter.next();
-				 
-				 }
-				 DataProvider.getLikesFromDB(HelperFactory.GetHelper().getArticleDAO().getAllLikes());
-				 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (java.sql.SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			return true;
-			
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
+//			return true;
+//		case R.id.showAllLikes:
+//			DataProvider.switchShowLikes();
+//			DataProvider.setContentPos(0);
+//			//Intent intent = getIntent();
+//			//MainActivity.getAppContext().getApplicationContext().
+//			//MainActivity.getInstance().finish();
+//			//startActivity(getIntent());
+////			Intent refresh = new Intent(this, SecondActivity.class);
+////			startActivity(refresh);
+////			this.finish();
+//			
+//		//	MainActivity.onRestartPublic();
+//			onRestart();
+//			//startActivity(intent);
+//			//MainActivity.getAppContext().notifyAll();
+//			//this.invalidateOptionsMenu();
+//			//this.recreate();
+////			try {
+////				//Toast.makeText(getApplicationContext(), "All likes showed!!"+HelperFactory.GetHelper().getArticleDAO().getAllLikes().size(), Toast.LENGTH_LONG).show();
+////			} catch (SQLException e1) {
+////				// TODO Auto-generated catch block
+////				e1.printStackTrace();
+////			} catch (java.sql.SQLException e1) {
+////				// TODO Auto-generated catch block
+////				e1.printStackTrace();
+////			}
+//			
+//			try {
+//				
+//				 ListIterator<Article> iter = HelperFactory.GetHelper().getArticleDAO().getAllLikes().listIterator();
+//				 while (iter.hasNext()){
+//				Log.d(LOG_TAG,"likes  "+ HelperFactory.GetHelper().getArticleDAO().getAllLikes().get(iter.nextIndex()).getTitle().toString());
+//				iter.next();
+//				 
+//				 }
+//				 DataProvider.getLikesFromDB(HelperFactory.GetHelper().getArticleDAO().getAllLikes());
+//				 
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (java.sql.SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//			return true;
+//			
+//		}
+//		return super.onOptionsItemSelected(item);
+//	}
+//	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

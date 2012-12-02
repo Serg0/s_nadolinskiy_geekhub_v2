@@ -3,6 +3,12 @@ package com.example.geekhub_3rd_homework;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.SQLException;
@@ -11,6 +17,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+//import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewDebug.IntToString;
 import android.view.ViewGroup;
@@ -20,13 +28,15 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class TitlesFragment extends Fragment {
+public class TitlesFragment extends SherlockFragment {
 	ArrayList<Article> aLocal;
-	
+	com.actionbarsherlock.app.ActionBar actionBar;
 	FragmentTransaction fragmentTransaction;
 	DetailsFragment detailsFragment;
 	final String LOG_TAG = "myLogs";
-
+	public  RowAdapter adapter = null;
+	public ListView lvMain;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -47,21 +57,48 @@ public class TitlesFragment extends Fragment {
 //        fragmentTransaction.replace(R.id.frgmCont4, detailsFragment);
 //        fragmentTransaction.commit();
 //        }
+    public void onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu, com.actionbarsherlock.view.MenuInflater inflater) {
+    	// TODO Auto-generated method stub
+
+    	
+    	inflater.inflate(R.menu.action_bar_menu, menu);
+    }
     
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+    case R.id.ShowItem:
+    // Handle fragment menu item
+    	Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "@!!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
+    	DataProvider.switchShowLikes();
+		DataProvider.setContentPos(0);
+    	adapter.notifyDataSetChanged();
+    	lvMain.refreshDrawableState();
+    	lvMain.invalidate();
+    	Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "@&&&&&&&&&&", Toast.LENGTH_LONG).show();
+    return true;
+    default:
+    // Not one of ours. Perform default menu processing
+    return super.onOptionsItemSelected(item);
+    }
+    }
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-		ListView lvMain = (ListView) getView().findViewById(R.id.listView1);
-		Log.d(LOG_TAG, "Berofe getDB ");
-		 RowAdapter adapter = null;
 		
+		lvMain = (ListView) getView().findViewById(R.id.listView1);
+		Log.d(LOG_TAG, "Berofe getDB ");
+		 
+		 actionBar=getSherlockActivity().getSupportActionBar();
 		try {
 			
 			//ArrayList<Article> article = (ArrayList<Article>) HelperFactory.GetHelper().getArticleDAO().getAllArticle();
 		    adapter = new RowAdapter(getActivity(),DataProvider.getContent());
-		    DataProvider.getContentArray();
+		 //   DataProvider.getContentArray();
 			Log.d(LOG_TAG, "in time of GetDB ");
+			setHasOptionsMenu(true);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			Log.d(LOG_TAG, "SQLException ");
@@ -73,6 +110,7 @@ public class TitlesFragment extends Fragment {
 		}
 		Log.d(LOG_TAG, "After getDB ");
 		lvMain.setAdapter(adapter);
+	//	lvMain.refreshDrawableState();
 		Log.d(LOG_TAG, "After SetAdapter ");
 		// myProgressBar.setVisibility(View.INVISIBLE);
 //		 ProgressBar myProgressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar1);

@@ -31,7 +31,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	TitlesFragment titlesFragment;
 	ArrayList<Article> array = null;
 	private static Context context;
-	private static MainActivity Instance;
+	private static  MainActivity Instance;
 	static String message = null;
 	final public static String CONNECTION_CHECK_UPDATER = "com.example.geekhub_3rd_homework.CONNECTION_CHECK_UPDATER";
 	private static final String LOG_TAG = "MyLog";
@@ -61,6 +61,18 @@ public class MainActivity extends SherlockFragmentActivity {
         return MainActivity.context;
     }
 	
+	public   MainActivity getThis(){ return this;}
+	
+	public void onRestartPublic(){ 
+		
+//		Intent refresh = new Intent(this, SecondActivity.class);
+//		startActivity(refresh);
+//		this.finish();
+		 Log.d(LOG_TAG, " Trying to Restart");
+		this.invalidateOptionsMenu();
+		Log.d(LOG_TAG, " After to Restart");
+		
+	}
     @SuppressWarnings("static-access")
 	@Override
     public void onCreate(Bundle savedInstanceState) {

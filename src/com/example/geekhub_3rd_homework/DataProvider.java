@@ -80,10 +80,7 @@ public class DataProvider  extends Object{
  	    			URL url = new URL("http://android-developers.blogspot.com/feeds/posts/default?alt=json");
               	 	HttpURLConnection con = (HttpURLConnection) url.openConnection();
               	Log.d(LOG_TAG, "ETag From DB is " + HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().size()); 
-//              	Log.d(LOG_TAG, "ETag is " + con.getHeaderField("ETag").toString());
-//              	Log.d(LOG_TAG, "Last-Modified is " + con.getHeaderField("Last-Modified").toString()); 
-//              	Log.d(LOG_TAG, "Host is "		+ con.getHeaderField("Host").toString());
-             // 	 Log.d(LOG_TAG, "myDBProperties is " + con.getHeaderField("ETag").toString());
+//              
               	int MyDBPropertiesSize = HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().size();
               	int MyDBPropertiesLastElement = MyDBPropertiesSize -1;
               	 	if ((MyDBPropertiesSize == 0)||(!HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().get(MyDBPropertiesLastElement).getETag().equals(con.getHeaderField("ETag"))))
@@ -153,7 +150,7 @@ public class DataProvider  extends Object{
     	        
     	        JSONObject oneObjectsItem = oneObject.getJSONObject("updated");
     	        String updated = oneObjectsItem.getString("$t");
-    	     //   if (updated<) TO-DO check if updated is newer than last modifyied else continue
+    	     //  !!!!!!!!!!!!!!!!! if (updated<) TO-DO check if updated is newer than last modifyied else continue
     	        
     	        oneObjectsItem = oneObject.getJSONObject("title");
     	        String title = oneObjectsItem.getString("$t");
@@ -164,10 +161,17 @@ public class DataProvider  extends Object{
 
     	        oneObjectsItem = oneObject.getJSONObject("id");
     	        String id = oneObjectsItem.getString("$t");
-    	        
+    	        Log.d(LOG_TAG, "Article " + Integer.toString(i)+ id);
+//    	        String PostByID ;
+//    	       int PostByID = HelperFactory.GetHelper().getArticleDAO().getPostByID(id).size();
+//    	        		Log.d(LOG_TAG, "Article size"+Integer.toString(PostByID));
+//    	        
+//    	       if ((HelperFactory.GetHelper().getArticleDAO().getPostByID(id) == null)||(!HelperFactory.GetHelper().getArticleDAO().getPostByID(id).get(0).getUpdated().equals(updated))){
+    	 	  //     if ((HelperFactory.GetHelper().getArticleDAO().getPostByID(id).isEmpty())){
     	        Article article = new Article (title, content, published, updated, id);
     	        Log.d(LOG_TAG, "Adding new Article "+article.getTitle());
     	        HelperFactory.GetHelper().getArticleDAO().create(article);
+  	      //  }
     	        
     	        //localArray.add(article);
     	        
