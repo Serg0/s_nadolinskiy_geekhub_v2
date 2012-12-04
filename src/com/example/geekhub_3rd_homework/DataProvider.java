@@ -25,7 +25,7 @@ public class DataProvider  extends Object{
 	static ArrayList<Article> array;
 	static ArrayList<String> publishStringArray;
 	static ArrayList<String> titleStringArray;
-	
+	static String ETag;
 	static boolean ShowLikes = false;
 	
 	public static boolean isShowLikes() {
@@ -63,7 +63,8 @@ public class DataProvider  extends Object{
 	
 	public static  ArrayList<Article> getFeed(){
 	
-		if(array == null){
+		//if(array == null){
+		
 			// Handler handler = new Handler();
 			Log.d(LOG_TAG, "Array is null");
 	 Thread thread = new Thread() {
@@ -72,21 +73,27 @@ public class DataProvider  extends Object{
                  
  	    			URL url = new URL("http://android-developers.blogspot.com/feeds/posts/default?alt=json");
               	 	HttpURLConnection con = (HttpURLConnection) url.openConnection();
-              	Log.d(LOG_TAG, "ETag From DB is " + HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().size()); 
-//              
-              	int MyDBPropertiesSize = HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().size();
-              	int MyDBPropertiesLastElement = MyDBPropertiesSize -1;
-              	 	if ((MyDBPropertiesSize == 0)||(!HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().get(MyDBPropertiesLastElement).getETag().equals(con.getHeaderField("ETag"))))
-              	 	{
-              	 	            		array = readStream(con.getInputStream());
-              	 		readStream(con.getInputStream());
-              	 		HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().clear();
-              	 		MyDBProperties myDBProperties = new MyDBProperties(con.getHeaderField("ETag").toString(),con.getHeaderField("Last-Modified").toString(),url.toString());
-              	 		HelperFactory.GetHelper().getMyDBPropertiesDAO().create(myDBProperties);
-              	 		
-              	 	}
-              	 	//HelperFactory.GetHelper()..
-              	 		
+              	Log.d(LOG_TAG, "ETag  is " + con.getHeaderField("ETag").toString()); 
+                if ((ETag == null)||(!con.getHeaderField("ETag").toString().equals(ETag)))
+                	{
+                	array = readStream(con.getInputStream());
+                	ETag = con.getHeaderField("ETag").toString();
+                	Log.d(LOG_TAG, "Reload DATA from SERVER");
+                	
+                	}
+//              	int MyDBPropertiesSize = HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().size();
+//              	int MyDBPropertiesLastElement = MyDBPropertiesSize -1;
+//              	 	if ((MyDBPropertiesSize == 0)||(!HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().get(MyDBPropertiesLastElement).getETag().equals(con.getHeaderField("ETag"))))
+//              	 	{
+//              	 	            	//	array = readStream(con.getInputStream());
+//              	 		readStream(con.getInputStream());
+//              	 		HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().clear();
+//              	 		MyDBProperties myDBProperties = new MyDBProperties(con.getHeaderField("ETag").toString(),con.getHeaderField("Last-Modified").toString(),url.toString());
+//              	 		HelperFactory.GetHelper().getMyDBPropertiesDAO().create(myDBProperties);
+//              	 		
+//              	 	}
+//              	 	//HelperFactory.GetHelper()..
+//              	 		
               		
               }
              	catch (Exception e) {
@@ -102,7 +109,7 @@ public class DataProvider  extends Object{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		}
+	//	}
 		
 	return array;
      
@@ -154,7 +161,7 @@ public class DataProvider  extends Object{
 
     	        oneObjectsItem = oneObject.getJSONObject("id");
     	        String id = oneObjectsItem.getString("$t");
-    	        Log.d(LOG_TAG, "Article " + Integer.toString(i)+ id);
+    	    //    Log.d(LOG_TAG, "Article " + Integer.toString(i)+ id);
 //    	        String PostByID ;
 //    	       int PostByID = HelperFactory.GetHelper().getArticleDAO().getPostByID(id).size();
 //    	        		Log.d(LOG_TAG, "Article size"+Integer.toString(PostByID));
@@ -162,7 +169,7 @@ public class DataProvider  extends Object{
 //    	       if ((HelperFactory.GetHelper().getArticleDAO().getPostByID(id) == null)||(!HelperFactory.GetHelper().getArticleDAO().getPostByID(id).get(0).getUpdated().equals(updated))){
     	 	  //     if ((HelperFactory.GetHelper().getArticleDAO().getPostByID(id).isEmpty())){
     	        Article article = new Article (title, content, published, updated, id);
-    	        Log.d(LOG_TAG, "Adding new Article "+article.getTitle());
+    	       // Log.d(LOG_TAG, "Adding new Article "+article.getTitle());
     	      //  HelperFactory.GetHelper().getArticleDAO().create(article);
   	      //  }
     	        

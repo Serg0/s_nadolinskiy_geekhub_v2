@@ -76,7 +76,15 @@ public class TitlesFragment extends SherlockFragment {
 //	        		lv.invalidate();
 //	        		lv.setAdapter(adapter);
 //	        		lv.refreshDrawableState();
-	        		Instance.refreshListView(adapter);
+	        		try {
+						Instance.refreshListView(adapter);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (java.sql.SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	        		
 	        		
 	        	} else 
@@ -86,7 +94,15 @@ public class TitlesFragment extends SherlockFragment {
 //	        		lv.invalidate();
 //	        		lv.setAdapter(null);
 //	        		lv.refreshDrawableState();
-	        		Instance.refreshListView(null);
+	        		try {
+						Instance.refreshListView(null);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (java.sql.SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	        		
 	        		
 	        	}
@@ -97,16 +113,18 @@ public class TitlesFragment extends SherlockFragment {
 	        }
 	    }
 	}
-	private void refreshListView(RowAdapter _adapter) {
+	private void refreshListView(RowAdapter _adapter) throws SQLException, java.sql.SQLException {
 		// TODO Auto-generated method stub
 		Log.d(LOG_TAG, "refreshListView");
 		
-		if (_adapter == null){Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Connection is DOWN!", Toast.LENGTH_SHORT).show();}
+		if (_adapter == null){Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Connection is DOWN!", Toast.LENGTH_SHORT).show();
 		lvMain.invalidate();
 		lvMain.setAdapter(_adapter);
 		lvMain.refreshDrawableState();
-		Log.d(LOG_TAG, "after refreshListView");
-		
+		Log.d(LOG_TAG, "after refreshListView");}else
+		{
+		adapter = new RowAdapter(getActivity(),DataProvider.getContent());
+		}
 
 	}
 	
