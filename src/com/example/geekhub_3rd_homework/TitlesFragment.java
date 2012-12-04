@@ -1,32 +1,23 @@
 package com.example.geekhub_3rd_homework;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-
-import android.app.ActionBar;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.database.SQLException;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
-//import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewDebug.IntToString;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.MenuItem;
+//import android.view.Menu;
 
 public class TitlesFragment extends SherlockFragment {
 	ArrayList<Article> aLocal;

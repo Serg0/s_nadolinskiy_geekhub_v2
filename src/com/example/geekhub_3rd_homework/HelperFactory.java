@@ -1,8 +1,8 @@
 package com.example.geekhub_3rd_homework;
 
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-
 import android.content.Context;
+
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class HelperFactory{
 

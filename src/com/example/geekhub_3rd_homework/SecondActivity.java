@@ -1,23 +1,13 @@
 package com.example.geekhub_3rd_homework;
 
-import java.util.ListIterator;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-
-import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.SQLException;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.MenuInflater;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class SecondActivity extends SherlockFragmentActivity {
 

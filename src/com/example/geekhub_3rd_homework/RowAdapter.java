@@ -1,6 +1,5 @@
 package com.example.geekhub_3rd_homework;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;

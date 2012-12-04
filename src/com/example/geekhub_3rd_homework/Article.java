@@ -1,5 +1,4 @@
 package com.example.geekhub_3rd_homework;
-import java.io.Serializable;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 

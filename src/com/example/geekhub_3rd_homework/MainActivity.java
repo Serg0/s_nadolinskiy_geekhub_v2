@@ -2,29 +2,24 @@ package com.example.geekhub_3rd_homework;
 
 import java.util.ArrayList;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
-import android.app.PendingIntent.OnFinished;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.database.SQLException;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.os.IBinder;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Menu;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-import android.content.BroadcastReceiver;
-import android.database.SQLException;
 import android.widget.TextView;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class MainActivity extends SherlockFragmentActivity {
 	FragmentTransaction fragmentTransaction;
@@ -35,6 +30,13 @@ public class MainActivity extends SherlockFragmentActivity {
 	static String message = null;
 	final public static String CONNECTION_CHECK_UPDATER = "com.example.geekhub_3rd_homework.CONNECTION_CHECK_UPDATER";
 	private static final String LOG_TAG = "MyLog";
+	
+      boolean bound = false;
+	  ServiceConnection sConn;
+	  Intent intent;
+	  ConnectionCheckUpdateServise2 myService;
+	//  TextView tvInterval;
+	  long interval;
 	
 	private boolean isMyServiceRunning() {
 	    ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -73,6 +75,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		Log.d(LOG_TAG, " After to Restart");
 		
 	}
+	
+	
     @SuppressWarnings("static-access")
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,22 +88,42 @@ public class MainActivity extends SherlockFragmentActivity {
         ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
        // HelperFactory.SetHelper(getApplicationContext());
        
+        intent = new Intent(this, ConnectionCheckUpdateServise2.class);
+       
+        sConn = new ServiceConnection() {
+
+          public void onServiceConnected(ComponentName name, IBinder binder) {
+            Log.d(LOG_TAG, "MainActivity onServiceConnected");
+            myService = ((ConnectionCheckUpdateServise2.MyBinder) binder).getService(); 
+            bound = true;
+          }
+
+          public void onServiceDisconnected(ComponentName name) {
+            Log.d(LOG_TAG, "MainActivity onServiceDisconnected");
+            bound = false;
+          }
+
+        }; 
+        Log.d(LOG_TAG, "Before start service");
+        startService(intent);
+        Log.d(LOG_TAG, "After start service");
+      
+        HelperFactory.SetHelper(getApplicationContext());
         
-    
-       if (!isMyServiceRunning()){ 
-    	  startService(new Intent(this, ConnectionCheckUpdateServise.class));
-    	 // DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
-           HelperFactory.SetHelper(getApplicationContext());
-    	  Log.d(LOG_TAG, "Servise is started");
-    	  }else
-    	  { Log.d(LOG_TAG, "Servise not restarted");}
-        
+//       if (!isMyServiceRunning()){ 
+//    	  startService(new Intent(this, ConnectionCheckUpdateServise.class));
+//    	 // DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
+//           HelperFactory.SetHelper(getApplicationContext());
+//    	  Log.d(LOG_TAG, "Servise is started");
+//    	  }else
+//    	  { Log.d(LOG_TAG, "Servise not restarted");}
+//        
         
        DataProvider.getFeed();
      
        if (DataProvider.isOnline()){
 
-    	   Log.d(LOG_TAG, " titlesFragment");
+    	 //  Log.d(LOG_TAG, " titlesFragment");
            titlesFragment = new TitlesFragment();
            titlesFragment.setHasOptionsMenu(true);
            fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -137,7 +161,7 @@ public class MainActivity extends SherlockFragmentActivity {
     	   builder.create().show();
        }
        
-       Log.d(LOG_TAG, " builder.create().show();");
+  //     Log.d(LOG_TAG, " builder.create().show();");
        
     }
     
@@ -169,11 +193,62 @@ public static class BroadcastListener extends BroadcastReceiver {
     }
 }
 
+//@Override
+//protected void onDestroy() {
+//	// TODO Auto-generated method stub
+//	super.onDestroy();
+//	Log.d(LOG_TAG, "On Destroy End Service");
+//	try {
+//		OnFinished();
+//	} catch (SQLException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	} catch (java.sql.SQLException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
+//	
+//}
+@Override
+public void finish() {
+	// TODO Auto-generated method stub
+	try {
+		OnFinished();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (java.sql.SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	super.finish();
+	
+}
 private void OnFinished() throws SQLException, java.sql.SQLException {
 	// TODO Auto-generated method stub
 	HelperFactory.GetHelper().getArticleDAO().getAllArticle().clear();
 	HelperFactory.ReleaseHelper();
+	
+	//stop Service!!!
+ //stopService(name)
+	//stopService(new Intent(this, ConnectionCheckUpdateServise.class));
+	stopService(new Intent(this, ConnectionCheckUpdateServise2.class));
+	
+	Log.d(LOG_TAG, " End Service");
 }
 
+@Override
+protected void onStart() {
+  super.onStart();
+  bindService(intent, sConn, 0);
+}
+
+@Override
+protected void onStop() {
+  super.onStop();
+  if (!bound) return;
+  unbindService(sConn);
+  bound = false;
+}
 
 }

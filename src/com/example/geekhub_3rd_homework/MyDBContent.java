@@ -1,8 +1,6 @@
 package com.example.geekhub_3rd_homework;
 
-import java.io.Serializable;
-import com.j256.*;
-import com.j256.ormlite.field.*;
+import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 
@@ -18,9 +16,9 @@ public class MyDBContent {
     private String content;
     
     public MyDBContent (int contentPos) {
-     this.date = DataProvider.getFeed().get(contentPos).getPublished();
-     this.title = DataProvider.getFeed().get(contentPos).getTitle();
-     this.content = DataProvider.getFeed().get(contentPos).getContent();
+//     this.date = DataProvider.getFeed().get(contentPos).getPublished();
+//     this.title = DataProvider.getFeed().get(contentPos).getTitle();
+//     this.content = DataProvider.getFeed().get(contentPos).getContent();
     }
     public MyDBContent () {
 //        this.date = DataProvider.getFeed().get(contentPos).getPublished();

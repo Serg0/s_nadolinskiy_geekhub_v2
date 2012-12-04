@@ -4,11 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationHandler;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -19,12 +17,7 @@ import android.content.Context;
 import android.database.SQLException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 public class DataProvider  extends Object{
 
@@ -68,7 +61,7 @@ public class DataProvider  extends Object{
 	    return false;
 	} 
 	
-	public static  void getFeed(){
+	public static  ArrayList<Article> getFeed(){
 	
 		if(array == null){
 			// Handler handler = new Handler();
@@ -85,7 +78,7 @@ public class DataProvider  extends Object{
               	int MyDBPropertiesLastElement = MyDBPropertiesSize -1;
               	 	if ((MyDBPropertiesSize == 0)||(!HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().get(MyDBPropertiesLastElement).getETag().equals(con.getHeaderField("ETag"))))
               	 	{
-              	 	            		//array = readStream(con.getInputStream());
+              	 	            		array = readStream(con.getInputStream());
               	 		readStream(con.getInputStream());
               	 		HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().clear();
               	 		MyDBProperties myDBProperties = new MyDBProperties(con.getHeaderField("ETag").toString(),con.getHeaderField("Last-Modified").toString(),url.toString());
@@ -111,7 +104,7 @@ public class DataProvider  extends Object{
 		}
 		}
 		
-	//return array;
+	return array;
      
 	
 }
@@ -119,7 +112,7 @@ public class DataProvider  extends Object{
 	//HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBContent(detailsFragment.getContentPos()));
 	
 	
-	private static  void readStream(InputStream in) throws JSONException{
+	private static  ArrayList<Article> readStream(InputStream in) throws JSONException{
 		// TODO Auto-generated method stub
 		final ArrayList<Article> localArray = new ArrayList<Article>();
     	 
@@ -173,7 +166,7 @@ public class DataProvider  extends Object{
     	        HelperFactory.GetHelper().getArticleDAO().create(article);
   	      //  }
     	        
-    	        //localArray.add(article);
+    	        localArray.add(article);
     	        
     	    }
     	    
@@ -198,6 +191,7 @@ public class DataProvider  extends Object{
     	    }
     	  }
 
+    	return localArray;
     }
 	
 

@@ -1,7 +1,6 @@
 package com.example.geekhub_3rd_homework;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.database.SQLException;
@@ -11,7 +10,6 @@ import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
-import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 
 public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
