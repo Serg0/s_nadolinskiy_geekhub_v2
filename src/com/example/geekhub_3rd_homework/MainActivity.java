@@ -104,6 +104,8 @@ public class MainActivity extends SherlockFragmentActivity {
           }
 
         }; 
+      
+        bindService(intent, sConn, Context.BIND_AUTO_CREATE);
         Log.d(LOG_TAG, "Before start service");
         startService(intent);
         Log.d(LOG_TAG, "After start service");
@@ -240,7 +242,7 @@ private void OnFinished() throws SQLException, java.sql.SQLException {
 @Override
 protected void onStart() {
   super.onStart();
-  bindService(intent, sConn, 0);
+ 
 }
 
 @Override

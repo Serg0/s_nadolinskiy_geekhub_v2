@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -53,6 +55,7 @@ public class TitlesFragment extends SherlockFragment {
 
     	
     	inflater.inflate(R.menu.action_bar_menu, menu);
+    	
     }
     
     @Override
@@ -78,6 +81,9 @@ public class TitlesFragment extends SherlockFragment {
 			e.printStackTrace();
 		}
 		lvMain.setAdapter(adapter);
+//		item.sett
+//		TextView text = (TextView) this.findViewById(R.id.ShowItem);
+		if ((DataProvider.isShowLikes())){item.setTitle("SHOW ALL ARTICLES");}else{item.setTitle("SHOW ALL LIKES");}
 //    	adapter.notifyDataSetChanged();
 //    	lvMain.refreshDrawableState();
 //    	lvMain.invalidate();

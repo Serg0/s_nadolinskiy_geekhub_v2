@@ -33,7 +33,7 @@ public class ConnectionCheckUpdateServise2  extends Service {
     if (interval > 0) {
       tTask = new TimerTask() {
         public void run() {
-          Log.d(LOG_TAG, "run ConnectionCheckUpdateServise2 task");
+       //   Log.d(LOG_TAG, "run ConnectionCheckUpdateServise2 task");
           sendBroadcast(new Intent(MainActivity.CONNECTION_CHECK_UPDATER));
         }
       };
@@ -64,4 +64,12 @@ public class ConnectionCheckUpdateServise2  extends Service {
       return ConnectionCheckUpdateServise2.this;
     }
   }
+  
+  @Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		Log.d(LOG_TAG, "ConnectionCheckUpdateServise2 onDestroy");
+		
+	}
 }
