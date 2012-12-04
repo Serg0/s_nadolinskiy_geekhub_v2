@@ -15,7 +15,7 @@ public class Article {
 	private String published;
 	@DatabaseField(columnName = "updated")
 	private String updated;
-	@DatabaseField(columnName = "id")
+	@DatabaseField(columnName = "id", unique = true)
 	private String id;	
 	@DatabaseField(columnName = "isLiked")
 	private Boolean isLiked;

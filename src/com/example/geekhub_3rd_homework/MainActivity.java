@@ -84,7 +84,7 @@ public class MainActivity extends SherlockFragmentActivity {
         setContentView(R.layout.activity_main);
         
         MainActivity.context = getApplicationContext();
-        Instance = this;
+        setInstance(this);
         ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
        // HelperFactory.SetHelper(getApplicationContext());
        
@@ -106,10 +106,10 @@ public class MainActivity extends SherlockFragmentActivity {
         }; 
       
         bindService(intent, sConn, Context.BIND_AUTO_CREATE);
-        Log.d(LOG_TAG, "Before start service");
+//        Log.d(LOG_TAG, "Before start service");
         startService(intent);
-        Log.d(LOG_TAG, "After start service");
-      
+//        Log.d(LOG_TAG, "After start service");
+//      
         HelperFactory.SetHelper(getApplicationContext());
         
 //       if (!isMyServiceRunning()){ 
@@ -178,6 +178,15 @@ public class MainActivity extends SherlockFragmentActivity {
 
 
 
+public  MainActivity getInstance() {
+		return Instance;
+	}
+
+	public  void setInstance(MainActivity instance) {
+		Instance = instance;
+	}
+
+
 public static class BroadcastListener extends BroadcastReceiver {
 
     @Override
@@ -234,14 +243,15 @@ private void OnFinished() throws SQLException, java.sql.SQLException {
 	//stop Service!!!
  //stopService(name)
 	//stopService(new Intent(this, ConnectionCheckUpdateServise.class));
-	stopService(new Intent(this, ConnectionCheckUpdateServise2.class));
 	
-	Log.d(LOG_TAG, " End Service");
+	
+	
 }
 
 @Override
 protected void onStart() {
   super.onStart();
+  startService(intent);
  
 }
 
@@ -250,6 +260,8 @@ protected void onStop() {
   super.onStop();
   if (!bound) return;
   unbindService(sConn);
+  stopService(new Intent(this, ConnectionCheckUpdateServise2.class));
+  Log.d(LOG_TAG, " End & UbnBind Service");
   bound = false;
 }
 

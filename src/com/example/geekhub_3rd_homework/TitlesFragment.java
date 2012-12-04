@@ -2,6 +2,8 @@ package com.example.geekhub_3rd_homework;
 
 import java.util.ArrayList;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -26,9 +28,11 @@ public class TitlesFragment extends SherlockFragment {
 	com.actionbarsherlock.app.ActionBar actionBar;
 	FragmentTransaction fragmentTransaction;
 	DetailsFragment detailsFragment;
-	final String LOG_TAG = "myLogs";
-	public  RowAdapter adapter;
+	final static String LOG_TAG = "myLog";
+	public static  RowAdapter adapter;
 	public ListView lvMain;
+	private static TitlesFragment Instance;
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +54,62 @@ public class TitlesFragment extends SherlockFragment {
 //        fragmentTransaction.replace(R.id.frgmCont4, detailsFragment);
 //        fragmentTransaction.commit();
 //        }
+	
+	public static class BroadcastListener extends BroadcastReceiver {
+
+	    @Override
+	    public void onReceive(Context context, Intent intent) {
+	    	Log.d(LOG_TAG, "TitleFragment Recived Broadcast befor all cheks");
+	        if (Instance == null || intent == null) {
+	            return;
+	        }
+	        
+	        String message;
+			
+	        String action = intent.getAction();
+	        if (action.equals(MainActivity.CONNECTION_CHECK_UPDATER)) {
+	        	Log.d(LOG_TAG, "TitleFragment Recived Broadcast ");
+	        	//ListView lv = (ListView) Instance.getView().findViewById(R.id.listView1);
+	        	if (DataProvider.isOnline()){
+	        		message = "Connection is UP";
+	        		Log.d(LOG_TAG, message);
+//	        		lv.invalidate();
+//	        		lv.setAdapter(adapter);
+//	        		lv.refreshDrawableState();
+	        		Instance.refreshListView(adapter);
+	        		
+	        		
+	        	} else 
+	        	{
+	        		message = "Connection is DOWN";
+	        		Log.d(LOG_TAG, message);
+//	        		lv.invalidate();
+//	        		lv.setAdapter(null);
+//	        		lv.refreshDrawableState();
+	        		Instance.refreshListView(null);
+	        		
+	        		
+	        	}
+	        	Log.d(LOG_TAG, message);
+	        //	Toast.makeText(MainActivity.getAppContext().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+	        	
+	        
+	        }
+	    }
+	}
+	private void refreshListView(RowAdapter _adapter) {
+		// TODO Auto-generated method stub
+		Log.d(LOG_TAG, "refreshListView");
+		
+		if (_adapter == null){Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Connection is DOWN!", Toast.LENGTH_SHORT).show();}
+		lvMain.invalidate();
+		lvMain.setAdapter(_adapter);
+		lvMain.refreshDrawableState();
+		Log.d(LOG_TAG, "after refreshListView");
+		
+
+	}
+	
     public void onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu, com.actionbarsherlock.view.MenuInflater inflater) {
     	// TODO Auto-generated method stub
 
@@ -104,8 +164,10 @@ public class TitlesFragment extends SherlockFragment {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		
+		Instance = this;
+		
 		lvMain = (ListView) getView().findViewById(R.id.listView1);
-		Log.d(LOG_TAG, "Berofe getDB ");
+		
 		 
 		 actionBar=getSherlockActivity().getSupportActionBar();
 		try {

@@ -13,22 +13,29 @@ import android.util.Log;
 
 public class ConnectionCheckUpdateServise2  extends Service {
 
-  final String LOG_TAG = "ConnectionCheckUpdateServise2";
+  final String LOG_TAG = "myLog";
 
   MyBinder binder = new MyBinder();
 
   Timer timer;
   TimerTask tTask;
-  long interval = 1000;
+  long interval = 10000;
 
   public void onCreate() {
     super.onCreate();
     Log.d(LOG_TAG, "ConnectionCheckUpdateServise2 onCreate");
-    timer = new Timer();
+    timer = new Timer(){@Override
+    public void cancel() {
+    	// TODO Auto-generated method stub
+    	super.cancel();
+    	Log.d(LOG_TAG, "Cancel TimER");
+    	
+    }};
     schedule();
   }
 
   void schedule() {
+	 
     if (tTask != null) tTask.cancel();
     if (interval > 0) {
       tTask = new TimerTask() {
@@ -37,7 +44,7 @@ public class ConnectionCheckUpdateServise2  extends Service {
           sendBroadcast(new Intent(MainActivity.CONNECTION_CHECK_UPDATER));
         }
       };
-      timer.schedule(tTask, 1000, interval);
+      timer.schedule(tTask, 5000, interval);
     }
   }
 
@@ -69,6 +76,8 @@ public class ConnectionCheckUpdateServise2  extends Service {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		timer.cancel();
+		
 		Log.d(LOG_TAG, "ConnectionCheckUpdateServise2 onDestroy");
 		
 	}

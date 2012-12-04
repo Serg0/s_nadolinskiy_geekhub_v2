@@ -25,6 +25,12 @@
                 <action	android:name="com.example.geekhub_3rd_homework.CONNECTION_CHECK_UPDATER" />
             </intent-filter>
         </receiver>
+         <receiver
+                android:name="com.example.geekhub_3rd_homework.TitlesFragment$BroadcastListener">
+            <intent-filter>
+                <action	android:name="com.example.geekhub_3rd_homework.CONNECTION_CHECK_UPDATER" />
+            </intent-filter>
+        </receiver>
         <receiver
                 android:name="com.example.geekhub_3rd_homework.SecondActivity$BroadcastListener">
             <intent-filter>
