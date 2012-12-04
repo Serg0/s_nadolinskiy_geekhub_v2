@@ -163,7 +163,7 @@ public class DataProvider  extends Object{
     	 	  //     if ((HelperFactory.GetHelper().getArticleDAO().getPostByID(id).isEmpty())){
     	        Article article = new Article (title, content, published, updated, id);
     	        Log.d(LOG_TAG, "Adding new Article "+article.getTitle());
-    	        HelperFactory.GetHelper().getArticleDAO().create(article);
+    	      //  HelperFactory.GetHelper().getArticleDAO().create(article);
   	      //  }
     	        
     	        localArray.add(article);
@@ -178,9 +178,9 @@ public class DataProvider  extends Object{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (java.sql.SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+//		} catch (java.sql.SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
 		} finally {
     	    if (reader != null) {
     	      try {
@@ -196,12 +196,20 @@ public class DataProvider  extends Object{
 	
 
 	public static List<Article> getContent() throws SQLException, java.sql.SQLException{
-		
+		//Getting all from DB
+//		if (isShowLikes()){
+//			 return HelperFactory.GetHelper().getArticleDAO().getAllLikes();
+//		}else
+//		{
+//			 return HelperFactory.GetHelper().getArticleDAO().getAllArticle();
+//		}
+		//
 		if (isShowLikes()){
-			 return HelperFactory.GetHelper().getArticleDAO().getAllLikes();
+			
+			 return HelperFactory.GetHelper().getArticleDAO().getAllArticle();
 		}else
 		{
-			 return HelperFactory.GetHelper().getArticleDAO().getAllArticle();
+			 return getFeed();
 		}
 		
 	}

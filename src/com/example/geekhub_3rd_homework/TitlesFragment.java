@@ -55,6 +55,9 @@ public class TitlesFragment extends SherlockFragment {
 
     	
     	inflater.inflate(R.menu.action_bar_menu, menu);
+    	MenuItem item = (menu.findItem(R.id.ShowItem));
+    	
+    	if ((DataProvider.isShowLikes())){item.setTitle("SHOW ALL ARTICLES");}else{item.setTitle("SHOW ALL LIKES");}
     	
     }
     

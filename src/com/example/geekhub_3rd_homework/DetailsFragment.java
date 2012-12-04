@@ -60,12 +60,17 @@ case R.id.AddLike:
 	String id;
 	try {
 		Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Like added!!", Toast.LENGTH_LONG).show();
-		id = HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(DataProvider.getContentPos()).getId();
-		HelperFactory.GetHelper().getArticleDAO().setLike(id);
 		
+		//full DB support
+//		id = HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(DataProvider.getContentPos()).getId();
+//		HelperFactory.GetHelper().getArticleDAO().setLike(id);
+		HelperFactory.GetHelper().getArticleDAO().create(DataProvider.getContent().get(contentPos));
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
+//	} catch (java.sql.SQLException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
 	} catch (java.sql.SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
