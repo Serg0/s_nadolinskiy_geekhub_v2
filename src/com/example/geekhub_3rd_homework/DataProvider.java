@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.impl.conn.tsccm.WaitingThread;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,17 +18,23 @@ import android.content.Context;
 import android.database.SQLException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 
 public class DataProvider  extends Object{
 
-	private static final String LOG_TAG = "DataProvider";
+	private static final String LOG_TAG = "myLog";
 	static ArrayList<Article> array;
 	static ArrayList<String> publishStringArray;
 	static ArrayList<String> titleStringArray;
 	static String ETag;
 	static boolean ShowLikes = false;
+	static Thread thread;
 	
+	public static Thread getThread() {
+		return thread;
+	}
+
 	public static boolean isShowLikes() {
 		return ShowLikes;
 	}
@@ -61,12 +68,13 @@ public class DataProvider  extends Object{
 	    return false;
 	} 
 	
-	public static  ArrayList<Article> getFeed(){
+	public static  ArrayList<Article> getFeed() throws NetworkOnMainThreadException {
 	
 		//if(array == null){
 		
 			// Handler handler = new Handler();
-			Log.d(LOG_TAG, "Array is null");
+		long time = System.currentTimeMillis();
+			Log.d(LOG_TAG, "Starting to download "+time  );
 	 Thread thread = new Thread() {
  	    public void run() {
  	    	try {
@@ -79,7 +87,7 @@ public class DataProvider  extends Object{
                 	array = readStream(con.getInputStream());
                 	ETag = con.getHeaderField("ETag").toString();
                 	Log.d(LOG_TAG, "Reload DATA from SERVER");
-                	
+                	Thread.currentThread().sleep(5000);
                 	}
 //              	int MyDBPropertiesSize = HelperFactory.GetHelper().getMyDBPropertiesDAO().getAllMyDBProperties().size();
 //              	int MyDBPropertiesLastElement = MyDBPropertiesSize -1;
@@ -94,7 +102,7 @@ public class DataProvider  extends Object{
 //              	 	}
 //              	 	//HelperFactory.GetHelper()..
 //              	 		
-              		
+//              		
               }
              	catch (Exception e) {
                   	  e.printStackTrace();
@@ -103,14 +111,16 @@ public class DataProvider  extends Object{
  	    }
  	 };
  	 thread.start();
+ 	 
  	 try {
+ 		// thread.
  		 thread.join();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	//	}
-		
+		Log.d(LOG_TAG, "Download finished"+ (System.currentTimeMillis() - time));
 	return array;
      
 	

@@ -44,28 +44,36 @@ public class ConnectionCheckUpdateServise2  extends Service {
   
   private void showNotification() {
       // In this sample, we'll use the same text for the ticker and the expanded notification
-	  Log.d(LOG_TAG, "getText showNotification()");
+//	  Log.d(LOG_TAG, "getText showNotification()");
       CharSequence text = getText(R.string.update_service_started);
 
       // Set the icon, scrolling text and timestamp
-      Log.d(LOG_TAG, "new Notification showNotification()");
+//      Log.d(LOG_TAG, "new Notification showNotification()");
       Notification notification = new Notification(android.R.drawable.ic_dialog_info, text,
               System.currentTimeMillis());
 
       // The PendingIntent to launch our activity if the user selects this notification
-      Log.d(LOG_TAG, "PendingIntent");
-      PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+//      Log.d(LOG_TAG, "PendingIntent");
+   PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
               new Intent(this, MainActivity.class), 0);
       
-      Log.d(LOG_TAG, "notification.setLatestEventInfo");
+//      Log.d(LOG_TAG, "notification.setLatestEventInfo");
       // Set the info for the views that show in the notification panel.
       notification.setLatestEventInfo(this, getText(R.string.update_service_label),
               text, contentIntent);
+     
      // notification.
       // Send the notification.
-      Log.d(LOG_TAG, "mNM.notify");
+//      Log.d(LOG_TAG, "mNM.notify");
       mNM.notify(NOTIFICATION, notification);
-      Log.d(LOG_TAG, "AFTER mNM.notify");
+//      Log.d(LOG_TAG, "AFTER mNM.notify");
+	  
+	  
+      Log.d(LOG_TAG, "SDK_INT" + android.os.Build.VERSION.SDK_INT); 
+      Log.d(LOG_TAG, "RELEASE" + android.os.Build.VERSION.RELEASE); 
+//	  
+//	  Notification notification = new Notification.Builder(this)
+//	  .setContentTitle(title)
   }
 
   void schedule() {

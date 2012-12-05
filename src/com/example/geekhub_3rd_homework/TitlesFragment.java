@@ -2,8 +2,12 @@ package com.example.geekhub_3rd_homework;
 
 import java.util.ArrayList;
 
+import org.apache.http.impl.conn.tsccm.WaitingThread;
+
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -11,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView.FindListener;
 import android.widget.AdapterView;
@@ -18,6 +23,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Dialog;
+
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
@@ -32,7 +39,7 @@ public class TitlesFragment extends SherlockFragment {
 	public static  RowAdapter adapter;
 	public ListView lvMain;
 	private static TitlesFragment Instance;
-	
+	ProgressDialog pd;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -183,18 +190,43 @@ public class TitlesFragment extends SherlockFragment {
     return super.onOptionsItemSelected(item);
     }
     }
-
+    
+    
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
+	public void onActivityCreated(Bundle savedInstanceState)  {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-		
+	}
+	
+@Override
+public void onResume() {
+	// TODO Auto-generated method stub
+	super.onResume();
+
+
+		Log.d(LOG_TAG, "TitlesFragment onActivityCreated ");
 		Instance = this;
 		
 		lvMain = (ListView) getView().findViewById(R.id.listView1);
 		
 		 
 		 actionBar=getSherlockActivity().getSupportActionBar();
+//	      pd.setButton(Dialog.BUTTON_POSITIVE, "OK",  new View().OnClickListener() {
+//	        public void onClick(DialogInterface dialog, int which) {
+//	        }
+//	      });
+	      
+	      
+	 
+	      Log.d(LOG_TAG, "TitlesFragment pd.show(); ");
+	      Thread thread = new Thread() {
+	   	    public void run() {	 
+
+	   	     pd = new ProgressDialog(getActivity());
+	   	      pd.setTitle("Data from server");
+	   	      pd.setMessage("Loading...");
+
+		      pd.show();
 		try {
 			
 			//ArrayList<Article> article = (ArrayList<Article>) HelperFactory.GetHelper().getArticleDAO().getAllArticle();
@@ -212,16 +244,31 @@ public class TitlesFragment extends SherlockFragment {
 			e.printStackTrace();
 		}
 		Log.d(LOG_TAG, "After getDB ");
-		lvMain.setAdapter(adapter);
-	//	lvMain.refreshDrawableState();
 		
-		Log.d(LOG_TAG, "After SetAdapter ");
+	//	lvMain.refreshDrawableState();
+//		Thread thread
+		
+		lvMain.setAdapter(adapter);
+
+		pd.dismiss();
+	   	 }
+	  	 };
+	  	 thread.start();
+//	  	 try {
+//	  		 thread.join();
+//	 		} catch (InterruptedException e) {
+//	 			// TODO Auto-generated catch block
+//	 			e.printStackTrace();
+//	 		}
+	  	
+	  	  Log.d(LOG_TAG, "TitlesFragment pd.dismiss();");
+		//Log.d(LOG_TAG, "After SetAdapter ");
 		// myProgressBar.setVisibility(View.INVISIBLE);
 //		 ProgressBar myProgressBar = (ProgressBar) getActivity().findViewById(R.id.progressBar1);
 //	        
 //         myProgressBar.setVisibility(View.INVISIBLE);  
 		
-		if ((savedInstanceState != null)&&(MainActivity.isTablet(getActivity()))&&(MainActivity.isLandscape(getActivity()))&&(DataProvider.getContentPos() != -1)){
+		if (!(DataProvider.getContentPos() == -1)&&(MainActivity.isTablet(getActivity()))&&(MainActivity.isLandscape(getActivity()))&&(DataProvider.getContentPos() != -1)){
 			
 		    detailsFragment = new DetailsFragment();
             fragmentTransaction = getFragmentManager().beginTransaction();

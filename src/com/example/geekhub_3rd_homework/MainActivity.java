@@ -3,6 +3,7 @@ package com.example.geekhub_3rd_homework;
 import java.util.ArrayList;
 
 import android.app.ActivityManager;
+import android.app.ProgressDialog;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -29,7 +30,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	private static  MainActivity Instance;
 	static String message = null;
 	final public static String CONNECTION_CHECK_UPDATER = "com.example.geekhub_3rd_homework.CONNECTION_CHECK_UPDATER";
-	private static final String LOG_TAG = "MyLog";
+	private static final String LOG_TAG = "myLog";
 	
       boolean bound = false;
 	  ServiceConnection sConn;
@@ -82,12 +83,15 @@ public class MainActivity extends SherlockFragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d(LOG_TAG, "onCreate Main Activity");
         MainActivity.context = getApplicationContext();
         setInstance(this);
         ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
        // HelperFactory.SetHelper(getApplicationContext());
-       
+//        ProgressDialog pd = new ProgressDialog(this);
+//	      pd.setTitle("Data from server");
+//	      pd.setMessage("Loading...");
+//	      pd.show();
         intent = new Intent(this, ConnectionCheckUpdateServise2.class);
        
         sConn = new ServiceConnection() {
@@ -121,7 +125,7 @@ public class MainActivity extends SherlockFragmentActivity {
 //    	  { Log.d(LOG_TAG, "Servise not restarted");}
 //        
         
-       DataProvider.getFeed();
+    //   DataProvider.getFeed();
      
        if (DataProvider.isOnline()){
 
@@ -162,7 +166,7 @@ public class MainActivity extends SherlockFragmentActivity {
     	                   });
     	   builder.create().show();
        }
-       
+ 
   //     Log.d(LOG_TAG, " builder.create().show();");
        
     }
