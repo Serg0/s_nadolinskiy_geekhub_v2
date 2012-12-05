@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,7 +42,8 @@ public class TitlesFragment extends SherlockFragment {
 	public ListView lvMain;
 	private static TitlesFragment Instance;
 	ProgressDialog pd;
-	
+	 private Handler mHandler = new Handler(Looper.getMainLooper());
+	 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -221,7 +224,8 @@ public void onResume() {
 	      Log.d(LOG_TAG, "TitlesFragment pd.show(); ");
 	      Thread thread = new Thread() {
 	   	    public void run() {	 
-
+	   	     mHandler.post(new Runnable() {
+	             public void run() {
 	   	     pd = new ProgressDialog(getActivity());
 	   	      pd.setTitle("Data from server");
 	   	      pd.setMessage("Loading...");
@@ -251,6 +255,8 @@ public void onResume() {
 		lvMain.setAdapter(adapter);
 
 		pd.dismiss();
+	             }
+	         });
 	   	 }
 	  	 };
 	  	 thread.start();
