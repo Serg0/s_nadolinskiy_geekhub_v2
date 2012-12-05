@@ -115,6 +115,12 @@ public class DataProvider  extends Object{
      
 	
 }
+//	public static boolean ifLiked(String id) {
+//		// TODO Auto-generated method stub
+//		return ArticleDAO.isifLiked(id);
+//
+//	}
+//	
 	
 	//HelperFactory.GetHelper().getMyDBcontentDAO().create(new MyDBContent(detailsFragment.getContentPos()));
 	

@@ -59,12 +59,20 @@ case R.id.AddLike:
 // Handle fragment menu item
 	String id;
 	try {
+		id = DataProvider.getContent().get(contentPos).getId().toString();
+		if (isLiked(id))
+		{
+			Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Like ALREADY added!!", Toast.LENGTH_LONG).show();
+		}else
+		{
 		Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Like added!!", Toast.LENGTH_LONG).show();
 		
 		//full DB support
 //		id = HelperFactory.GetHelper().getArticleDAO().getAllArticle().get(DataProvider.getContentPos()).getId();
 //		HelperFactory.GetHelper().getArticleDAO().setLike(id);
 		HelperFactory.GetHelper().getArticleDAO().create(DataProvider.getContent().get(contentPos));
+		
+		}
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -84,7 +92,12 @@ return super.onOptionsItemSelected(item);
 }
 }
 
+public boolean isLiked(String id) throws SQLException, java.sql.SQLException {
+	
+	// TODO Auto-generated method stub
+	return HelperFactory.GetHelper().getArticleDAO().isLiked(id);
 
+}
 @SuppressWarnings("deprecation")
 @Override
 	public void onActivityCreated(Bundle savedInstanceState) {

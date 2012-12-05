@@ -144,7 +144,7 @@ public class TitlesFragment extends SherlockFragment {
     switch (item.getItemId()) {
     case R.id.ShowItem:
     // Handle fragment menu item
-    	Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "Show all likes!!", Toast.LENGTH_SHORT).show();
+    	
     	DataProvider.switchShowLikes();
 		DataProvider.setContentPos(0);
 		adapter.notifyDataSetChanged();
@@ -164,7 +164,13 @@ public class TitlesFragment extends SherlockFragment {
 		lvMain.setAdapter(adapter);
 //		item.sett
 //		TextView text = (TextView) this.findViewById(R.id.ShowItem);
-		if ((DataProvider.isShowLikes())){item.setTitle("SHOW ALL ARTICLES");}else{item.setTitle("SHOW ALL LIKES");}
+		if ((DataProvider.isShowLikes())){
+			item.setTitle("SHOW ALL ARTICLES");
+			Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "All Likes showed!!", Toast.LENGTH_SHORT).show();
+		}else{
+			item.setTitle("SHOW ALL LIKES");
+			Toast.makeText(MainActivity.getAppContext().getApplicationContext(), "All ARTICLES showed!!", Toast.LENGTH_SHORT).show();
+			}
 //    	adapter.notifyDataSetChanged();
 //    	lvMain.refreshDrawableState();
 //    	lvMain.invalidate();
