@@ -370,6 +370,11 @@ int string hello_world 0x7f090010
 int string menu_settings 0x7f090011
 int string showAllLikes 0x7f090015
 int string title_activity_main 0x7f090012
+int string update_service_connected 0x7f090019
+int string update_service_disconnected 0x7f09001a
+int string update_service_label 0x7f090016
+int string update_service_started 0x7f090017
+int string update_service_stopped 0x7f090018
 int style AppTheme 0x7f0a0059
 int style DialogWindowTitle_Sherlock 0x7f0a0036
 int style DialogWindowTitle_Sherlock_Light 0x7f0a0037

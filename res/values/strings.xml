@@ -7,5 +7,10 @@
     <string name="frag1_text">TitleFragment</string>
     <string name="addLike">Add Like</string>
     <string name="showAllLikes">Show All Likes</string>
+   <string name="update_service_label">Update Service</string>
+    <string name="update_service_started">Update Service Started</string>
+    <string name="update_service_stopped">Update Service Stopped</string>
+    <string name="update_service_connected">Update Service Connected</string>
+    <string name="update_service_disconnected">Update Service Disconnected</string>
 
 </resources>

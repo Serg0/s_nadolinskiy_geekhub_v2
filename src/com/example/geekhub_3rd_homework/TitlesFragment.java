@@ -59,8 +59,9 @@ public class TitlesFragment extends SherlockFragment {
 
 	    @Override
 	    public void onReceive(Context context, Intent intent) {
+	    	
 	    	Log.d(LOG_TAG, "TitleFragment Recived Broadcast befor all cheks");
-	        if (Instance == null || intent == null) {
+	        if (Instance == null || intent == null || Instance.getView() == null) {
 	            return;
 	        }
 	        

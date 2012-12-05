@@ -1085,6 +1085,11 @@ containing a value of this type.
         public static final int menu_settings=0x7f090011;
         public static final int showAllLikes=0x7f090015;
         public static final int title_activity_main=0x7f090012;
+        public static final int update_service_connected=0x7f090019;
+        public static final int update_service_disconnected=0x7f09001a;
+        public static final int update_service_label=0x7f090016;
+        public static final int update_service_started=0x7f090017;
+        public static final int update_service_stopped=0x7f090018;
     }
     public static final class style {
         public static final int AppTheme=0x7f0a0059;
