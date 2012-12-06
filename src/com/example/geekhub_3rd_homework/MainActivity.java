@@ -38,6 +38,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	  ConnectionCheckUpdateServise2 myService;
 	//  TextView tvInterval;
 	  long interval;
+	private DetailsFragment detailsFragment;
 	
 	private boolean isMyServiceRunning() {
 	    ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -87,11 +88,6 @@ public class MainActivity extends SherlockFragmentActivity {
         MainActivity.context = getApplicationContext();
         setInstance(this);
         ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
-       // HelperFactory.SetHelper(getApplicationContext());
-//        ProgressDialog pd = new ProgressDialog(this);
-//	      pd.setTitle("Data from server");
-//	      pd.setMessage("Loading...");
-//	      pd.show();
         intent = new Intent(this, ConnectionCheckUpdateServise2.class);
        
         sConn = new ServiceConnection() {
@@ -116,17 +112,6 @@ public class MainActivity extends SherlockFragmentActivity {
 //      
         HelperFactory.SetHelper(getApplicationContext());
         
-//       if (!isMyServiceRunning()){ 
-//    	  startService(new Intent(this, ConnectionCheckUpdateServise.class));
-//    	 // DatabaseHelper helper = new DatabaseHelper(getApplicationContext());
-//           HelperFactory.SetHelper(getApplicationContext());
-//    	  Log.d(LOG_TAG, "Servise is started");
-//    	  }else
-//    	  { Log.d(LOG_TAG, "Servise not restarted");}
-//        
-        
-    //   DataProvider.getFeed();
-     
        if (DataProvider.isOnline()){
 
     	 //  Log.d(LOG_TAG, " titlesFragment");
@@ -166,21 +151,16 @@ public class MainActivity extends SherlockFragmentActivity {
     	                   });
     	   builder.create().show();
        }
- 
-  //     Log.d(LOG_TAG, " builder.create().show();");
-       
+       if (!(DataProvider.getContentPos() == -1)
+				&& (isTablet(this))
+				&& (isLandscape(this))) {
+
+			detailsFragment = new DetailsFragment();
+			fragmentTransaction = getSupportFragmentManager().beginTransaction();
+			fragmentTransaction.replace(R.id.frgmCont4, detailsFragment);
+			fragmentTransaction.commit();
+       }       
     }
-    
-   
-//	@Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.activity_main, menu);
-//        return true;
-//    }
-
-
-
-
 
 public  MainActivity getInstance() {
 		return Instance;
@@ -208,48 +188,21 @@ public static class BroadcastListener extends BroadcastReceiver {
     }
 }
 
-//@Override
-//protected void onDestroy() {
-//	// TODO Auto-generated method stub
-//	super.onDestroy();
-//	Log.d(LOG_TAG, "On Destroy End Service");
-//	try {
-//		OnFinished();
-//	} catch (SQLException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	} catch (java.sql.SQLException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
-//	
-//}
 @Override
 public void finish() {
-	// TODO Auto-generated method stub
 	try {
 		OnFinished();
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	} catch (java.sql.SQLException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 	super.finish();
 	
 }
 private void OnFinished() throws SQLException, java.sql.SQLException {
-	// TODO Auto-generated method stub
 	HelperFactory.GetHelper().getArticleDAO().getAllArticle().clear();
 	HelperFactory.ReleaseHelper();
-	
-	//stop Service!!!
- //stopService(name)
-	//stopService(new Intent(this, ConnectionCheckUpdateServise.class));
-	
-	
-	
 }
 
 @Override
