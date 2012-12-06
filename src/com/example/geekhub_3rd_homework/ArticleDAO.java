@@ -35,7 +35,7 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 	   public void deleteLike(String id) throws SQLException, java.sql.SQLException{
 		  // DeleteBuilder<Article, Integer> deleteBuilder =  HelperFactory.GetHelper().getArticleDAO().deleteBuilder();
 		   DeleteBuilder<Article, Integer> deleteBuilder =  deleteBuilder();
-		   deleteBuilder().where().eq("id", id);
+		   deleteBuilder.where().eq("id", id);
 		//   deleteBuilder.delete();
 		   PreparedDelete<Article> query = deleteBuilder.prepare();
 		   Log.d(LOG_TAG, "trying to delete  " + id+ deleteBuilder.toString());

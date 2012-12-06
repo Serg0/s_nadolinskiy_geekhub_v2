@@ -61,15 +61,7 @@ public boolean onOptionsItemSelected(MenuItem item) {
 switch (item.getItemId()) {
 case R.id.AddLike:
 	String id;
-	try {
-		DataProvider.getIdsFromDB();
-	} catch (SQLException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	} catch (java.sql.SQLException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
+	
 	try {
 		id = DataProvider.getContent().get(contentPos).getId().toString();
 		if (isLiked())

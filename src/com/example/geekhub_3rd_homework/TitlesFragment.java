@@ -135,6 +135,17 @@ public class TitlesFragment extends SherlockFragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.ShowItem:
+			
+			try {
+				DataProvider.getIdsFromDB();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (java.sql.SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			// Handle fragment menu item
 			if ((DataProvider.isOnline())
 					&& (isOnlinePrevious == DataProvider.isOnline())) {

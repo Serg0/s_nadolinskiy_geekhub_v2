@@ -209,7 +209,8 @@ public class DataProvider extends Object {
 		Log.d(LOG_TAG, "new publish dates ");
 		
 		for (Article v : HelperFactory.GetHelper().getArticleDAO().getAllArticle()) {
-			Log.d("ID", "Id of likes " + v.getId());
+//			Log.d("ID", "Id of likes " + v.getId());
+			Log.d("ID", "Name of likes " + v.getTitle());
 		}
 
 	}
