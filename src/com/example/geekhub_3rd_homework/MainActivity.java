@@ -35,15 +35,14 @@ public class MainActivity extends SherlockFragmentActivity {
       boolean bound = false;
 	  ServiceConnection sConn;
 	  Intent intent;
-	  ConnectionCheckUpdateServise2 myService;
-	//  TextView tvInterval;
+	  ConnectionCheckUpdateService myService;
 	  long interval;
-	private DetailsFragment detailsFragment;
+	  private DetailsFragment detailsFragment;
 	
 	private boolean isMyServiceRunning() {
 	    ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-	        if (ConnectionCheckUpdateServise.class.getName().equals(service.service.getClassName())) {
+	        if (ConnectionCheckUpdateService.class.getName().equals(service.service.getClassName())) {
 	            return true;
 	        }
 	    }
@@ -68,10 +67,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	public   MainActivity getThis(){ return this;}
 	
 	public void onRestartPublic(){ 
-		
-//		Intent refresh = new Intent(this, SecondActivity.class);
-//		startActivity(refresh);
-//		this.finish();
+
 		 Log.d(LOG_TAG, " Trying to Restart");
 		this.invalidateOptionsMenu();
 		Log.d(LOG_TAG, " After to Restart");
@@ -79,8 +75,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 	
 	
-    @SuppressWarnings("static-access")
-	@Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -88,13 +83,13 @@ public class MainActivity extends SherlockFragmentActivity {
         MainActivity.context = getApplicationContext();
         setInstance(this);
         ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
-        intent = new Intent(this, ConnectionCheckUpdateServise2.class);
+        intent = new Intent(this, ConnectionCheckUpdateService.class);
        
         sConn = new ServiceConnection() {
 
           public void onServiceConnected(ComponentName name, IBinder binder) {
             Log.d(LOG_TAG, "MainActivity onServiceConnected");
-            myService = ((ConnectionCheckUpdateServise2.MyBinder) binder).getService(); 
+            myService = ((ConnectionCheckUpdateService.MyBinder) binder).getService(); 
             bound = true;
           }
 
@@ -106,15 +101,9 @@ public class MainActivity extends SherlockFragmentActivity {
         }; 
       
         bindService(intent, sConn, Context.BIND_AUTO_CREATE);
-//        Log.d(LOG_TAG, "Before start service");
         startService(intent);
-//        Log.d(LOG_TAG, "After start service");
-//      
         HelperFactory.SetHelper(getApplicationContext());
-        
        if (DataProvider.isOnline()){
-
-    	 //  Log.d(LOG_TAG, " titlesFragment");
            titlesFragment = new TitlesFragment();
            titlesFragment.setHasOptionsMenu(true);
            fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -145,8 +134,6 @@ public class MainActivity extends SherlockFragmentActivity {
     	           }).setNegativeButton("Try from DB",
     	                   new DialogInterface.OnClickListener() {
     	                       public void onClick(DialogInterface dialog, int id) {
-    	                         
-    	                    	   //finish();
     	                       }
     	                   });
     	   builder.create().show();
@@ -217,8 +204,8 @@ protected void onStop() {
   super.onStop();
   if (!bound) return;
   unbindService(sConn);
-  stopService(new Intent(this, ConnectionCheckUpdateServise2.class));
-  Log.d(LOG_TAG, " End & UbnBind Service");
+  stopService(new Intent(this, ConnectionCheckUpdateService.class));
+  Log.d(LOG_TAG, " End & UnBind Service");
   bound = false;
 }
 

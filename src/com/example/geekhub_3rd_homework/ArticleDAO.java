@@ -15,18 +15,14 @@ import com.j256.ormlite.support.ConnectionSource;
 public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 
 	   public boolean isLiked(String id) throws java.sql.SQLException {
-				// TODO Auto-generated method stub
 				   QueryBuilder<Article, Integer> queryBuilder = queryBuilder();
 				   queryBuilder.where().eq("id", id);
 				   PreparedQuery<Article> preparedQuery = queryBuilder.prepare();
 				   List<Article> ArticleList = query(preparedQuery);
-				   //if (!(ArticleList == null)&&(ArticleList.lastIndexOf(ArticleList))==1){
-				   
 				   if (!(ArticleList == null)&&(ArticleList.size()==1)){
 					   Article article = query(preparedQuery).get(0);
 					   if (article.getId().equals(id)){ return true;}else{return false;}
 					     }else{
-//					   Log.d(LOG_TAG, "There is  "+query(preparedQuery).size()+"elements of"+id);
 					    	 Log.d(LOG_TAG, "There is  "+ArticleList.size()+"elements of"+id);
 					   Log.d(LOG_TAG, "lastIndexOf ArticleList is  "+ArticleList.lastIndexOf(ArticleList) );
 					   
@@ -48,15 +44,6 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 			
 
 	   }
-//	   public String[] getAllDates() throws SQLException, java.sql.SQLException{
-//		
-//		// TODO Auto-generated method stub
-//
-//		  
-//		   
-//		   return  this.queryBuilder().selectColumns().queryRawFirst();
-//		   
-//	}
 	   
 	   public void setLike(String id) throws SQLException, java.sql.SQLException{
 		   
@@ -85,7 +72,6 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 		   QueryBuilder<Article, Integer> queryBuilder = queryBuilder();
 		   queryBuilder.where().eq("ID", PostID);
 		   PreparedQuery<Article> preparedQuery = queryBuilder.prepare();
-		  // List<Article> ArticleList = query(preparedQuery);
 		   if (query(preparedQuery).isEmpty()){
 			   Log.d(LOG_TAG, "getPostByID query isEmpty ");
 			   

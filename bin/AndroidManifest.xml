@@ -18,7 +18,7 @@
 		</activity>
 		<activity android:name=".SecondActivity"  android:configChanges="orientation"></activity>
 		<service android:name="ConnectionCheckUpdateServise"></service>
-		<service android:name="ConnectionCheckUpdateServise2"></service>
+		<service android:name="com.example.geekhub_3rd_homework.ConnectionCheckUpdateService"></service>
 		 <receiver
                 android:name="com.example.geekhub_3rd_homework.MainActivity$BroadcastListener">
             <intent-filter>

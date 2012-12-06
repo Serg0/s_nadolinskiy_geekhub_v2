@@ -25,11 +25,8 @@ public class Article {
 	}
 
 	public Article(String OuterTitle, String OuterContent, String OuterPublished, String OuterUpdated, String OuterId) {
-		// TODO Auto-generated constructor stub
 		title=OuterTitle;
 		content=OuterContent;
-		
-		// 2012-10-18T12:05:16.918-07:00
 		published = OuterPublished.substring(0, 10)+" "+OuterPublished.substring(11, 16);
 		id = OuterId;
 		updated = OuterUpdated;
@@ -42,10 +39,7 @@ public class Article {
 	}
 
 	public Article(){}
-	
-	
-	
-	
+
 	public String getTitle() {
 		return title;
 	}

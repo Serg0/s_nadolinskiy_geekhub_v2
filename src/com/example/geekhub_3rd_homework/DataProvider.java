@@ -9,7 +9,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.impl.conn.tsccm.WaitingThread;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,10 +74,6 @@ public class DataProvider extends Object {
 
 	public static ArrayList<Article> getFeed()
 			throws NetworkOnMainThreadException {
-
-		// if(array == null){
-
-		// Handler handler = new Handler();
 		long time = System.currentTimeMillis();
 		Log.d(LOG_TAG, "Starting to download " + time);
 		Thread thread = new Thread() {
@@ -136,17 +131,12 @@ public class DataProvider extends Object {
 			for (int i = 0; i < jArray.length(); i++) {
 				JSONObject oneObject = jArray.getJSONObject(i);
 
-				JSONObject oneObjectsItem = oneObject.getJSONObject("updated");
-				String updated = oneObjectsItem.getString("$t");
-				oneObjectsItem = oneObject.getJSONObject("title");
-				String title = oneObjectsItem.getString("$t");
-				oneObjectsItem = oneObject.getJSONObject("content");
-				String content = oneObjectsItem.getString("$t");
-				oneObjectsItem = oneObject.getJSONObject("published");
-				String published = oneObjectsItem.getString("$t");
-
-				oneObjectsItem = oneObject.getJSONObject("id");
-				String id = oneObjectsItem.getString("$t");
+				String updated = oneObject.getJSONObject("updated").getString("$t");
+				String title = oneObject.getJSONObject("title").getString("$t");
+				String content = oneObject.getJSONObject("content").getString("$t");
+				String published = oneObject.getJSONObject("published").getString("$t");
+				String id = oneObject.getJSONObject("id").getString("$t");
+				
 				Article article = new Article(title, content, published,
 						updated, id);
 
