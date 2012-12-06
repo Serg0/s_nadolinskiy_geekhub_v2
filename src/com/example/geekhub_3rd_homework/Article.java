@@ -5,7 +5,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 
 
-@DatabaseTable
+@DatabaseTable(daoClass = ArticleDAO.class)
 public class Article {
 	@DatabaseField(columnName = "title")
 	private String title;

@@ -33,10 +33,15 @@ public class TitlesFragment extends SherlockFragment {
 	public static RowAdapter adapter;
 	public ListView lvMain;
 	private static TitlesFragment Instance;
+	public static TitlesFragment getInstance() {
+		return Instance;
+	}
+
 	ProgressDialog pd;
 	private Handler mHandler = new Handler(Looper.getMainLooper());
 	private boolean restore;
 	private List<Article> articles;
+	static boolean isOnlinePrevious = true;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,17 +67,23 @@ public class TitlesFragment extends SherlockFragment {
 				if (DataProvider.isOnline()) {
 					message = "Connection is UP";
 					try {
+						isOnlinePrevious = true;
 						Instance.refreshListView(adapter);
-					} catch (SQLException e) {e.printStackTrace();
-					} catch (java.sql.SQLException e) {e.printStackTrace();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					} catch (java.sql.SQLException e) {
+						e.printStackTrace();
 					}
 
 				} else {
 					message = "Connection is DOWN";
 					try {
+						isOnlinePrevious = false;
 						Instance.refreshListView(null);
-					} catch (SQLException e) {e.printStackTrace();
-					} catch (java.sql.SQLException e) {e.printStackTrace();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					} catch (java.sql.SQLException e) {
+						e.printStackTrace();
 					}
 
 				}
@@ -82,7 +93,7 @@ public class TitlesFragment extends SherlockFragment {
 		}
 	}
 
-	private void refreshListView(RowAdapter _adapter) throws SQLException,
+	public void refreshListView(RowAdapter _adapter) throws SQLException,
 			java.sql.SQLException {
 		Log.d(LOG_TAG, "refreshListView");
 
@@ -94,8 +105,18 @@ public class TitlesFragment extends SherlockFragment {
 		} else {
 			adapter = new RowAdapter(getActivity(), DataProvider.getContent());
 		}
+		
 
 	}
+	public void refreshListView() throws SQLException,
+	java.sql.SQLException {
+		adapter = new RowAdapter(getActivity(), DataProvider.getContent());
+		adapter.notifyDataSetChanged();
+		lvMain.invalidate();
+		lvMain.setAdapter(adapter);
+		lvMain.refreshDrawableState();
+	
+}
 
 	public void onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu,
 			com.actionbarsherlock.view.MenuInflater inflater) {
@@ -115,35 +136,41 @@ public class TitlesFragment extends SherlockFragment {
 		switch (item.getItemId()) {
 		case R.id.ShowItem:
 			// Handle fragment menu item
+			if ((DataProvider.isOnline())
+					&& (isOnlinePrevious == DataProvider.isOnline())) {
+				DataProvider.switchShowLikes();
+				DataProvider.setContentPos(0);
+				adapter.notifyDataSetChanged();
+				lvMain.invalidate();
+				lvMain.setAdapter(null);
+				lvMain.refreshDrawableState();
 
-			DataProvider.switchShowLikes();
-			DataProvider.setContentPos(0);
-		adapter.notifyDataSetChanged();
-			lvMain.invalidate();
-			lvMain.setAdapter(null);
-			lvMain.refreshDrawableState();
-			
-			 adapter.notifyDataSetChanged();
-			try {
-				adapter = new RowAdapter(getActivity(),
-						DataProvider.getContent());
-			} catch (SQLException e) {e.printStackTrace();
-			} catch (java.sql.SQLException e) {e.printStackTrace();}
-			
-			lvMain.setAdapter(adapter);
-			
-			if ((DataProvider.isShowLikes())) {
-				item.setTitle("SHOW ALL ARTICLES");
-				Toast.makeText(
-						MainActivity.getAppContext().getApplicationContext(),
-						"All Likes showed!!", Toast.LENGTH_SHORT).show();
-			} else {
-				item.setTitle("SHOW ALL LIKES");
-				Toast.makeText(
-						MainActivity.getAppContext().getApplicationContext(),
-						"All ARTICLES showed!!", Toast.LENGTH_SHORT).show();
+				adapter.notifyDataSetChanged();
+				try {
+					adapter = new RowAdapter(getActivity(),
+							DataProvider.getContent());
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (java.sql.SQLException e) {
+					e.printStackTrace();
+				}
+
+				lvMain.setAdapter(adapter);
+
+				if ((DataProvider.isShowLikes())) {
+					item.setTitle("SHOW ALL ARTICLES");
+					Toast.makeText(
+							MainActivity.getAppContext()
+									.getApplicationContext(),
+							"All Likes showed!!", Toast.LENGTH_SHORT).show();
+				} else {
+					item.setTitle("SHOW ALL LIKES");
+					Toast.makeText(
+							MainActivity.getAppContext()
+									.getApplicationContext(),
+							"All ARTICLES showed!!", Toast.LENGTH_SHORT).show();
+				}
 			}
-			
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -160,24 +187,8 @@ public class TitlesFragment extends SherlockFragment {
 		lvMain = (ListView) getView().findViewById(R.id.listView1);
 
 		actionBar = getSherlockActivity().getSupportActionBar();
-		
-		// TODO add check for screen orientation changes
-		if (restore && articles != null) {
-			updateUi(articles);
-		} else {
-			loadData();
-		}
 
-
-		
-
-		}
-
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-		restore = true;
+		loadData();
 	}
 
 	private void loadData() {
@@ -191,7 +202,10 @@ public class TitlesFragment extends SherlockFragment {
 					hideLoadingIndicator();
 				} catch (SQLException e) {
 					e.printStackTrace();
-				} catch (java.sql.SQLException e) {
+				} /*catch (java.sql.SQLException e) {
+					e.printStackTrace();
+				}*/ catch (java.sql.SQLException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -213,9 +227,9 @@ public class TitlesFragment extends SherlockFragment {
 		getActivity().runOnUiThread(new Runnable() {
 
 			public void run() {
-				if (adapter == null) {
+//				if (adapter == null) {
 					adapter = new RowAdapter(getActivity(), articles);
-				}
+//				}
 
 				if (lvMain.getAdapter() == null) {
 					lvMain.setAdapter(adapter);
@@ -236,13 +250,12 @@ public class TitlesFragment extends SherlockFragment {
 						"Position is "
 								+ Integer.toString(DataProvider.getContentPos()));
 
-
 				if ((MainActivity.isTablet(getActivity()))
 						&& (MainActivity.isLandscape(getActivity()))) {
 
 					detailsFragment = new DetailsFragment();
-					fragmentTransaction = getActivity().getSupportFragmentManager()
-							.beginTransaction();
+					fragmentTransaction = getActivity()
+							.getSupportFragmentManager().beginTransaction();
 					fragmentTransaction
 							.replace(R.id.frgmCont4, detailsFragment);
 					fragmentTransaction.commit();

@@ -12,9 +12,6 @@ public class MyDBProperties {
     private String last_modified;
 	@DatabaseField
     private String host;
-//	@DatabaseField
-//    private String content;
-    
     public MyDBProperties (String OuterETAG, String LastModified, String Host) {
      this.eTag = OuterETAG;
      this.last_modified = LastModified;
@@ -22,11 +19,7 @@ public class MyDBProperties {
 
     }
     public MyDBProperties () {
-//        this.date = DataProvider.getFeed().get(contentPos).getPublished();
-//        this.title = DataProvider.getFeed().get(contentPos).getTitle();
-//        this.content = DataProvider.getFeed().get(contentPos).getContent();
        }
-    
     public String getETag () {return eTag;}
     public String getLastModified () {return last_modified;}
     public String getSourceHost() {return host;}

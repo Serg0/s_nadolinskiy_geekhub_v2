@@ -76,8 +76,8 @@ public class DataProvider extends Object {
 			throws NetworkOnMainThreadException {
 		long time = System.currentTimeMillis();
 		Log.d(LOG_TAG, "Starting to download " + time);
-		Thread thread = new Thread() {
-			public void run() {
+		/*Thread thread = new Thread() {
+			public void run() {*/
 				try {
 
 					URL url = new URL(
@@ -97,14 +97,14 @@ public class DataProvider extends Object {
 					e.printStackTrace();
 				}
 
-			}
+			/*}
 		};
 		thread.start();
 		try {thread.join();
 		} catch (InterruptedException e) {e.printStackTrace();
 		}
 		Log.d(LOG_TAG, "Download finished"
-	+ (System.currentTimeMillis() - time));
+	+ (System.currentTimeMillis() - time));*/
 		return array;
 
 	}
@@ -204,20 +204,14 @@ public class DataProvider extends Object {
 		return publishStringArray;
 
 	}
+	
+	public static void getIdsFromDB() throws SQLException, java.sql.SQLException {
+		Log.d(LOG_TAG, "new publish dates ");
+		
+		for (Article v : HelperFactory.GetHelper().getArticleDAO().getAllArticle()) {
+			Log.d("ID", "Id of likes " + v.getId());
+		}
 
-//	public static void getAllDatesFromDB(List<String> publishStringArray)
-//			throws SQLException, java.sql.SQLException {
-//		Log.d(LOG_TAG, "new publish dates ");
-//		for (String v : publishStringArray) {
-//			Log.d(LOG_TAG, "string  " + v);
-//		}
-//	}
+	}
 
-//	public static void getLikesFromDB(List<Article> list) {
-//		Log.d(LOG_TAG, "new Likes  ");
-//		for (Article v : list) {
-//			Log.d(LOG_TAG, "new Likes  " + v.getTitle().toString() + " "
-//					+ v.getId().toString() + " " + v.getIsLiked().toString());
-//		}
-//	}
 }

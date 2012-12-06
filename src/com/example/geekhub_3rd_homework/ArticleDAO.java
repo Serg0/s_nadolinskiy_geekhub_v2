@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.util.Log;
 
 import com.j256.ormlite.dao.BaseDaoImpl;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
@@ -25,12 +27,23 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 					     }else{
 					    	 Log.d(LOG_TAG, "There is  "+ArticleList.size()+"elements of"+id);
 					   Log.d(LOG_TAG, "lastIndexOf ArticleList is  "+ArticleList.lastIndexOf(ArticleList) );
-					   
 					   return false;
 				   }
-				   
 			}
-	
+	   
+	   //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	   public void deleteLike(String id) throws SQLException, java.sql.SQLException{
+		  // DeleteBuilder<Article, Integer> deleteBuilder =  HelperFactory.GetHelper().getArticleDAO().deleteBuilder();
+		   DeleteBuilder<Article, Integer> deleteBuilder =  deleteBuilder();
+		   deleteBuilder().where().eq("id", id);
+		//   deleteBuilder.delete();
+		   PreparedDelete<Article> query = deleteBuilder.prepare();
+		   Log.d(LOG_TAG, "trying to delete  " + id+ deleteBuilder.toString());
+		   delete(query);
+//		   PreparedDelete<Article> preparedQuery = deleteBuilder.prepare();
+//		   this.delete(preparedQuery);
+		  
+	   }
 
 	private static final String LOG_TAG = "ArticleDAO";
 
@@ -41,46 +54,35 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer>{
 
 	   public List<Article> getAllArticle() throws SQLException, java.sql.SQLException{
 			return this.queryForAll();
-			
+	   }
+	   
+//	   public void setLike(String id) throws SQLException, java.sql.SQLException{
+//		   
+//		   UpdateBuilder<Article, Integer> updateBuilder =  HelperFactory.GetHelper().getArticleDAO().updateBuilder();
+//				 updateBuilder.where().eq("id", id);
+//				 updateBuilder.updateColumnValue("isLiked", true);
+//				 updateBuilder.update();   
+//	   }
 
-	   }
-	   
-	   public void setLike(String id) throws SQLException, java.sql.SQLException{
-		   
-		   UpdateBuilder<Article, Integer> updateBuilder =  HelperFactory.GetHelper().getArticleDAO().updateBuilder();
-				 updateBuilder.where().eq("id", id);
-				 updateBuilder.updateColumnValue("isLiked", true);
-				 updateBuilder.update();   
-	  
-	   }
-	   
+//	   public List<Article> getAllLikes() throws SQLException, java.sql.SQLException{
+//		   
+//		   QueryBuilder<Article, Integer> queryBuilder = queryBuilder();
+//		   queryBuilder.where().eq("isLiked", true);
+//		   PreparedQuery<Article> preparedQuery = queryBuilder.prepare();
+//		   List<Article> ArticleList = query(preparedQuery);
+//		   return ArticleList;
+//	   }
+	
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	   public List<Article> getAllLikes() throws SQLException, java.sql.SQLException{
-		   
-		   QueryBuilder<Article, Integer> queryBuilder = queryBuilder();
-		   queryBuilder.where().eq("isLiked", true);
-		   PreparedQuery<Article> preparedQuery = queryBuilder.prepare();
-		   List<Article> ArticleList = query(preparedQuery);
-		   return ArticleList;
-		   
-		   
-		   
-	   }
-	   
- public List<Article> getPostByID(String PostID) throws SQLException, java.sql.SQLException{
-		   
-		   QueryBuilder<Article, Integer> queryBuilder = queryBuilder();
-		   queryBuilder.where().eq("ID", PostID);
-		   PreparedQuery<Article> preparedQuery = queryBuilder.prepare();
-		   if (query(preparedQuery).isEmpty()){
-			   Log.d(LOG_TAG, "getPostByID query isEmpty ");
-			   
-			   return null;
-			   }else{return query(preparedQuery);}
-		   
-		   
-		   
-	   }
- 
-	   	
+//	   public List<Article> getPostByID(String PostID) throws SQLException, java.sql.SQLException{
+//		   
+//		   QueryBuilder<Article, Integer> queryBuilder = queryBuilder();
+//		   queryBuilder.where().eq("ID", PostID);
+//		   PreparedQuery<Article> preparedQuery = queryBuilder.prepare();
+//		   if (query(preparedQuery).isEmpty()){
+//			   Log.d(LOG_TAG, "getPostByID query isEmpty ");
+//			   return null;
+//			   }else{return query(preparedQuery);}
+//	   }
 	}
