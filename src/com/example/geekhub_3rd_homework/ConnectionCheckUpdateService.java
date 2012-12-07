@@ -23,7 +23,7 @@ public class ConnectionCheckUpdateService extends Service {
 
 	Timer timer;
 	TimerTask tTask;
-	long interval = 10000;
+	long interval = 15000;
 
 	public void onCreate() {
 		super.onCreate();

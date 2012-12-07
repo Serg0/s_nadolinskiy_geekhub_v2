@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -78,7 +79,10 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+     //   requestWindowFeature (Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+//        Window window = getWindow();
+//        window.setTitle(" ");
         Log.d(LOG_TAG, "onCreate Main Activity");
         MainActivity.context = getApplicationContext();
          setInstance(this);

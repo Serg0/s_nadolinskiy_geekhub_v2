@@ -33,23 +33,32 @@ public class TitlesFragment extends SherlockFragment {
 	public static RowAdapter adapter;
 	public ListView lvMain;
 	private static TitlesFragment Instance;
+	private MainActivity activity;
+
 	public static TitlesFragment getInstance() {
 		return Instance;
 	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		activity = (MainActivity) getActivity();
+	}
+
+
 
 	ProgressDialog pd;
 	private Handler mHandler = new Handler(Looper.getMainLooper());
 	private boolean restore;
 	private List<Article> articles;
 	static boolean isOnlinePrevious;
-	
+
 	@Override
 	public void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
 		isOnlinePrevious = DataProvider.isOnline();
 	}
-	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,17 +87,22 @@ public class TitlesFragment extends SherlockFragment {
 				} else {
 					message = "Connection is DOWN";
 					Instance.setLVvisibitity(false);
-					
+
 				}
 				Log.d(LOG_TAG, message);
 
 			}
 		}
 	}
-public void setLVvisibitity (boolean _switch)
-{
-	if (_switch){lvMain.setVisibility(ListView.VISIBLE);}else{lvMain.setVisibility(ListView.INVISIBLE);}
-}
+
+	public void setLVvisibitity(boolean _switch) {
+		if (_switch) {
+			lvMain.setVisibility(ListView.VISIBLE);
+		} else {
+			lvMain.setVisibility(ListView.INVISIBLE);
+		}
+	}
+
 	public void refreshListView(RowAdapter _adapter) throws SQLException,
 			java.sql.SQLException {
 		Log.d(LOG_TAG, "refreshListView");
@@ -101,19 +115,17 @@ public void setLVvisibitity (boolean _switch)
 		} else {
 			adapter = new RowAdapter(getActivity(), DataProvider.getContent());
 		}
-		
 
 	}
-	
-	public void refreshListView() throws SQLException,
-	java.sql.SQLException {
+
+	public void refreshListView() throws SQLException, java.sql.SQLException {
 		adapter = new RowAdapter(getActivity(), DataProvider.getContent());
 		adapter.notifyDataSetChanged();
 		lvMain.invalidate();
 		lvMain.setAdapter(adapter);
 		lvMain.refreshDrawableState();
-	
-}
+
+	}
 
 	public void onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu,
 			com.actionbarsherlock.view.MenuInflater inflater) {
@@ -132,15 +144,21 @@ public void setLVvisibitity (boolean _switch)
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.ShowItem:
-			
+
 			if ((DataProvider.isOnline())) {
 				DataProvider.switchShowLikes();
 				DataProvider.setContentPos(0);
 				adapter.notifyDataSetChanged();
 				lvMain.invalidate();
-			//	lvMain.setAdapter(null);
+				// lvMain.setAdapter(null);
 				lvMain.refreshDrawableState();
-
+				try {
+					HelperFactory.GetHelper().getArticleDAO().ifIsLikes();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				} catch (java.sql.SQLException e1) {
+					e1.printStackTrace();
+				}
 				adapter.notifyDataSetChanged();
 				try {
 					adapter = new RowAdapter(getActivity(),
@@ -155,16 +173,10 @@ public void setLVvisibitity (boolean _switch)
 
 				if ((DataProvider.isShowLikes())) {
 					item.setTitle("SHOW ALL ARTICLES");
-					Toast.makeText(
-							MainActivity.getAppContext()
-									.getApplicationContext(),
-							"All Likes showed!!", Toast.LENGTH_SHORT).show();
+					getActivity().setTitle("LIKES");
 				} else {
 					item.setTitle("SHOW ALL LIKES");
-					Toast.makeText(
-							MainActivity.getAppContext()
-									.getApplicationContext(),
-							"All ARTICLES showed!!", Toast.LENGTH_SHORT).show();
+					getActivity().setTitle("ALL NEWS");
 				}
 			}
 			return true;
@@ -179,9 +191,7 @@ public void setLVvisibitity (boolean _switch)
 
 		Log.d(LOG_TAG, "TitlesFragment onActivityCreated ");
 		Instance = this;
-
 		lvMain = (ListView) getView().findViewById(R.id.listView1);
-
 		actionBar = getSherlockActivity().getSupportActionBar();
 
 		loadData();
@@ -194,12 +204,16 @@ public void setLVvisibitity (boolean _switch)
 			public void run() {
 				try {
 					articles = DataProvider.getContent();
+					if (articles == null) {
+						Log.d(LOG_TAG, "articles == null ");
+					}
+					
 					updateUi(articles);
 					hideLoadingIndicator();
 				} catch (SQLException e) {
 					e.printStackTrace();
-				}  catch (java.sql.SQLException e) {
- 					e.printStackTrace();
+				} catch (java.sql.SQLException e) {
+					e.printStackTrace();
 				}
 			}
 		}).start();
@@ -217,12 +231,16 @@ public void setLVvisibitity (boolean _switch)
 	}
 
 	private void updateUi(final List<Article> articles) {
-		getActivity().runOnUiThread(new Runnable() {
+		activity.runOnUiThread(new Runnable() {
 
 			public void run() {
-			if (adapter == null) {
+				if (articles == null) {
+					//Log.d(LOG_TAG, "articles == null ");
+					return;
+				}
+				if (adapter == null) {
 					adapter = new RowAdapter(getActivity(), articles);
-			}
+				}
 
 				if (lvMain.getAdapter() == null) {
 					lvMain.setAdapter(adapter);
