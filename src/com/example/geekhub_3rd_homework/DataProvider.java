@@ -20,7 +20,7 @@ import android.net.NetworkInfo;
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 
-public class DataProvider extends Object {
+public class DataProvider {
 
 	private static final String LOG_TAG = "myLog";
 	static ArrayList<Article> array;
@@ -76,8 +76,7 @@ public class DataProvider extends Object {
 			throws NetworkOnMainThreadException {
 		long time = System.currentTimeMillis();
 		Log.d(LOG_TAG, "Starting to download " + time);
-		/*Thread thread = new Thread() {
-			public void run() {*/
+	
 				try {
 
 					URL url = new URL(
@@ -97,14 +96,6 @@ public class DataProvider extends Object {
 					e.printStackTrace();
 				}
 
-			/*}
-		};
-		thread.start();
-		try {thread.join();
-		} catch (InterruptedException e) {e.printStackTrace();
-		}
-		Log.d(LOG_TAG, "Download finished"
-	+ (System.currentTimeMillis() - time));*/
 		return array;
 
 	}

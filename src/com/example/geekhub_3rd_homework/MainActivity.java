@@ -81,7 +81,7 @@ public class MainActivity extends SherlockFragmentActivity {
         setContentView(R.layout.activity_main);
         Log.d(LOG_TAG, "onCreate Main Activity");
         MainActivity.context = getApplicationContext();
-        setInstance(this);
+         setInstance(this);
         ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
         intent = new Intent(this, ConnectionCheckUpdateService.class);
        
@@ -103,6 +103,7 @@ public class MainActivity extends SherlockFragmentActivity {
         bindService(intent, sConn, Context.BIND_AUTO_CREATE);
         startService(intent);
         HelperFactory.SetHelper(getApplicationContext());
+        
        if (DataProvider.isOnline()){
            titlesFragment = new TitlesFragment();
            titlesFragment.setHasOptionsMenu(true);
@@ -192,21 +193,30 @@ private void OnFinished() throws SQLException, java.sql.SQLException {
 	HelperFactory.ReleaseHelper();
 }
 
+//@Override
+//protected void onStart() {
+//  super.onStart();
+// // startService(intent);
+// 
+//}
 @Override
-protected void onStart() {
-  super.onStart();
-  startService(intent);
- 
+protected void onDestroy() {
+	// TODO Auto-generated method stub
+	super.onDestroy();
+	 if (!bound) return;
+	  unbindService(sConn);
+	  stopService(new Intent(this, ConnectionCheckUpdateService.class));
+	  Log.d(LOG_TAG, " End & UnBind Service");
+	  bound = false;
 }
-
-@Override
-protected void onStop() {
-  super.onStop();
-  if (!bound) return;
-  unbindService(sConn);
-  stopService(new Intent(this, ConnectionCheckUpdateService.class));
-  Log.d(LOG_TAG, " End & UnBind Service");
-  bound = false;
-}
+//@Override
+//protected void onStop() {
+//  super.onStop();
+//  if (!bound) return;
+//  unbindService(sConn);
+//  stopService(new Intent(this, ConnectionCheckUpdateService.class));
+//  Log.d(LOG_TAG, " End & UnBind Service");
+//  bound = false;
+//}
 
 }

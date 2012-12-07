@@ -115,6 +115,8 @@ public class SecondActivity extends SherlockFragmentActivity {
 	    ((TextView) Instance.findViewById(R.id.textView1)).setText(MainActivity.message);
 	    
 	    actionBar=getSupportActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+	//    actionBar.
 		detailsFragment = new DetailsFragment();
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.frgmCont2, detailsFragment);

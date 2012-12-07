@@ -41,7 +41,15 @@ public class TitlesFragment extends SherlockFragment {
 	private Handler mHandler = new Handler(Looper.getMainLooper());
 	private boolean restore;
 	private List<Article> articles;
-	static boolean isOnlinePrevious = true;
+	static boolean isOnlinePrevious;
+	
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		isOnlinePrevious = DataProvider.isOnline();
+	}
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,33 +74,21 @@ public class TitlesFragment extends SherlockFragment {
 				Log.d(LOG_TAG, "TitleFragment Recived Broadcast ");
 				if (DataProvider.isOnline()) {
 					message = "Connection is UP";
-					try {
-						isOnlinePrevious = true;
-						Instance.refreshListView(adapter);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					} catch (java.sql.SQLException e) {
-						e.printStackTrace();
-					}
-
+					Instance.setLVvisibitity(true);
 				} else {
 					message = "Connection is DOWN";
-					try {
-						isOnlinePrevious = false;
-						Instance.refreshListView(null);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					} catch (java.sql.SQLException e) {
-						e.printStackTrace();
-					}
-
+					Instance.setLVvisibitity(false);
+					
 				}
 				Log.d(LOG_TAG, message);
 
 			}
 		}
 	}
-
+public void setLVvisibitity (boolean _switch)
+{
+	if (_switch){lvMain.setVisibility(ListView.VISIBLE);}else{lvMain.setVisibility(ListView.INVISIBLE);}
+}
 	public void refreshListView(RowAdapter _adapter) throws SQLException,
 			java.sql.SQLException {
 		Log.d(LOG_TAG, "refreshListView");
@@ -108,6 +104,7 @@ public class TitlesFragment extends SherlockFragment {
 		
 
 	}
+	
 	public void refreshListView() throws SQLException,
 	java.sql.SQLException {
 		adapter = new RowAdapter(getActivity(), DataProvider.getContent());
@@ -136,24 +133,12 @@ public class TitlesFragment extends SherlockFragment {
 		switch (item.getItemId()) {
 		case R.id.ShowItem:
 			
-			try {
-				DataProvider.getIdsFromDB();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (java.sql.SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			// Handle fragment menu item
-			if ((DataProvider.isOnline())
-					&& (isOnlinePrevious == DataProvider.isOnline())) {
+			if ((DataProvider.isOnline())) {
 				DataProvider.switchShowLikes();
 				DataProvider.setContentPos(0);
 				adapter.notifyDataSetChanged();
 				lvMain.invalidate();
-				lvMain.setAdapter(null);
+			//	lvMain.setAdapter(null);
 				lvMain.refreshDrawableState();
 
 				adapter.notifyDataSetChanged();
@@ -213,11 +198,8 @@ public class TitlesFragment extends SherlockFragment {
 					hideLoadingIndicator();
 				} catch (SQLException e) {
 					e.printStackTrace();
-				} /*catch (java.sql.SQLException e) {
-					e.printStackTrace();
-				}*/ catch (java.sql.SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				}  catch (java.sql.SQLException e) {
+ 					e.printStackTrace();
 				}
 			}
 		}).start();
@@ -238,9 +220,9 @@ public class TitlesFragment extends SherlockFragment {
 		getActivity().runOnUiThread(new Runnable() {
 
 			public void run() {
-//				if (adapter == null) {
+			if (adapter == null) {
 					adapter = new RowAdapter(getActivity(), articles);
-//				}
+			}
 
 				if (lvMain.getAdapter() == null) {
 					lvMain.setAdapter(adapter);
@@ -277,9 +259,6 @@ public class TitlesFragment extends SherlockFragment {
 					Log.d(LOG_TAG, "Creating new activity"
 							+ getActivity().getClass());
 
-					// intent.putExtra("contentPos", position);
-					// getActivity().getIntent().putExtra("contentPos",
-					// position);
 					startActivity(intent);
 
 				}
