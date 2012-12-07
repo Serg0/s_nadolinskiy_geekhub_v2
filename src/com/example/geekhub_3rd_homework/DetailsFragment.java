@@ -19,7 +19,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class DetailsFragment extends SherlockFragment {
 	int contentPos;
 	final String LOG_TAG = "myLogs";
-
+	public static Article article;
 	public DetailsFragment() {
 	}
 
@@ -51,10 +51,8 @@ public class DetailsFragment extends SherlockFragment {
 				item.setTitle("ADD LIKE");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (java.sql.SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -114,7 +112,15 @@ public class DetailsFragment extends SherlockFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		contentPos = DataProvider.getContentPos();
+		try {
+			article = DataProvider.getContent().get(DataProvider.getContentPos());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (java.sql.SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setHasOptionsMenu(true);
 		if (savedInstanceState != null) {
 			if (MainActivity.isTablet(getActivity())) {
@@ -138,10 +144,10 @@ public class DetailsFragment extends SherlockFragment {
 
 		try {
 			query = URLEncoder.encode(
-					DataProvider.getContent().get(contentPos).getContent(),
+					article.getContent(),
 					"utf-8").replaceAll("\\+", " ");
 			String title = "<h2>"
-					+ DataProvider.getContent().get(contentPos).getTitle()
+					+ article.getTitle()
 					+ "</h2><br>";
 			String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
 			webview.getSettings().setBuiltInZoomControls(true);
@@ -153,8 +159,6 @@ public class DetailsFragment extends SherlockFragment {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (java.sql.SQLException e) {
 			e.printStackTrace();
 		}
 

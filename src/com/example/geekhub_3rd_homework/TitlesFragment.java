@@ -146,21 +146,26 @@ public class TitlesFragment extends SherlockFragment {
 		case R.id.ShowItem:
 
 			if ((DataProvider.isOnline())) {
+				if (DataProvider.isShowLikes() == true){ 
+					try {
+						if (HelperFactory.GetHelper().getArticleDAO().ifIsLikes()){
+							Toast.makeText(getActivity(), "There is no Likes:(", Toast.LENGTH_LONG).show();
+							return true;
+						}
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					} catch (java.sql.SQLException e1) {
+						e1.printStackTrace();
+					}
+					
+					
+				}
 				DataProvider.switchShowLikes();
 				DataProvider.setContentPos(0);
 				adapter.notifyDataSetChanged();
 				lvMain.invalidate();
 				lvMain.refreshDrawableState();
-				Log.d(LOG_TAG, "before HelperFactory.GetHelper().getArticleDAO().ifIsLikes();");
-				try {
-					Log.d(LOG_TAG, "try to HelperFactory.GetHelper().getArticleDAO().ifIsLikes();");
-					boolean b = HelperFactory.GetHelper().getArticleDAO().ifIsLikes();
-					Log.d(LOG_TAG, "after HelperFactory.GetHelper().getArticleDAO().ifIsLikes();");
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				} catch (java.sql.SQLException e1) {
-					e1.printStackTrace();
-				}
+				
 				adapter.notifyDataSetChanged();
 				try {
 					adapter = new RowAdapter(getActivity(),
@@ -171,13 +176,6 @@ public class TitlesFragment extends SherlockFragment {
 				} catch (java.sql.SQLException e) {
 					e.printStackTrace();
 				}
-//				if ((DataProvider.isShowLikes())) {
-//					item.setTitle("SHOW ALL ARTICLES");
-//					getActivity().setTitle("LIKES");
-//				} else {
-//					item.setTitle("SHOW ALL LIKES");
-//					getActivity().setTitle("ALL NEWS");
-//				}
 				lvMain.setAdapter(adapter);
 
 				switchTitles();
@@ -189,6 +187,7 @@ public class TitlesFragment extends SherlockFragment {
 	}
 	
 	public void switchTitles() {
+		
 		if ((DataProvider.isShowLikes())) {
 			item.setTitle("SHOW ALL ARTICLES");
 			getActivity().setTitle("LIKES");
