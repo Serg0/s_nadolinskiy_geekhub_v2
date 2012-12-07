@@ -79,10 +79,7 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     //   requestWindowFeature (Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-//        Window window = getWindow();
-//        window.setTitle(" ");
         Log.d(LOG_TAG, "onCreate Main Activity");
         MainActivity.context = getApplicationContext();
          setInstance(this);
@@ -161,7 +158,24 @@ public  MainActivity getInstance() {
 	public  void setInstance(MainActivity instance) {
 		Instance = instance;
 	}
-
+@Override
+public void onBackPressed() {
+	if (DataProvider.isShowLikes()){
+	try {
+		DataProvider.switchShowLikes();
+		titlesFragment.switchTitles();
+		titlesFragment.refreshListView();
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	} catch (java.sql.SQLException e) {
+		e.printStackTrace();
+	}
+	}else{
+	
+	super.onBackPressed();
+	}
+}
 
 public static class BroadcastListener extends BroadcastReceiver {
 
@@ -196,16 +210,8 @@ private void OnFinished() throws SQLException, java.sql.SQLException {
 	HelperFactory.GetHelper().getArticleDAO().getAllArticle().clear();
 	HelperFactory.ReleaseHelper();
 }
-
-//@Override
-//protected void onStart() {
-//  super.onStart();
-// // startService(intent);
-// 
-//}
 @Override
 protected void onDestroy() {
-	// TODO Auto-generated method stub
 	super.onDestroy();
 	 if (!bound) return;
 	  unbindService(sConn);
@@ -213,14 +219,5 @@ protected void onDestroy() {
 	  Log.d(LOG_TAG, " End & UnBind Service");
 	  bound = false;
 }
-//@Override
-//protected void onStop() {
-//  super.onStop();
-//  if (!bound) return;
-//  unbindService(sConn);
-//  stopService(new Intent(this, ConnectionCheckUpdateService.class));
-//  Log.d(LOG_TAG, " End & UnBind Service");
-//  bound = false;
-//}
 
 }

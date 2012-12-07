@@ -34,7 +34,7 @@ public class TitlesFragment extends SherlockFragment {
 	public ListView lvMain;
 	private static TitlesFragment Instance;
 	private MainActivity activity;
-
+	public  MenuItem item;
 	public static TitlesFragment getInstance() {
 		return Instance;
 	}
@@ -130,7 +130,7 @@ public class TitlesFragment extends SherlockFragment {
 	public void onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu,
 			com.actionbarsherlock.view.MenuInflater inflater) {
 		inflater.inflate(R.menu.action_bar_menu, menu);
-		MenuItem item = (menu.findItem(R.id.ShowItem));
+		 item = (menu.findItem(R.id.ShowItem));
 
 		if ((DataProvider.isShowLikes())) {
 			item.setTitle("SHOW ALL ARTICLES");
@@ -150,10 +150,12 @@ public class TitlesFragment extends SherlockFragment {
 				DataProvider.setContentPos(0);
 				adapter.notifyDataSetChanged();
 				lvMain.invalidate();
-				// lvMain.setAdapter(null);
 				lvMain.refreshDrawableState();
+				Log.d(LOG_TAG, "before HelperFactory.GetHelper().getArticleDAO().ifIsLikes();");
 				try {
-					HelperFactory.GetHelper().getArticleDAO().ifIsLikes();
+					Log.d(LOG_TAG, "try to HelperFactory.GetHelper().getArticleDAO().ifIsLikes();");
+					boolean b = HelperFactory.GetHelper().getArticleDAO().ifIsLikes();
+					Log.d(LOG_TAG, "after HelperFactory.GetHelper().getArticleDAO().ifIsLikes();");
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				} catch (java.sql.SQLException e1) {
@@ -163,26 +165,38 @@ public class TitlesFragment extends SherlockFragment {
 				try {
 					adapter = new RowAdapter(getActivity(),
 							DataProvider.getContent());
+					HelperFactory.GetHelper().getArticleDAO().ifIsLikes();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (java.sql.SQLException e) {
 					e.printStackTrace();
 				}
-
+//				if ((DataProvider.isShowLikes())) {
+//					item.setTitle("SHOW ALL ARTICLES");
+//					getActivity().setTitle("LIKES");
+//				} else {
+//					item.setTitle("SHOW ALL LIKES");
+//					getActivity().setTitle("ALL NEWS");
+//				}
 				lvMain.setAdapter(adapter);
 
-				if ((DataProvider.isShowLikes())) {
-					item.setTitle("SHOW ALL ARTICLES");
-					getActivity().setTitle("LIKES");
-				} else {
-					item.setTitle("SHOW ALL LIKES");
-					getActivity().setTitle("ALL NEWS");
-				}
+				switchTitles();
 			}
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	public void switchTitles() {
+		if ((DataProvider.isShowLikes())) {
+			item.setTitle("SHOW ALL ARTICLES");
+			getActivity().setTitle("LIKES");
+		} else {
+			item.setTitle("SHOW ALL LIKES");
+			getActivity().setTitle("ALL NEWS");
+		}
+
 	}
 
 	@Override
@@ -204,10 +218,6 @@ public class TitlesFragment extends SherlockFragment {
 			public void run() {
 				try {
 					articles = DataProvider.getContent();
-					if (articles == null) {
-						Log.d(LOG_TAG, "articles == null ");
-					}
-					
 					updateUi(articles);
 					hideLoadingIndicator();
 				} catch (SQLException e) {
@@ -234,10 +244,6 @@ public class TitlesFragment extends SherlockFragment {
 		activity.runOnUiThread(new Runnable() {
 
 			public void run() {
-				if (articles == null) {
-					//Log.d(LOG_TAG, "articles == null ");
-					return;
-				}
 				if (adapter == null) {
 					adapter = new RowAdapter(getActivity(), articles);
 				}

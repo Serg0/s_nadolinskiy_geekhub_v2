@@ -61,8 +61,22 @@ public class ArticleDAO extends BaseDaoImpl<Article, Integer> {
 	}
 
 	public boolean ifIsLikes() throws SQLException, java.sql.SQLException {
-		Log.d(LOG_TAG, "there is " + this.queryForAll().size() + " Likes");
-		return true;
+//		Log.d(LOG_TAG, "Try to execute " + " Likes");
+//		List<Article> list = this.queryForAll();
+//		Log.d(LOG_TAG, "there is " + lastIndexOf(list) + " Likes");
+		if (this.queryForAll().isEmpty()) {
+			Log.d(LOG_TAG, "there is  no Likes");
+			return false;
+		} else {
+			Log.d(LOG_TAG, "there is some Likes");
+			return true;
+			
+		}
+	}
+
+	private String lastIndexOf(List<Article> list) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
