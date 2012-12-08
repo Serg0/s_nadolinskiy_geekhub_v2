@@ -146,9 +146,9 @@ public class TitlesFragment extends SherlockFragment {
 		case R.id.ShowItem:
 
 			if ((DataProvider.isOnline())) {
-				if (DataProvider.isShowLikes() == true){ 
+				if (DataProvider.isShowLikes() == false){ 
 					try {
-						if (HelperFactory.GetHelper().getArticleDAO().ifIsLikes()){
+						if (!(HelperFactory.GetHelper().getArticleDAO().ifIsLikes())){
 							Toast.makeText(getActivity(), "There is no Likes:(", Toast.LENGTH_LONG).show();
 							return true;
 						}
