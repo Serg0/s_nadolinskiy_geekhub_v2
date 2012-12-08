@@ -15,7 +15,8 @@ import com.j256.ormlite.support.ConnectionSource;
 
 public class ArticleDAO extends BaseDaoImpl<Article, Integer> {
 
-	public boolean isLiked(String id) throws java.sql.SQLException {
+	public boolean isLiked(Article _article) throws java.sql.SQLException {
+		String id = _article.getId();
 		QueryBuilder<Article, Integer> queryBuilder = queryBuilder();
 		queryBuilder.where().eq("id", id);
 		PreparedQuery<Article> preparedQuery = queryBuilder.prepare();

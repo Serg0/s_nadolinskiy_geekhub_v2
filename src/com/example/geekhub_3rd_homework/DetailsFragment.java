@@ -45,7 +45,7 @@ public class DetailsFragment extends SherlockFragment {
 		MenuItem item = menu.findItem(R.id.AddLike);
 
 		try {
-			if (isLiked()) {
+			if (isLiked(article)) {
 				item.setTitle("DELETE LIKE");
 			} else {
 				item.setTitle("ADD LIKE");
@@ -61,13 +61,13 @@ public class DetailsFragment extends SherlockFragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.AddLike:
-			String id;
+//			String id;
 
 			try {
-				id = DataProvider.getContent().get(contentPos).getId()
-						.toString();
-				if (isLiked()) {
-					HelperFactory.GetHelper().getArticleDAO().deleteLike(id);
+//				id = DataProvider.getContent().get(contentPos).getId()
+//						.toString();
+				if (isLiked(article)) {
+					HelperFactory.GetHelper().getArticleDAO().deleteLike(article.getId());
 					Toast.makeText(
 							MainActivity.getAppContext()
 									.getApplicationContext(), "Like deleted!!",
@@ -83,8 +83,7 @@ public class DetailsFragment extends SherlockFragment {
 					HelperFactory
 							.GetHelper()
 							.getArticleDAO()
-							.create(DataProvider.getContent().get(
-									DataProvider.getContentPos()));
+							.create(article);
 					item.setTitle("DELETE LIKE");
 				}
 			} catch (SQLException e) {
@@ -98,15 +97,18 @@ public class DetailsFragment extends SherlockFragment {
 		}
 	}
 
-	public boolean isLiked() throws SQLException, java.sql.SQLException {
+	public boolean isLiked(Article article) throws SQLException, java.sql.SQLException {
 
+		/*return HelperFactory
+				.GetHelper()
+				.getArticleDAO()
+				.isLiked(DataProvider.getContent().get(DataProvider.getContentPos()).getId()
+								.toString());*/
 		return HelperFactory
 				.GetHelper()
 				.getArticleDAO()
-				.isLiked(
-						DataProvider.getContent()
-								.get(DataProvider.getContentPos()).getId()
-								.toString());
+				.isLiked(article);
+		
 	}
 
 	@Override
