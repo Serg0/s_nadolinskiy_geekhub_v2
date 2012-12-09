@@ -52,7 +52,7 @@ public class ConnectionCheckUpdateService extends Service {
 		// The PendingIntent to launch our activity if the user selects this
 		// notification
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				new Intent(this, MainActivity.class), 0);
+				new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 		// Set the info for the views that show in the notification panel.
 		notification.setLatestEventInfo(this,
 				getText(R.string.update_service_label), text, contentIntent);
