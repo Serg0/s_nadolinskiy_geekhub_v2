@@ -3,7 +3,6 @@ package com.example.geekhub_3rd_homework;
 import java.util.ArrayList;
 
 import android.app.ActivityManager;
-import android.app.ProgressDialog;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -18,7 +17,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
