@@ -16,37 +16,20 @@ public class RowAdapter extends ArrayAdapter<Article> {
 	private final Context context;
 	private static List<Article> articles;
 
-	// private final ArrayList<String> dates;
-	// private final ArrayList<String> titles;
-	// private final ArrayList<String> dates;
-
 	public RowAdapter(Context context, List<Article> OuterArticles) {
-		// Log.d(LOG_TAG, "Article is null ");
-		// int i = super.getCount();
+
 
 		super(context, R.layout.listview_row, OuterArticles);
 		this.context = context;
 		this.articles = OuterArticles;
-		// this.addAll(articles);
 		Log.d(LOG_TAG, "RowAdapter constructor ");
 	}
 
-	// public RowAdapter(Context context, ArrayList<String> titles,
-	// ArrayList<String> dates, List<Article> OuterArticles) {
-	// super(context, R.layout.listview_row, titles);
-	// this.context = context;
-	// this.titles = titles;
-	// this.dates = dates;
-	// this.articles = OuterArticles;
-	// }
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// Log.d(LOG_TAG, " LayoutInflater inflater");
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//		View rowView;
-		// Log.d(LOG_TAG, " View rowView; ");
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.listview_row, parent, false);
 		}
@@ -55,11 +38,9 @@ public class RowAdapter extends ArrayAdapter<Article> {
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView1);
 		Article article = articles.get(position);
 		if (article != null) {
-			// Log.d(LOG_TAG, "Article is OK "+Integer.toString(position));
 			textView.setText(article.getTitle());
 			textView2.setText(article.getPublished());
 		} else {
-			// Log.d(LOG_TAG, "Article is null "+Integer.toString(position));
 		}
 
 		return convertView;
