@@ -99,7 +99,7 @@ public class DetailsFragment extends SherlockFragment {
 	          .setType("text/plain")
 	          .setText(article.getLink())
 	          .getIntent()
-	          .setPackage("com.google.android.apps.plus");
+	          .setPackage("com.google.android.gms.plus");
 
 	      startActivity(shareIntent);
 			return true;
