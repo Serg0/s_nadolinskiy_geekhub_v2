@@ -290,7 +290,7 @@ int id abs__textButton 0x7f040013
 int id abs__title 0x7f04001b
 int id abs__titleDivider 0x7f04001c
 int id abs__up 0x7f04000b
-int id addLike 0x7f040040
+int id addLike 0x7f040041
 int id disableHome 0x7f040009
 int id edit_query 0x7f040027
 int id frgmCont 0x7f040034
@@ -304,12 +304,13 @@ int id listMode 0x7f040002
 int id listView1 0x7f04003a
 int id normal 0x7f040001
 int id progressBar1 0x7f040037
-int id showAllLikes 0x7f040041
+int id share_button 0x7f040040
+int id showAllLikes 0x7f040042
 int id showCustom 0x7f040008
 int id showHome 0x7f040005
 int id showTitle 0x7f040007
 int id tabMode 0x7f040003
-int id textView0 0x7f040042
+int id textView0 0x7f040043
 int id textView1 0x7f040033
 int id textView2 0x7f04003c
 int id useLogo 0x7f040004

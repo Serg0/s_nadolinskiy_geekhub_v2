@@ -6,7 +6,11 @@
         android:orderInCategory="100"
         android:showAsAction="ifRoom" />
     
-
+<item
+  android:id="@+id/share_button"
+  android:title="Share on Google+"
+  android:orderInCategory="100" 
+  android:showAsAction="ifRoom"/>
     
     
 </menu>

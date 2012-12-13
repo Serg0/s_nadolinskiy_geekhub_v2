@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class DetailsFragment extends SherlockFragment {
 		inflater.inflate(R.menu.action_bar_menu2, menu);
 
 		MenuItem item = menu.findItem(R.id.AddLike);
+		
 
 		try {
 			if (isLiked(article)) {
@@ -91,6 +93,15 @@ public class DetailsFragment extends SherlockFragment {
 				e.printStackTrace();
 			}
 
+			return true;
+		case R.id.share_button:
+			 Intent shareIntent = ShareCompat.IntentBuilder.from(this.getActivity())
+	          .setType("text/plain")
+	          .setText(article.getLink())
+	          .getIntent()
+	          .setPackage("com.google.android.apps.plus");
+
+	      startActivity(shareIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

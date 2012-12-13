@@ -19,21 +19,27 @@ public class Article {
 	private String id;	
 	@DatabaseField(columnName = "isLiked")
 	private Boolean isLiked;
+	@DatabaseField(columnName = "link")
+	private String link;
 		
 	public String getId() {
 		return id;
 	}
 
-	public Article(String OuterTitle, String OuterContent, String OuterPublished, String OuterUpdated, String OuterId) {
+	public Article(String OuterTitle, String OuterContent, String OuterPublished, String OuterUpdated, String OuterId, String OuterLink) {
 		title=OuterTitle;
 		content=OuterContent;
 		published = OuterPublished.substring(0, 10)+" "+OuterPublished.substring(11, 16);
 		id = OuterId;
 		updated = OuterUpdated;
 		isLiked = false;
-		
+		link = OuterLink;
 	}
 	
+	public String getLink() {
+		return link;
+	}
+
 	public String getUpdated() {
 		return updated;
 	}
