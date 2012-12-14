@@ -18,6 +18,7 @@ import android.database.SQLException;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ShareCompat;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,19 +42,66 @@ public class MainActivity extends SherlockFragmentActivity implements
 	final public static String CONNECTION_CHECK_UPDATER = "com.example.geekhub_3rd_homework.CONNECTION_CHECK_UPDATER";
 	private static final String LOG_TAG = "myLog";
 
+	//G+Share
 	private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
-
 	private ProgressDialog mConnectionProgressDialog;
 	private PlusClient mPlusClient;
 	private ConnectionResult mConnectionResult;
-
+	
+	//G+Share//
+	
 	boolean bound = false;
 	ServiceConnection sConn;
 	Intent intent;
 	ConnectionCheckUpdateService myService;
 	long interval;
 	private DetailsFragment detailsFragment;
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+//		gPlusSignIn();
+		
+	}
+	
+	public static void onShare(Article article){
+		getInstance().gPlusSignIn();
+		 Intent shareIntent = ShareCompat.IntentBuilder.from(getInstance().getThis())
+		          .setType("text/plain")
+		          .setText(article.getLink())
+		          .getIntent()
+		          .setPackage("com.google.android.gms.plus");
 
+		 getInstance().startActivity(shareIntent);
+		
+	}
+	public void gPlusSignIn(){
+		if (!mPlusClient.isConnected()) {
+	        if (mConnectionResult == null) {
+	            mConnectionProgressDialog.show();
+	        } else {
+	            try {
+	                mConnectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLVE_ERR);
+	            } catch (SendIntentException e) {
+	                // Try connecting again.
+	                mConnectionResult = null;
+	                mPlusClient.connect();
+	            }
+	        }
+	    }
+		
+	}
+	
+	
+	@Override
+	public void onStop() {
+	        super.onStop();
+	        
+
+	 }
+	
+	
+	
 	private boolean isMyServiceRunning() {
 		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 		for (RunningServiceInfo service : manager
@@ -93,17 +141,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		mPlusClient.connect();
-	}
-	 @Override
-	    protected void onStop() {
-	        super.onStop();
-	        mPlusClient.disconnect();
-
-	 }
+	
 	 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -119,7 +157,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 		// resolved.
 		mConnectionProgressDialog = new ProgressDialog(this);
 		mConnectionProgressDialog.setMessage("Signing in...");
-
+		mPlusClient.connect();
+		gPlusSignIn();
+		
+		
 		intent = new Intent(this, ConnectionCheckUpdateService.class);
 
 		sConn = new ServiceConnection() {
@@ -191,7 +232,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		}
 	}
 
-	public MainActivity getInstance() {
+	public static MainActivity getInstance() {
 		return Instance;
 	}
 
@@ -256,6 +297,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 	private void OnFinished() throws SQLException, java.sql.SQLException {
 		HelperFactory.GetHelper().getArticleDAO().getAllArticle().clear();
 		HelperFactory.ReleaseHelper();
+		
 	}
 
 	@Override
@@ -267,9 +309,12 @@ public class MainActivity extends SherlockFragmentActivity implements
 		stopService(new Intent(this, ConnectionCheckUpdateService.class));
 		Log.d(LOG_TAG, " End & UnBind Service");
 		bound = false;
+		mPlusClient.disconnect();
+		Log.d(LOG_TAG, "mPlusClient.disconnect()");
+		
 	}
 
-	protected void onActivityResult(int requestCode, int responseCode,
+	public void onActivityResult(int requestCode, int responseCode,
 			Intent intent) {
 		if (requestCode == REQUEST_CODE_RESOLVE_ERR
 				&& responseCode == RESULT_OK) {
@@ -304,8 +349,10 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	public void onConnected() {
 		String accountName = mPlusClient.getAccountName();
+		Log.d(LOG_TAG, "connected");
 		Toast.makeText(this, accountName + " is connected.", Toast.LENGTH_LONG)
 				.show();
+		mConnectionProgressDialog.dismiss();
 	}
 
 	public void onDisconnected() {

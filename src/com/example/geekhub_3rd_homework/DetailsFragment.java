@@ -3,10 +3,13 @@ package com.example.geekhub_3rd_homework;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +19,18 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
+import com.google.android.gms.plus.PlusClient;
 
-public class DetailsFragment extends SherlockFragment {
+public class DetailsFragment extends SherlockFragment  {
 	int contentPos;
 	final String LOG_TAG = "myLogs";
 	public static Article article;
+	
+		
 	public DetailsFragment() {
 	}
 
@@ -28,6 +38,7 @@ public class DetailsFragment extends SherlockFragment {
 		return contentPos;
 	}
 
+		
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -44,7 +55,6 @@ public class DetailsFragment extends SherlockFragment {
 		inflater.inflate(R.menu.action_bar_menu2, menu);
 
 		MenuItem item = menu.findItem(R.id.AddLike);
-		
 
 		try {
 			if (isLiked(article)) {
@@ -63,13 +73,14 @@ public class DetailsFragment extends SherlockFragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.AddLike:
-//			String id;
+			// String id;
 
 			try {
-//				id = DataProvider.getContent().get(contentPos).getId()
-//						.toString();
+				// id = DataProvider.getContent().get(contentPos).getId()
+				// .toString();
 				if (isLiked(article)) {
-					HelperFactory.GetHelper().getArticleDAO().deleteLike(article.getId());
+					HelperFactory.GetHelper().getArticleDAO()
+							.deleteLike(article.getId());
 					Toast.makeText(
 							MainActivity.getAppContext()
 									.getApplicationContext(), "Like deleted!!",
@@ -82,10 +93,7 @@ public class DetailsFragment extends SherlockFragment {
 							MainActivity.getAppContext()
 									.getApplicationContext(), "Like added!!",
 							Toast.LENGTH_LONG).show();
-					HelperFactory
-							.GetHelper()
-							.getArticleDAO()
-							.create(article);
+					HelperFactory.GetHelper().getArticleDAO().create(article);
 					item.setTitle("DELETE LIKE");
 				}
 			} catch (SQLException e) {
@@ -95,43 +103,36 @@ public class DetailsFragment extends SherlockFragment {
 
 			return true;
 		case R.id.share_button:
-			 Intent shareIntent = ShareCompat.IntentBuilder.from(this.getActivity())
-	          .setType("text/plain")
-	          .setText(article.getLink())
-	          .getIntent()
-	          .setPackage("com.google.android.gms.plus");
 
-	      startActivity(shareIntent);
+			MainActivity.onShare(article);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
-	public boolean isLiked(Article article) throws SQLException, java.sql.SQLException {
+	public boolean isLiked(Article article) throws SQLException,
+			java.sql.SQLException {
 
-		/*return HelperFactory
-				.GetHelper()
-				.getArticleDAO()
-				.isLiked(DataProvider.getContent().get(DataProvider.getContentPos()).getId()
-								.toString());*/
-		return HelperFactory
-				.GetHelper()
-				.getArticleDAO()
-				.isLiked(article);
-		
+		/*
+		 * return HelperFactory .GetHelper() .getArticleDAO()
+		 * .isLiked(DataProvider
+		 * .getContent().get(DataProvider.getContentPos()).getId() .toString());
+		 */
+		return HelperFactory.GetHelper().getArticleDAO().isLiked(article);
+
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
 		try {
-			article = DataProvider.getContent().get(DataProvider.getContentPos());
+			article = DataProvider.getContent().get(
+					DataProvider.getContentPos());
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (java.sql.SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		setHasOptionsMenu(true);
@@ -156,12 +157,9 @@ public class DetailsFragment extends SherlockFragment {
 		String query = null;
 
 		try {
-			query = URLEncoder.encode(
-					article.getContent(),
-					"utf-8").replaceAll("\\+", " ");
-			String title = "<h2>"
-					+ article.getTitle()
-					+ "</h2><br>";
+			query = URLEncoder.encode(article.getContent(), "utf-8")
+					.replaceAll("\\+", " ");
+			String title = "<h2>" + article.getTitle() + "</h2><br>";
 			String header = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
 			webview.getSettings().setBuiltInZoomControls(true);
 			webview.getSettings().setLayoutAlgorithm(
@@ -174,6 +172,9 @@ public class DetailsFragment extends SherlockFragment {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		
+		
 	}
+
+	
 }

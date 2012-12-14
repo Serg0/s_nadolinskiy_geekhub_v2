@@ -128,7 +128,7 @@ public class DataProvider {
 				String published = oneObject.getJSONObject("published").getString("$t");
 				String id = oneObject.getJSONObject("id").getString("$t");
 				String link = oneObject.getJSONArray("link").getJSONObject(2).getString("href");
-				Log.d(LOG_TAG, "Link  is " + link);
+//				Log.d(LOG_TAG, "Link  is " + link);
 				Article article = new Article(title, content, published,
 						updated, id, link);
 

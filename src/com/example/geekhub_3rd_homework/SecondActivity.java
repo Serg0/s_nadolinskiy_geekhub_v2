@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
-
+import com.google.android.gms.plus.PlusClient;
 public class SecondActivity extends SherlockFragmentActivity {
 
 	FragmentTransaction fragmentTransaction;
