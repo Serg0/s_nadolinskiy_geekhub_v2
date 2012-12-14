@@ -82,6 +82,9 @@ public class MainActivity extends SherlockFragmentActivity {
         MainActivity.context = getApplicationContext();
          setInstance(this);
         ((TextView) Instance.findViewById(R.id.textView1)).setText(message);
+/*        Intent intent = new Intent(this,
+				TweetToTwitterActivity.class);
+					startActivity(intent);*/
         intent = new Intent(this, ConnectionCheckUpdateService.class);
        
         sConn = new ServiceConnection() {

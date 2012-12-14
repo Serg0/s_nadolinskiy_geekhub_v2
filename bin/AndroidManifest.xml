@@ -16,6 +16,18 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		       <activity
+                        android:name=".TweetToTwitterActivity"
+                        android:label="@string/app_name"
+                        android:launchMode="singleInstance"
+                         android:theme="@android:style/Theme.Dialog">
+                                                <intent-filter>
+                                <action android:name="android.intent.action.VIEW" />
+                                <category android:name="android.intent.category.DEFAULT" />
+                                <category android:name="android.intent.category.BROWSABLE" />
+                                <data android:scheme="tweet-to-twitter-blundell-01-android" />
+                        </intent-filter>
+                </activity>
 		<activity android:name=".SecondActivity"  android:label="@string/title_activity_main" android:configChanges="orientation"></activity>
 		<service android:name="ConnectionCheckUpdateServise"></service>
 		<service android:name="com.example.geekhub_3rd_homework.ConnectionCheckUpdateService"></service>

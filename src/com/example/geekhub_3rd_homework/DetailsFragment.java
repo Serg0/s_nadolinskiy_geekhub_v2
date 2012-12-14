@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,6 +104,11 @@ public class DetailsFragment extends SherlockFragment {
 
 	      startActivity(shareIntent);
 			return true;
+		case R.id.menuToTweet:
+			Intent intent = new Intent(getActivity(),
+					TweetToTwitterActivity.class);
+						getActivity().startActivity(intent);
+						return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -128,10 +134,8 @@ public class DetailsFragment extends SherlockFragment {
 		try {
 			article = DataProvider.getContent().get(DataProvider.getContentPos());
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (java.sql.SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		setHasOptionsMenu(true);

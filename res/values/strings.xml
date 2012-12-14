@@ -12,5 +12,6 @@
     <string name="update_service_stopped">Update Service Stopped</string>
     <string name="update_service_connected">Update Service Connected</string>
     <string name="update_service_disconnected">Update Service Disconnected</string>
+    <string name="tweet_login">Log in Twitter</string>
 
 </resources>

@@ -12,5 +12,16 @@
   android:orderInCategory="100" 
   android:showAsAction="ifRoom"/>
     
+<item
+    android:showAsAction="ifRoom" android:title="Share">
+    <menu>
+        <item
+            android:id="@+id/menuToTweet"
+            android:title="Share on twitter" />
+        <item
+            android:id="@+id/menuSortRating"
+            android:title="..." />
+    </menu>
+</item>
     
 </menu>
