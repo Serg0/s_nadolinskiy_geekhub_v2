@@ -1,13 +1,10 @@
 package com.example.geekhub_3rd_homework;
 
-import android.app.Activity;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebSettings.LayoutAlgorithm;
 import android.widget.Button;
 import android.widget.Toast;
   
@@ -25,15 +23,16 @@ public class TweetToTwitterActivity extends Activity {
         private static final String TAG = "Blundell.TweetToTwitterActivity";
   
         /** Name to store the users access token */
-        private static final String PREF_ACCESS_TOKEN = "accessToken";
+        private static final String PREF_ACCESS_TOKEN = "1011033163-vuZfVwaiVPtvW7JEbMVbNLlFmN1t1sxLCxSt9aA";
         /** Name to store the users access token secret */
-        private static final String PREF_ACCESS_TOKEN_SECRET = "accessTokenSecret";
+        private static final String PREF_ACCESS_TOKEN_SECRET = "k0Cl2tGsHTi5AXonFl0GxIEQILT8vRKpfVNUmxVxLJ8";
         /** Consumer Key generated when you registered your app at https://dev.twitter.com/apps/ */
-        private static final String CONSUMER_KEY = "yourConsumerKey";
+        private static final String CONSUMER_KEY = "KePpTw7MfgXDJ36dLArXUg";
         /** Consumer Secret generated when you registered your app at https://dev.twitter.com/apps/  */
-        private static final String CONSUMER_SECRET = "yourConsumerSecret"; // XXX Encode in your app
+        private static final String CONSUMER_SECRET = "gK46zMlTWRT5AWED0IRY2gqYlAPGbfwCF0P02xlNQ4"; // XXX Encode in your app
         /** The url that Twitter will redirect to after a user log's in - this will be picked up by your app manifest and redirected into this activity */
-        private static final String CALLBACK_URL = "tweet-to-twitter-blundell-01-android:///";
+//        private static final String CALLBACK_URL = "tweet-to-twitter-blundell-01-android:///callback";
+        private static final String CALLBACK_URL = "com.dummy://";
         /** Preferences to store a logged in users credentials */
         private SharedPreferences mPrefs;
         /** Twitter4j object */
@@ -66,8 +65,36 @@ public class TweetToTwitterActivity extends Activity {
                 
                 mLoginButton = (Button) findViewById(R.id.login_button);
                 mTweetButton = (Button) findViewById(R.id.tweet_button);
+                mLoginButton.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						Log.i(TAG, "Login Pressed");
+		                if (mPrefs.contains(PREF_ACCESS_TOKEN)) {
+		                        Log.i(TAG, "Repeat User");
+		                        loginAuthorisedUser();
+		                } else {
+		                        Log.i(TAG, "New User");
+		                        loginNewUser();
+		                }
+						
+					}
+				});
+                
+                mTweetButton.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						 Log.i(TAG, "Tweet Pressed");
+			                tweetMessage();
+						
+					}
+				});
+                
+                
         }
-  
+        
+         
         /**
          * Button clickables are declared in XML as this projects min SDK is 1.6</br> </br>
          * Checks if the user has given this app permission to use twitter
@@ -108,11 +135,16 @@ public class TweetToTwitterActivity extends Activity {
         private void loginNewUser() {
                 try {
                         Log.i(TAG, "Request App Authentication");
-                        mReqToken = mTwitter.getOAuthRequestToken(CALLBACK_URL);
-  
+                      mReqToken = mTwitter.getOAuthRequestToken(CALLBACK_URL);
+//                        mReqToken = mTwitter.getOAuthRequestToken();
                         Log.i(TAG, "Starting Webview to login to twitter");
                         WebView twitterSite = new WebView(this);
                         twitterSite.loadUrl(mReqToken.getAuthenticationURL());
+//                        twitterSite.getSettings().setBuiltInZoomControls(true);
+//                        twitterSite.getSettings().setLayoutAlgorithm(
+//            					LayoutAlgorithm.SINGLE_COLUMN);
+                        twitterSite.requestFocus(View.FOCUS_DOWN);
+                        
                         setContentView(twitterSite);
   
                 } catch (TwitterException e) {
@@ -166,7 +198,7 @@ public class TweetToTwitterActivity extends Activity {
                 Uri uri = intent.getData();
                 if (uri != null && uri.toString().startsWith(CALLBACK_URL)) { // If the user has just logged in
                         String oauthVerifier = uri.getQueryParameter("oauth_verifier");
-  
+
                         authoriseNewUser(oauthVerifier);
                 }
         }

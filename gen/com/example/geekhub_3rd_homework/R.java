@@ -924,8 +924,8 @@ containing a value of this type.
         public static final int icon_arrow=0x7f020073;
     }
     public static final class id {
-        public static final int AddLike=0x7f040042;
-        public static final int ShowItem=0x7f040041;
+        public static final int AddLike=0x7f040041;
+        public static final int ShowItem=0x7f040040;
         public static final int WebView1=0x7f040039;
         public static final int abs__action_bar=0x7f040022;
         public static final int abs__action_bar_container=0x7f040021;
@@ -967,8 +967,7 @@ containing a value of this type.
         public static final int abs__title=0x7f04001b;
         public static final int abs__titleDivider=0x7f04001c;
         public static final int abs__up=0x7f04000b;
-        public static final int addLike=0x7f040046;
-        public static final int button1=0x7f04003f;
+        public static final int addLike=0x7f040045;
         public static final int disableHome=0x7f040009;
         public static final int edit_query=0x7f040027;
         public static final int frgmCont=0x7f040034;
@@ -981,20 +980,20 @@ containing a value of this type.
         public static final int listMode=0x7f040002;
         public static final int listView1=0x7f04003a;
         public static final int login_button=0x7f04003e;
-        public static final int menuSortRating=0x7f040045;
-        public static final int menuToTweet=0x7f040044;
+        public static final int menuSortRating=0x7f040044;
+        public static final int menuToTweet=0x7f040043;
         public static final int normal=0x7f040001;
         public static final int progressBar1=0x7f040037;
-        public static final int share_button=0x7f040043;
-        public static final int showAllLikes=0x7f040047;
+        public static final int share_button=0x7f040042;
+        public static final int showAllLikes=0x7f040046;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
         public static final int tabMode=0x7f040003;
-        public static final int textView0=0x7f040048;
+        public static final int textView0=0x7f040047;
         public static final int textView1=0x7f040033;
         public static final int textView2=0x7f04003c;
-        public static final int tweet_button=0x7f040040;
+        public static final int tweet_button=0x7f04003f;
         public static final int useLogo=0x7f040004;
         public static final int wrap_content=0x7f040000;
     }
