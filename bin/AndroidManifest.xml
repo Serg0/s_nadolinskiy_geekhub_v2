@@ -20,11 +20,7 @@
                         android:name=".TweetToTwitterActivity"
                         android:label="@string/app_name"
                         android:launchMode="singleInstance"
-<<<<<<< HEAD
-                         android:theme="@android:style/Theme.Dialog">
-=======
                          >
->>>>>>> 33e0523b965b45ad77084b375451a5711d45eb22
                                                 <intent-filter>
                                 <action android:name="android.intent.action.VIEW" />
                                 <category android:name="android.intent.category.DEFAULT" />

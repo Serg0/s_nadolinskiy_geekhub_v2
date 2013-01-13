@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,6 +107,7 @@ public class DetailsFragment extends SherlockFragment {
 		case R.id.menuToTweet:
 			Intent intent = new Intent(getActivity(),
 					TweetToTwitterActivity.class);
+			intent.putExtra("article link", article.getLink());
 						getActivity().startActivity(intent);
 						return true;
 		default:
@@ -143,6 +145,8 @@ public class DetailsFragment extends SherlockFragment {
 				if (!MainActivity.isLandscape(getActivity())) {
 					Intent intent = new Intent(this.getActivity(),
 							SecondActivity.class);
+//					Log.i("Blundell.TweetToTwitterActivity", " article.getLink() =" + article.getTitle());
+//					intent.putExtra("link", article.getLink());
 					startActivity(intent);
 					return;
 				} else {

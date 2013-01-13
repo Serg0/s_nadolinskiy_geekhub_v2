@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.SQLException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,9 +27,9 @@ public class TweetToTwitterActivity extends Activity {
 	private static final String TAG = "Blundell.TweetToTwitterActivity";
 
 	/** Name to store the users access token */
-	private static final String PREF_ACCESS_TOKEN = "1011033163-vuZfVwaiVPtvW7JEbMVbNLlFmN1t1sxLCxSt9aA";
+	private static final String PREF_ACCESS_TOKEN = null;
 	/** Name to store the users access token secret */
-	private static final String PREF_ACCESS_TOKEN_SECRET = "k0Cl2tGsHTi5AXonFl0GxIEQILT8vRKpfVNUmxVxLJ8";
+	private static final String PREF_ACCESS_TOKEN_SECRET = null;
 	/**
 	 * Consumer Key generated when you registered your app at
 	 * https://dev.twitter.com/apps/
@@ -65,13 +66,16 @@ public class TweetToTwitterActivity extends Activity {
 	private Button mLoginButton;
 	private Button mTweetButton;
 
+	private String message;
+
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "Loading TweetToTwitterActivity");
 		setContentView(R.layout.tweet_activity);
-
+		
 		// Create a new shared preference object to remember if the user has
 		// already given us permission
 		mPrefs = getSharedPreferences("twitterPrefs", MODE_PRIVATE);
@@ -87,6 +91,14 @@ public class TweetToTwitterActivity extends Activity {
 
 		mLoginButton = (Button) findViewById(R.id.login_button);
 		mTweetButton = (Button) findViewById(R.id.tweet_button);
+		
+		if (mPrefs.contains(PREF_ACCESS_TOKEN)) {
+			Log.i(TAG, "Repeat User");
+			loginAuthorisedUser();
+		} else {
+			Log.i(TAG, "New User");
+			loginNewUser();
+		}
 
 		mLoginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -211,7 +223,7 @@ public class TweetToTwitterActivity extends Activity {
 		AccessToken at = new AccessToken(token, secret);
 
 		mTwitter.setOAuthAccessToken(at);
-
+		Log.d(TAG, "PREF_ACCESS_TOKEN " + token + " PREF_ACCESS_TOKEN_SECRET "+ secret);
 		Toast.makeText(this, "Welcome back", Toast.LENGTH_SHORT).show();
 
 		enableTweetButton();
@@ -287,22 +299,59 @@ public class TweetToTwitterActivity extends Activity {
 		Log.i(TAG, "User logged in - allowing to tweet");
 		mLoginButton.setEnabled(false);
 		mTweetButton.setEnabled(true);
+		tweetMessage();
 	}
 
 	/**
 	 * Send a tweet on your timeline, with a Toast msg for success or failure
 	 */
 	private void tweetMessage() {
+		
+		
+Runnable runnable = new Runnable() {
+			
+			@Override
+			public void run() {
+				 try {
+					message = DataProvider.getContent().get(DataProvider.getContentPos()).getLink();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (java.sql.SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		};
+		Thread thread = new Thread(runnable);
+		thread.run();
 		try {
-			mTwitter.updateStatus("Test - Tweeting with @Blundell_apps #AndroidDev Tutorial using #Twitter4j http://blog.blundell-apps.com/sending-a-tweet");
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		 Log.i(TAG, " message =" + message);
+		try {
+			
+			
+			
+			Log.i(TAG, "tweetMessage() " + message);
+			mTwitter.updateStatus(message);
 
 			Toast.makeText(this, "Tweet Successful!", Toast.LENGTH_SHORT)
 					.show();
 		} catch (TwitterException e) {
-			Log.i(TAG, "User logged in - allowing to tweet");
+			Log.i(TAG, "TwitterException e code" + e.getErrorCode() + " message "+e.getErrorMessage()+ "try to send message " + message);
 			Toast.makeText(this, "Tweet error, try again later",
 					Toast.LENGTH_SHORT).show();
+		} catch (SQLException e) {
+			Log.i(TAG, "SQLException e" + e.getMessage());
+			e.printStackTrace();
 		}
+		onBackPressed();
 	}
 
 	private void saveAccessToken(AccessToken at) {

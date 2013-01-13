@@ -2,10 +2,7 @@
 <classpath>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="D:/Downloads/serg/back_up_v1/s_nadolinskiy_geekhub_v2/libs/ormlite-android-4.42.jar"/>
-	<classpathentry kind="lib" path="D:/Downloads/serg/back_up_v1/s_nadolinskiy_geekhub_v2/libs/ormlite-core-4.42.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="D:/Downloads/serg/back_up_v1/s_nadolinskiy_geekhub_v2/libs/twitter4j-core-android-3.0.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
