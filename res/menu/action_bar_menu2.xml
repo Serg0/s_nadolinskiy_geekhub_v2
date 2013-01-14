@@ -19,8 +19,8 @@
             android:id="@+id/menuToTweet"
             android:title="Share on twitter" />
         <item
-            android:id="@+id/menuSortRating"
-            android:title="..." />
+            android:id="@+id/menuToShareOnFacebook"
+            android:title="Share on Facebook" />
     </menu>
 </item>
     

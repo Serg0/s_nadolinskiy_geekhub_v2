@@ -2,6 +2,7 @@ package com.example.geekhub_3rd_homework;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
 
 import android.content.Intent;
 import android.database.SQLException;
@@ -17,11 +18,24 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
+import com.facebook.FacebookRequestError;
+import com.facebook.HttpMethod;
+import com.facebook.LoggingBehavior;
+import com.facebook.Request;
+import com.facebook.RequestAsyncTask;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.Settings;
+import com.facebook.Session.StatusCallback;
+import com.facebook.model.GraphUser;
 
 public class DetailsFragment extends SherlockFragment {
 	int contentPos;
 	final String LOG_TAG = "myLogs";
+	private StatusCallback mStatusCallback =  new SessionStatusCallback();
 	public static Article article;
+	 private GraphUser mUser;
 	public DetailsFragment() {
 	}
 
@@ -110,6 +124,25 @@ public class DetailsFragment extends SherlockFragment {
 			intent.putExtra("article link", article.getLink());
 						getActivity().startActivity(intent);
 						return true;
+		case R.id.menuToShareOnFacebook:
+			 Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+		        Session session = Session.getActiveSession();
+		        if (session == null) {
+		           /* if (savedInstanceState != null) {
+		                session = Session.restoreSession(getActivity(), null, mStatusCallback, savedInstanceState);
+		            }*/
+		            if (session == null) {
+		                session = new Session.Builder(getActivity()).setApplicationId(getActivity().getString(R.string.app_id)).build();
+		            }
+		            Session.setActiveSession(session);
+		            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+		                session.openForRead(new Session.OpenRequest(this).setCallback(mStatusCallback));
+		            }
+		        }
+		        addFacebookConnection();
+
+		        shareOnFacebook(article.getTitle(),article.getLink());
+						return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -183,4 +216,86 @@ public class DetailsFragment extends SherlockFragment {
 		}
 
 	}
+	
+    private void makeMeRequest(final Session session) {
+        Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+            @Override
+            public void onCompleted(GraphUser user, Response response) {
+                // If the response is successful
+                if (session == Session.getActiveSession()) {
+                    if (user != null) {
+                        mUser = user;
+                    }
+                }
+
+//                updateConnectionsState();
+
+                if (response.getError() != null) {
+                    // Handle errors, will do so later.
+                    Log.d(LOG_TAG, response.getError().getErrorMessage(), response.getError().getException());
+                }
+            }
+        });
+    }
+    private void addFacebookConnection() {
+        Session session = Session.getActiveSession();
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForPublish(new Session.OpenRequest(this).setCallback(mStatusCallback).setPermissions(Arrays.asList("publish_actions")));
+        } else {
+            Session.openActiveSession(getActivity(), this, true, mStatusCallback);
+        }
+    }
+    
+	 private class SessionStatusCallback implements Session.StatusCallback {
+	        @Override
+	        public void call(Session session, SessionState state, Exception exception) {
+	            if (state.isOpened()) {
+	                makeMeRequest(session);
+	            } else {
+//	                updateConnectionsState();
+	            }
+	        }
+}
+	 private void shareOnFacebook(String message, String link) {
+	        Session session = Session.getActiveSession();
+
+	        if (session != null) {
+	            Bundle postParams = new Bundle();
+	            postParams.putString("message", message);
+	            postParams.putString("link", link);
+
+	            Request.Callback callback= new Request.Callback() {
+	                public void onCompleted(Response response) {
+	                    FacebookRequestError error = response.getError();
+	                    if (error != null) {
+	                        Toast.makeText(getActivity(), error.getErrorMessage(), Toast.LENGTH_SHORT).show();
+	                        Log.d(LOG_TAG, "Errog code  = " + error.getErrorCode()+ " error.getErrorMessage() " + error.getErrorMessage());
+	                    } else {
+	                        Toast.makeText(getActivity(), "Facebook status updated successfully", Toast.LENGTH_SHORT).show();
+	                    }
+	                }
+	            };
+
+	            Request request = new Request(session, "me/feed", postParams, HttpMethod.POST, callback);
+
+	            RequestAsyncTask task = new RequestAsyncTask(request);
+	            task.execute();
+	        }
+	    }
+	   /* @Override
+	    public void onStart() {
+	        super.onStart();
+	        Session.getActiveSession().addCallback(mStatusCallback);
+	    }
+
+	    @Override
+	    public void onStop() {
+	        super.onStop();
+	        Session.getActiveSession().removeCallback(mStatusCallback);
+	    }*/
+	    @Override
+	    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	        super.onActivityResult(requestCode, resultCode, data);
+	        Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
+	    }
 }

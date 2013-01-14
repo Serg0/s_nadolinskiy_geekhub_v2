@@ -7,6 +7,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
+import twitter4j.auth.Authorization;
 import twitter4j.auth.RequestToken;
 import android.app.Activity;
 import android.content.Intent;
@@ -223,9 +224,10 @@ public class TweetToTwitterActivity extends Activity {
 		AccessToken at = new AccessToken(token, secret);
 
 		mTwitter.setOAuthAccessToken(at);
-		Log.d(TAG, "PREF_ACCESS_TOKEN " + token + " PREF_ACCESS_TOKEN_SECRET "+ secret);
+//		mTwitter.getAuthorization();
+		Log.i(TAG, "PREF_ACCESS_TOKEN " + token + " PREF_ACCESS_TOKEN_SECRET "+ secret);
 		Toast.makeText(this, "Welcome back", Toast.LENGTH_SHORT).show();
-
+		
 		enableTweetButton();
 	}
 
@@ -335,7 +337,6 @@ Runnable runnable = new Runnable() {
 		 
 		 Log.i(TAG, " message =" + message);
 		try {
-			
 			
 			
 			Log.i(TAG, "tweetMessage() " + message);

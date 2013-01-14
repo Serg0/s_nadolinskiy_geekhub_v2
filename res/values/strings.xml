@@ -13,5 +13,5 @@
     <string name="update_service_connected">Update Service Connected</string>
     <string name="update_service_disconnected">Update Service Disconnected</string>
     <string name="tweet_login">Log in Twitter</string>
-
+<string name="app_id">398470383574303</string>
 </resources>
