@@ -208,7 +208,7 @@ public void finish() {
 	
 }
 private void OnFinished() throws SQLException, java.sql.SQLException {
-	HelperFactory.GetHelper().getArticleDAO().getAllArticle().clear();
+//	HelperFactory.GetHelper().getArticleDAO().getAllArticle().clear();
 	HelperFactory.ReleaseHelper();
 }
 @Override

@@ -2,6 +2,8 @@ package com.example.geekhub_3rd_homework;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
+import java.util.Properties;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -9,6 +11,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.Authorization;
 import twitter4j.auth.RequestToken;
+import twitter4j.conf.Configuration;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,9 +31,9 @@ public class TweetToTwitterActivity extends Activity {
 	private static final String TAG = "Blundell.TweetToTwitterActivity";
 
 	/** Name to store the users access token */
-	private static final String PREF_ACCESS_TOKEN = null;
+	private static  String PREF_ACCESS_TOKEN = "TWITTER_ACCESS_TOKEN";
 	/** Name to store the users access token secret */
-	private static final String PREF_ACCESS_TOKEN_SECRET = null;
+	private static  String PREF_ACCESS_TOKEN_SECRET =  "TWITTER_ACCESS_TOKEN_SECRET";
 	/**
 	 * Consumer Key generated when you registered your app at
 	 * https://dev.twitter.com/apps/
@@ -55,9 +58,9 @@ public class TweetToTwitterActivity extends Activity {
 	 "tweet-to-twitter-blundell-01-android:///callback";
 //	private static final String CALLBACK_URL = "http://dummy.com";
 	/** Preferences to store a logged in users credentials */
-	private SharedPreferences mPrefs;
+	private static SharedPreferences mPrefs;
 	/** Twitter4j object */
-	private Twitter mTwitter;
+	private static Twitter mTwitter;
 	/**
 	 * The request token signifies the unique ID of the request you are sending
 	 * to twitter
@@ -222,7 +225,8 @@ public class TweetToTwitterActivity extends Activity {
 		// Create the twitter access token from the credentials we got
 		// previously
 		AccessToken at = new AccessToken(token, secret);
-
+//mTwitter = new TwitterFactory().getInstance();
+//		mTwitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		mTwitter.setOAuthAccessToken(at);
 //		mTwitter.getAuthorization();
 		Log.i(TAG, "PREF_ACCESS_TOKEN " + token + " PREF_ACCESS_TOKEN_SECRET "+ secret);
@@ -283,7 +287,7 @@ public class TweetToTwitterActivity extends Activity {
 			mTwitter.setOAuthAccessToken(at);
 
 			saveAccessToken(at);
-
+			Log.i(TAG, "oauthVerifier = " + oauthVerifier);
 			// Set the content view back after we changed to a webview
 			setContentView(R.layout.tweet_activity);
 
@@ -301,6 +305,7 @@ public class TweetToTwitterActivity extends Activity {
 		Log.i(TAG, "User logged in - allowing to tweet");
 		mLoginButton.setEnabled(false);
 		mTweetButton.setEnabled(true);
+		mTwitter.getAuthorization();
 		tweetMessage();
 	}
 
@@ -340,6 +345,7 @@ Runnable runnable = new Runnable() {
 			
 			
 			Log.i(TAG, "tweetMessage() " + message);
+			
 			mTwitter.updateStatus(message);
 
 			Toast.makeText(this, "Tweet Successful!", Toast.LENGTH_SHORT)
