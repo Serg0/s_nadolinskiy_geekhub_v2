@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -72,6 +73,12 @@ public class TweetToTwitterActivity extends Activity {
 
 	private String message;
 
+	private TweetToTwitterActivity instance;
+
+	private WebView twitterSite;
+
+	protected String loadURL;
+
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -79,7 +86,7 @@ public class TweetToTwitterActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "Loading TweetToTwitterActivity");
 		setContentView(R.layout.tweet_activity);
-		
+		instance = this;
 		// Create a new shared preference object to remember if the user has
 		// already given us permission
 		mPrefs = getSharedPreferences("twitterPrefs", MODE_PRIVATE);
@@ -96,14 +103,17 @@ public class TweetToTwitterActivity extends Activity {
 		mLoginButton = (Button) findViewById(R.id.login_button);
 		mTweetButton = (Button) findViewById(R.id.tweet_button);
 		
-		if (mPrefs.contains(PREF_ACCESS_TOKEN)) {
-			Log.i(TAG, "Repeat User");
-			loginAuthorisedUser();
-		} else {
-			Log.i(TAG, "New User");
-			loginNewUser();
-		}
+				if (mPrefs.contains(PREF_ACCESS_TOKEN)) {
+					Log.i(TAG, "Repeat User");
+					loginAuthorisedUser();
+				} else {
+					Log.i(TAG, "New User");
+					loginNewUser();
+				}
 
+				
+		
+		
 		mLoginButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -188,32 +198,67 @@ public class TweetToTwitterActivity extends Activity {
 	 * 
 	 */
 	private void loginNewUser() {
+
+		twitterSite = new WebView(this);
+twitterSite.setWebViewClient(new CustomWebViewClient());
+//					Log.i(TAG, "Request App Authentication");
+Runnable runabble = new Runnable() {
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
 		try {
-			Log.i(TAG, "Request App Authentication");
 			mReqToken = mTwitter.getOAuthRequestToken(CALLBACK_URL);
-//			 mReqToken = mTwitter.getOAuthRequestToken();
-			Log.i(TAG, "Starting Webview to login to twitter");
-			WebView twitterSite = new WebView(this);
-			Log.i(TAG, mReqToken.getAuthenticationURL().toString());
+			loadURL = mReqToken.getAuthenticationURL();
+//			Log.i(TAG, mReqToken.getAuthenticationURL().toString());
+			twitterSite.loadUrl(loadURL);
+
+	twitterSite.loadUrl(loadURL);
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+};
+
+Thread thread = new Thread(runabble);
+thread.start();
+try {
+	thread.join();
+} catch (InterruptedException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+
+//					 mReqToken = mTwitter.getOAuthRequestToken();
+//					Log.i(TAG, "Starting Webview to login to twitter");
+//					loadURL = mReqToken.getAuthenticationURL();
+//					Log.i(TAG, mReqToken.getAuthenticationURL().toString());
+
+	
 			
-			
-			twitterSite.loadUrl(mReqToken.getAuthenticationURL());
 			// twitterSite.getSettings().setBuiltInZoomControls(true);
 			// twitterSite.getSettings().setLayoutAlgorithm(
 			// LayoutAlgorithm.SINGLE_COLUMN);
 			twitterSite.requestFocus(View.FOCUS_DOWN);
 
 			setContentView(twitterSite);
-
-			
+		/*	
 		} catch (TwitterException e) {
 			
 			Log.i(TAG, e.toString());
 			Toast.makeText(this, "Twitter Login error, try again later "+ e.toString(),
 					Toast.LENGTH_SHORT).show();
-		}
+		}*/
 	}
-
+public class CustomWebViewClient extends WebViewClient{
+	@Override
+	public boolean shouldOverrideUrlLoading(WebView view, String url) {
+		// TODO Auto-generated method stub
+//		return super.shouldOverrideUrlLoading(view, url);
+		return false;
+	}
+}
 	/**
 	 * The user had previously given our app permission to use Twitter</br>
 	 * Therefore we retrieve these credentials and fill out the Twitter4j helper

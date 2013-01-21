@@ -119,11 +119,13 @@ public class TitlesFragment extends SherlockFragment {
 	}
 
 	public void refreshListView() throws SQLException, java.sql.SQLException {
+		if (DataProvider.getContent() != null){
 		adapter = new RowAdapter(getActivity(), DataProvider.getContent());
 		adapter.notifyDataSetChanged();
 		lvMain.invalidate();
 		lvMain.setAdapter(adapter);
 		lvMain.refreshDrawableState();
+		}
 
 	}
 
@@ -243,7 +245,7 @@ public class TitlesFragment extends SherlockFragment {
 		activity.runOnUiThread(new Runnable() {
 
 			public void run() {
-				if (adapter == null) {
+				if ((adapter == null)&&(!articles.isEmpty())) {
 					adapter = new RowAdapter(getActivity(), articles);
 				}
 

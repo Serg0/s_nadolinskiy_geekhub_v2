@@ -110,13 +110,14 @@ public class DetailsFragment extends SherlockFragment {
 
 			return true;
 		case R.id.share_button:
-			 Intent shareIntent = ShareCompat.IntentBuilder.from(this.getActivity())
+/*			 Intent shareIntent = ShareCompat.IntentBuilder.from(this.getActivity())
 	          .setType("text/plain")
 	          .setText(article.getLink())
 	          .getIntent()
 	          .setPackage("com.google.android.apps.plus");
 
-	      startActivity(shareIntent);
+	      startActivity(shareIntent);*/
+			Toast.makeText(getActivity(), "Feachure is under construction!", Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.menuToTweet:
 			Intent intent = new Intent(getActivity(),
