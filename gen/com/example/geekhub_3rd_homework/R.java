@@ -1112,8 +1112,8 @@ containing a value of this type.
         public static final int icon_arrow=0x7f020092;
     }
     public static final class id {
-        public static final int AddLike=0x7f04005a;
-        public static final int ShowItem=0x7f040059;
+        public static final int AddLike=0x7f04005c;
+        public static final int ShowItem=0x7f04005b;
         public static final int WebView1=0x7f040050;
         public static final int abs__action_bar=0x7f040024;
         public static final int abs__action_bar_container=0x7f040023;
@@ -1155,7 +1155,7 @@ containing a value of this type.
         public static final int abs__title=0x7f04001d;
         public static final int abs__titleDivider=0x7f04001e;
         public static final int abs__up=0x7f04000b;
-        public static final int addLike=0x7f04005e;
+        public static final int addLike=0x7f040060;
         public static final int com_facebook_login_activity_progress_bar=0x7f04003d;
         public static final int com_facebook_picker_activity_circle=0x7f04003c;
         public static final int com_facebook_picker_checkbox=0x7f04003f;
@@ -1187,27 +1187,29 @@ containing a value of this type.
         public static final int large=0x7f040011;
         public static final int listMode=0x7f040002;
         public static final int listView1=0x7f040051;
-        public static final int login_button=0x7f040055;
-        public static final int menuToShareOnFacebook=0x7f04005d;
-        public static final int menuToTweet=0x7f04005c;
+        public static final int log_out_button=0x7f040058;
+        public static final int login_button=0x7f040056;
+        public static final int menuToShareOnFacebook=0x7f04005f;
+        public static final int menuToTweet=0x7f04005e;
         public static final int normal=0x7f040001;
         public static final int picker_subtitle=0x7f04004c;
         public static final int progressBar1=0x7f040039;
         public static final int search_box=0x7f04004b;
-        public static final int share_button=0x7f04005b;
-        public static final int showAllLikes=0x7f04005f;
+        public static final int share_button=0x7f04005d;
+        public static final int showAllLikes=0x7f040061;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
         public static final int small=0x7f040010;
         public static final int tabMode=0x7f040003;
-        public static final int textView0=0x7f040060;
+        public static final int textView0=0x7f040062;
         public static final int textView1=0x7f040035;
         public static final int textView2=0x7f040053;
-        public static final int textview=0x7f040058;
-        public static final int tweet_button=0x7f040056;
+        public static final int textview=0x7f04005a;
+        public static final int tweet_button=0x7f040057;
         public static final int useLogo=0x7f040004;
-        public static final int webview=0x7f040057;
+        public static final int webViewTweetActivity=0x7f040055;
+        public static final int webview=0x7f040059;
         public static final int wrap_content=0x7f040000;
     }
     public static final class integer {

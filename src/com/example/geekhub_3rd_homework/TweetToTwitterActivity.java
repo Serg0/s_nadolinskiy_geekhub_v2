@@ -40,9 +40,9 @@ public class TweetToTwitterActivity extends Activity {
 	private static final String TAG = "Blundell.TweetToTwitterActivity";
 
 	/** Name to store the users access token */
-	private static  String PREF_ACCESS_TOKEN = "TWITTER_ACCESS_TOKEN";
+	private static String PREF_ACCESS_TOKEN = "TWITTER_ACCESS_TOKEN";
 	/** Name to store the users access token secret */
-	private static  String PREF_ACCESS_TOKEN_SECRET =  "TWITTER_ACCESS_TOKEN_SECRET";
+	private static String PREF_ACCESS_TOKEN_SECRET = "TWITTER_ACCESS_TOKEN_SECRET";
 	/**
 	 * Consumer Key generated when you registered your app at
 	 * https://dev.twitter.com/apps/
@@ -55,21 +55,28 @@ public class TweetToTwitterActivity extends Activity {
 	private static final String CONSUMER_SECRET = "rVTs6Iuz56Km6W2sHLUUnFAfnUGs1b46vtA37AVwIc"; // XXX
 																								// Encode
 																								// in
-//	final public static String	CALLBACK_SCHEME = "x-latify-oauth-twitter";
-//    final public static String	CALLBACK_URL = CALLBACK_SCHEME + ":///callback";
-																						// your
-//    public static final String CALLBACK_URL = "x-oauthflow-twitter://callback";											// app
+																								// final
+																								// public
+																								// static
+																								// String
+																								// CALLBACK_SCHEME
+																								// =
+																								// "x-latify-oauth-twitter";
+	// final public static String CALLBACK_URL = CALLBACK_SCHEME +
+	// ":///callback";
+	// your
+	// public static final String CALLBACK_URL =
+	// "x-oauthflow-twitter://callback"; // app
 	/**
 	 * The url that Twitter will redirect to after a user log's in - this will
 	 * be picked up by your app manifest and redirected into this activity
 	 */
-	 private static final String CALLBACK_URL =
-	 "tweet-to-twitter-blundell-01-android:///callback";
-//	private static final String CALLBACK_URL = "http://dummy.com";
+	private static final String CALLBACK_URL = "tweet-to-twitter-blundell-01-android:///callback";
+	// private static final String CALLBACK_URL = "http://dummy.com";
 	/** Preferences to store a logged in users credentials */
 	private static SharedPreferences mPrefs;
 	/** Twitter4j object */
-//	private static Twitter mTwitter;
+	// private static Twitter mTwitter;
 	private static Twitter mTwitter;
 	/**
 	 * The request token signifies the unique ID of the request you are sending
@@ -94,99 +101,113 @@ public class TweetToTwitterActivity extends Activity {
 	private Context context;
 	TwitterListener listener;
 
-	OnClickListener  mTweetButtonOnCliclistener = new View.OnClickListener() {
-		  
-		  @Override public void onClick(View v) { Log.i(TAG, "Tweet Pressed");
-		  Toast.makeText(getInstance(), tweetMessage(getApplicationContext()), Toast.LENGTH_LONG).show();
-		  } };
-		  
-		  OnClickListener  mLogInButtonOnCliclistener = new  View.OnClickListener() {
-			  
-			  @Override public void onClick(View v) { Log.i(TAG, "Login Pressed");
-			  if (mPrefs.contains(PREF_ACCESS_TOKEN)) { Log.i(TAG, "Repeat User");
-			  loginAuthorisedUser(); } else { Log.i(TAG, "New User");
-			 loginNewUser(); }
-			  
-			  } };
-	
-@Override
-public View onCreateView(String name, Context context, AttributeSet attrs) {
-	// TODO Auto-generated method stub
-	return super.onCreateView(name, context, attrs);
-}
-	
+	OnClickListener mTweetButtonOnCliclistener = new View.OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			Log.i(TAG, "Tweet Pressed");
+			Toast.makeText(getInstance(),
+					tweetMessage(getApplicationContext()), Toast.LENGTH_LONG)
+					.show();
+		}
+	};
+
+	OnClickListener mLogInButtonOnCliclistener = new View.OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			Log.i(TAG, "Login Pressed");
+			if (mPrefs.contains(PREF_ACCESS_TOKEN)) {
+				Log.i(TAG, "Repeat User");
+				loginAuthorisedUser();
+			} else {
+				Log.i(TAG, "New User");
+				loginNewUser();
+			}
+
+		}
+	};
+
+	OnClickListener mLogOutButtonOnCliclistener = new View.OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			logOut();
+		}
+
+	};
+
+	private WebView webView;
+
+	private Button mLogOutButton;
+
+	private String autorizeResult;
+
+	@Override
+	public View onCreateView(String name, Context context, AttributeSet attrs) {
+		// TODO Auto-generated method stub
+		return super.onCreateView(name, context, attrs);
+	}
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "Loading TweetToTwitterActivity");
 		setContentView(R.layout.tweet_activity);
-//		instance = this;
+		// instance = this;
 		setInstance(this);
 		this.context = getApplicationContext();
-		
 
-/*		  listener = new TwitterAdapter() {
-			  Context inner_instance = instance;
-		        @Override public void updatedStatus(Status status) {
-		        	Log.i(TAG, "Updated status" + status.getText());
-		        	tweetResult = "Tweet Successful";
-		        	Toast.makeText(getInstance(), tweetResult , Toast.LENGTH_SHORT)
-					.show();
-//		          onBackPressed();
-		        }
-		        
-		          @Override public void onException(TwitterException e, TwitterMethod method) {
-		        	  Log.i(TAG, "Got an error " + method);
-		              if (method.equals(TwitterMethod.UPDATE_STATUS)) {
-		                e.printStackTrace();
-		                tweetResult = "Tweet error, try again later";
-		                Toast.makeText(getInstance(), tweetResult , Toast.LENGTH_SHORT)
-		    			.show();
-		                
-		                
-		                onBackPressed();
-		                
-		              } 
-		              if (method == TwitterMethod.) {
-		                  e.printStackTrace();
-		                  Toast.makeText(getApplicationContext(), "Tweet error, try again later" , Toast.LENGTH_SHORT)
-		  				.show();
-		              }else {
-		                throw new AssertionError("Should not happen");
-		              }
-		            }
-			};*/
-/*		if (!tweetResult.equals("")){
-			Toast.makeText(getApplicationContext(), tweetResult , Toast.LENGTH_SHORT)
-			.show();
-			tweetResult = "";
-			
-			}*/
-		
+		/*
+		 * listener = new TwitterAdapter() { Context inner_instance = instance;
+		 * 
+		 * @Override public void updatedStatus(Status status) { Log.i(TAG,
+		 * "Updated status" + status.getText()); tweetResult =
+		 * "Tweet Successful"; Toast.makeText(getInstance(), tweetResult ,
+		 * Toast.LENGTH_SHORT) .show(); // onBackPressed(); }
+		 * 
+		 * @Override public void onException(TwitterException e, TwitterMethod
+		 * method) { Log.i(TAG, "Got an error " + method); if
+		 * (method.equals(TwitterMethod.UPDATE_STATUS)) { e.printStackTrace();
+		 * tweetResult = "Tweet error, try again later";
+		 * Toast.makeText(getInstance(), tweetResult , Toast.LENGTH_SHORT)
+		 * .show();
+		 * 
+		 * 
+		 * onBackPressed();
+		 * 
+		 * } if (method == TwitterMethod.) { e.printStackTrace();
+		 * Toast.makeText(getApplicationContext(),
+		 * "Tweet error, try again later" , Toast.LENGTH_SHORT) .show(); }else {
+		 * throw new AssertionError("Should not happen"); } } };
+		 */
+		/*
+		 * if (!tweetResult.equals("")){ Toast.makeText(getApplicationContext(),
+		 * tweetResult , Toast.LENGTH_SHORT) .show(); tweetResult = "";
+		 * 
+		 * }
+		 */
+
 		// Create a new shared preference object to remember if the user has
 		// already given us permission
 		mPrefs = getSharedPreferences("twitterPrefs", MODE_PRIVATE);
 		Log.i(TAG, "Got Preferences");
-		
-	        
 
-	        /*@Override public void onException(TwitterException e, int method) {
-	          if (method == TwitterMethods.UPDATE_STATUS) {
-	            e.printStackTrace();
-	          } else {
-	            throw new AssertionError("Should not happen");
-	          }
-	        }*/
-	    
-	    // The factory instance is re-useable and thread safe.
-	     factory = new TwitterFactory();
-	     mTwitter = factory.getInstance();
-//	     mTwitter.addListener(listener);
-//	    asyncTwitter.updateStatus(args[0]);
-		
+		/*
+		 * @Override public void onException(TwitterException e, int method) {
+		 * if (method == TwitterMethods.UPDATE_STATUS) { e.printStackTrace(); }
+		 * else { throw new AssertionError("Should not happen"); } }
+		 */
+
+		// The factory instance is re-useable and thread safe.
+		factory = new TwitterFactory();
+		mTwitter = factory.getInstance();
+		// mTwitter.addListener(listener);
+		// asyncTwitter.updateStatus(args[0]);
+
 		// Load the twitter4j helper
-//		mTwitter = new TwitterFactory().getInstance();
+		// mTwitter = new TwitterFactory().getInstance();
 		Log.i(TAG, "Got Twitter4j");
 
 		// Tell twitter4j that we want to use it with our app
@@ -195,53 +216,39 @@ public View onCreateView(String name, Context context, AttributeSet attrs) {
 
 		mLoginButton = (Button) findViewById(R.id.login_button);
 		mTweetButton = (Button) findViewById(R.id.tweet_button);
-		
-/*				if (mPrefs.contains(PREF_ACCESS_TOKEN)) {
-					Log.i(TAG, "Repeat User");
-					loginAuthorisedUser();
-				} else {
-					Log.i(TAG, "New User");
-					loginNewUser();
-				}
-*/
-				
-		
-		
-/*		mLoginButton.setOnClickListener(new View.OnClickListener() {
+		webView = (WebView) findViewById(R.id.webViewTweetActivity);
+		mLogOutButton = (Button) findViewById(R.id.log_out_button);
+		/*
+		 * if (mPrefs.contains(PREF_ACCESS_TOKEN)) { Log.i(TAG, "Repeat User");
+		 * loginAuthorisedUser(); } else { Log.i(TAG, "New User");
+		 * loginNewUser(); }
+		 */
 
-			public void onClick(View v) {
-				Log.i(TAG, "Login Pressed");
-				if (mPrefs.contains(PREF_ACCESS_TOKEN)) {
-					Log.i(TAG, "Repeat User");
-					loginAuthorisedUser();
-				} else {
-					Log.i(TAG, "New User");
-					loginNewUser();
-				}
+		/*
+		 * mLoginButton.setOnClickListener(new View.OnClickListener() {
+		 * 
+		 * public void onClick(View v) { Log.i(TAG, "Login Pressed"); if
+		 * (mPrefs.contains(PREF_ACCESS_TOKEN)) { Log.i(TAG, "Repeat User");
+		 * loginAuthorisedUser(); } else { Log.i(TAG, "New User");
+		 * loginNewUser(); }
+		 * 
+		 * } });
+		 */
+		// mTweetButton.setOnClickListener(new View.OnClickListener() {
+		//
+		// public void onClick(View v) {
+		// Log.i(TAG, "Tweet Pressed");
+		// tweetMessage();
+		//
+		// }
+		// });
+		mLoginButton.setOnClickListener(mLogInButtonOnCliclistener);
 
-			}
-		});*/
-//		mTweetButton.setOnClickListener(new View.OnClickListener() {
-//
-//			public void onClick(View v) {
-//				Log.i(TAG, "Tweet Pressed");
-//				tweetMessage();
-//
-//			}
-//		});
-		 mLoginButton.setOnClickListener(mLogInButtonOnCliclistener);
-		 
-		  mTweetButton.setOnClickListener(mTweetButtonOnCliclistener);
-		
-		 
+		mTweetButton.setOnClickListener(mTweetButtonOnCliclistener);
+		mLogOutButton.setOnClickListener(mLogOutButtonOnCliclistener);
 
 	}
-@Override
-protected void onRestart() {
-	// TODO Auto-generated method stub
-	super.onRestart();
 
-}
 	/**
 	 * Button clickables are declared in XML as this projects min SDK is
 	 * 1.6</br> </br> Checks if the user has given this app permission to use
@@ -251,16 +258,16 @@ protected void onRestart() {
 	 * @param v
 	 *            the clicked button
 	 */
-//	public void buttonLogin(View v) {
-//		Log.i(TAG, "Login Pressed");
-//		if (mPrefs.contains(PREF_ACCESS_TOKEN)) {
-//			Log.i(TAG, "Repeat User");
-//			loginAuthorisedUser();
-//		} else {
-//			Log.i(TAG, "New User");
-//			loginNewUser();
-//		}
-//	}
+	// public void buttonLogin(View v) {
+	// Log.i(TAG, "Login Pressed");
+	// if (mPrefs.contains(PREF_ACCESS_TOKEN)) {
+	// Log.i(TAG, "Repeat User");
+	// loginAuthorisedUser();
+	// } else {
+	// Log.i(TAG, "New User");
+	// loginNewUser();
+	// }
+	// }
 
 	/**
 	 * Button clickables are declared in XML as this projects min SDK is
@@ -269,16 +276,16 @@ protected void onRestart() {
 	 * @param v
 	 *            the clicked button
 	 */
-//	public void buttonTweet(View v) {
-//		Log.i(TAG, "Tweet Pressed");
-//		tweetMessage();
-//	}
+	// public void buttonTweet(View v) {
+	// Log.i(TAG, "Tweet Pressed");
+	// tweetMessage();
+	// }
 
-	public  TweetToTwitterActivity getInstance() {
+	public TweetToTwitterActivity getInstance() {
 		return instance;
 	}
 
-	public  void setInstance( TweetToTwitterActivity instance) {
+	public void setInstance(TweetToTwitterActivity instance) {
 		this.instance = instance;
 	}
 
@@ -293,26 +300,24 @@ protected void onRestart() {
 	 */
 	private void loginNewUser() {
 
-		twitterSite = new WebView(this);
-//twitterSite.setWebViewClient(new CustomWebViewClient());
-//					Log.i(TAG, "Request App Authentication");
+		// twitterSite = new WebView(this);
+		// twitterSite.setWebViewClient(new CustomWebViewClient());
+		// Log.i(TAG, "Request App Authentication");
 
 		try {
 			Runnable runnable = new Runnable() {
-				
+
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
 					try {
 						mReqToken = mTwitter.getOAuthRequestToken(CALLBACK_URL);
 						loadURL = mReqToken.getAuthenticationURL();
-						twitterSite.loadUrl(loadURL);
+						// twitterSite.loadUrl(loadURL);
 
-						twitterSite.loadUrl(loadURL);
-						twitterSite.requestFocus(View.FOCUS_DOWN);
+						webView.loadUrl(loadURL);
+						webView.requestFocus(View.FOCUS_DOWN);
 
-						
-						
 					} catch (TwitterException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -322,44 +327,35 @@ protected void onRestart() {
 			Thread thread = new Thread(runnable);
 			thread.start();
 			thread.join();
-			instance.setContentView(twitterSite);
-			
-//			Log.i(TAG, mReqToken.getAuthenticationURL().toString());
-		
+			// instance.setContentView(twitterSite);
+
+			// Log.i(TAG, mReqToken.getAuthenticationURL().toString());
+
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-//					 mReqToken = mTwitter.getOAuthRequestToken();
-//					Log.i(TAG, "Starting Webview to login to twitter");
-//					loadURL = mReqToken.getAuthenticationURL();
-//					Log.i(TAG, mReqToken.getAuthenticationURL().toString());
+		// mReqToken = mTwitter.getOAuthRequestToken();
+		// Log.i(TAG, "Starting Webview to login to twitter");
+		// loadURL = mReqToken.getAuthenticationURL();
+		// Log.i(TAG, mReqToken.getAuthenticationURL().toString());
 
-	
-			
-			// twitterSite.getSettings().setBuiltInZoomControls(true);
-			// twitterSite.getSettings().setLayoutAlgorithm(
-			// LayoutAlgorithm.SINGLE_COLUMN);
-			twitterSite.requestFocus(View.FOCUS_DOWN);
+		// twitterSite.getSettings().setBuiltInZoomControls(true);
+		// twitterSite.getSettings().setLayoutAlgorithm(
+		// LayoutAlgorithm.SINGLE_COLUMN);
+		// twitterSite.requestFocus(View.FOCUS_DOWN);
 
-			setContentView(twitterSite);
-		/*	
-		} catch (TwitterException e) {
-			
-			Log.i(TAG, e.toString());
-			Toast.makeText(this, "Twitter Login error, try again later "+ e.toString(),
-					Toast.LENGTH_SHORT).show();
-		}*/
+		// setContentView(twitterSite);
+		/*
+		 * } catch (TwitterException e) {
+		 * 
+		 * Log.i(TAG, e.toString()); Toast.makeText(this,
+		 * "Twitter Login error, try again later "+ e.toString(),
+		 * Toast.LENGTH_SHORT).show(); }
+		 */
 	}
-public class CustomWebViewClient extends WebViewClient{
-	@Override
-	public boolean shouldOverrideUrlLoading(WebView view, String url) {
-		// TODO Auto-generated method stub
-//		return super.shouldOverrideUrlLoading(view, url);
-		return false;
-	}
-}
+
 	/**
 	 * The user had previously given our app permission to use Twitter</br>
 	 * Therefore we retrieve these credentials and fill out the Twitter4j helper
@@ -371,14 +367,15 @@ public class CustomWebViewClient extends WebViewClient{
 		// Create the twitter access token from the credentials we got
 		// previously
 		AccessToken at = new AccessToken(token, secret);
-//mTwitter = new TwitterFactory().getInstance();
-//		mTwitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
+		// mTwitter = new TwitterFactory().getInstance();
+		// mTwitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
 		mTwitter.setOAuthAccessToken(at);
-//		mTwitter.getAuthorization();
-		Log.i(TAG, "PREF_ACCESS_TOKEN " + token + " PREF_ACCESS_TOKEN_SECRET "+ secret);
+		// mTwitter.getAuthorization();
+		Log.i(TAG, "PREF_ACCESS_TOKEN " + token + " PREF_ACCESS_TOKEN_SECRET "
+				+ secret);
 		Toast.makeText(this, "Welcome back", Toast.LENGTH_SHORT).show();
-		
-//		enableTweetButton();
+
+		// enableTweetButton();
 	}
 
 	/**
@@ -397,10 +394,10 @@ public class CustomWebViewClient extends WebViewClient{
 	protected void onResume() {
 		super.onResume();
 		Log.i(TAG, "Arrived at onResume");
-		setInstance(this);
-		 mLoginButton.setOnClickListener(mLogInButtonOnCliclistener);
-		 
-		  mTweetButton.setOnClickListener(mTweetButtonOnCliclistener);
+		// setInstance(this);
+		// mLoginButton.setOnClickListener(mLogInButtonOnCliclistener);
+		//
+		// mTweetButton.setOnClickListener(mTweetButtonOnCliclistener);
 	}
 
 	/**
@@ -412,11 +409,11 @@ public class CustomWebViewClient extends WebViewClient{
 	private void dealWithTwitterResponse(Intent intent) {
 		Uri uri = intent.getData();
 		if (uri != null && uri.toString().contains(CALLBACK_URL)) { // If the
-																		// user
-																		// has
-																		// just
-																		// logged
-																		// in
+																	// user
+																	// has
+																	// just
+																	// logged
+																	// in
 			String oauthVerifier = uri.getQueryParameter("oauth_verifier");
 
 			authoriseNewUser(oauthVerifier);
@@ -431,26 +428,30 @@ public class CustomWebViewClient extends WebViewClient{
 	 * @param oauthVerifier
 	 */
 	private void authoriseNewUser(final String oauthVerifier) {
+		webView.clearView();
+		 autorizeResult = "";
 		try {
 			Runnable runnable = new Runnable() {
-				
+
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
 					try {
-						AccessToken at = mTwitter.getOAuthAccessToken(mReqToken,
-								oauthVerifier);
+						AccessToken at = mTwitter.getOAuthAccessToken(
+								mReqToken, oauthVerifier);
 						mTwitter.setOAuthAccessToken(at);
 
 						saveAccessToken(at);
 						Log.i(TAG, "oauthVerifier = " + oauthVerifier);
-						// Set the content view back after we changed to a webview
-						
+						// Set the content view back after we changed to a
+						// webview
 
-						enableTweetButton();
-						
+						/*enableTweetButton();*/
+						autorizeResult = "Logined successfully. Allowing to tweet!";
+
 					} catch (TwitterException e) {
 						// TODO Auto-generated catch block
+						autorizeResult = "Somthing went wrong, try again";
 						e.printStackTrace();
 					}
 				}
@@ -463,7 +464,9 @@ public class CustomWebViewClient extends WebViewClient{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		setContentView(R.layout.tweet_activity);
+//		setContentView(R.layout.tweet_activity);
+		
+		Toast.makeText(instance, autorizeResult, Toast.LENGTH_LONG).show();
 	}
 
 	/**
@@ -472,10 +475,9 @@ public class CustomWebViewClient extends WebViewClient{
 	private void enableTweetButton() {
 		Log.i(TAG, "User logged in - allowing to tweet");
 		mLoginButton.setEnabled(false);
-		mLoginButton.setClickable(false);
 		mTweetButton.setEnabled(true);
-		
-//		tweetMessage();
+
+		// tweetMessage();
 	}
 
 	/**
@@ -483,34 +485,34 @@ public class CustomWebViewClient extends WebViewClient{
 	 */
 	private String tweetMessage(Context context) {
 		tweetResult = "Sompthing gone wrong.";
-Runnable runnable = new Runnable() {
-			
+		Runnable runnable = new Runnable() {
+
 			@Override
 			public void run() {
-				 try {
-					 mTwitter.getAuthorization();
-					message = DataProvider.getContent().get(DataProvider.getContentPos()).getLink();
-					
-					 Log.i(TAG, " message =" + message);
-						try {
-							
-							
-							Log.i(TAG, "tweetMessage() " + message);
-							
-							mTwitter.updateStatus(message);
-							tweetResult = "Tweet Successful";
-							
-						} catch (TwitterException e) {
-							Log.i(TAG, "TwitterException e code" + e.getErrorCode() + " message "+e.getErrorMessage()+ "try to send message " + message);
-	
-							tweetResult = "Tweet error, try again later";
-						} catch (SQLException e) {
-							Log.i(TAG, "SQLException e" + e.getMessage());
-							e.printStackTrace();
-						}
-					
-					
-					
+				try {
+					mTwitter.getAuthorization();
+					message = DataProvider.getContent()
+							.get(DataProvider.getContentPos()).getLink();
+
+					Log.i(TAG, " message =" + message);
+					try {
+
+						Log.i(TAG, "tweetMessage() " + message);
+
+						mTwitter.updateStatus(message);
+						tweetResult = "Tweet Successful";
+
+					} catch (TwitterException e) {
+						Log.i(TAG, "TwitterException e code" + e.getErrorCode()
+								+ " message " + e.getErrorMessage()
+								+ "try to send message " + message);
+
+						tweetResult = "Tweet error, try again later";
+					} catch (SQLException e) {
+						Log.i(TAG, "SQLException e" + e.getMessage());
+						e.printStackTrace();
+					}
+
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -518,7 +520,7 @@ Runnable runnable = new Runnable() {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		};
 		Thread thread = new Thread(runnable);
@@ -529,20 +531,29 @@ Runnable runnable = new Runnable() {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	    	return tweetResult;
-		   
-		
-//		onBackPressed();
+
+		return tweetResult;
+
+		// onBackPressed();
 	}
 
 	private void saveAccessToken(AccessToken at) {
 		String token = at.getToken();
 		String secret = at.getTokenSecret();
 		Editor editor = mPrefs.edit();
-		
+
 		editor.putString(PREF_ACCESS_TOKEN, token);
 		editor.putString(PREF_ACCESS_TOKEN_SECRET, secret);
 		editor.commit();
+	}
+
+	private void logOut() {
+		Editor editor = mPrefs.edit();
+
+		editor.remove(PREF_ACCESS_TOKEN);
+		editor.remove(PREF_ACCESS_TOKEN_SECRET);
+		editor.commit();
+		mTwitter.setOAuthAccessToken(null);
+		mTwitter.shutdown();
 	}
 }
