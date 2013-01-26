@@ -5,22 +5,23 @@
         android:title="@string/addLike"
         android:orderInCategory="100"
         android:showAsAction="ifRoom" />
-    
+<!--     
 <item
   android:id="@+id/share_button"
   android:title="Share on Google+"
   android:orderInCategory="100" 
-  android:showAsAction="ifRoom"/>
+  android:showAsAction="ifRoom"/> -->
     
 <item
     android:showAsAction="ifRoom" android:title="Share">
     <menu>
         <item
             android:id="@+id/menuToTweet"
-            android:title="Share on twitter" />
+            android:title="Share on Twitter" />
         <item
             android:id="@+id/menuToShareOnFacebook"
-            android:title="Share on Facebook" />
+            android:title="Share on Facebook" 
+           />
     </menu>
 </item>
     

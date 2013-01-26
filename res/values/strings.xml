@@ -1,17 +1,17 @@
 <resources>
 
-    <string name="app_name">geekhub_3rd_homework</string>
+    <string name="app_name">NEWS Reader</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">NEWS</string>
+    <string name="title_activity_main">NEWS Reader</string>
     <string name="frag1_text">TitleFragment</string>
     <string name="addLike">Add Like</string>
     <string name="showAllLikes">Show All Likes</string>
-   <string name="update_service_label">Update Service</string>
+   	<string name="update_service_label">Update Service</string>
     <string name="update_service_started">Update Service Started</string>
     <string name="update_service_stopped">Update Service Stopped</string>
     <string name="update_service_connected">Update Service Connected</string>
     <string name="update_service_disconnected">Update Service Disconnected</string>
     <string name="tweet_login">Log in Twitter</string>
-<string name="app_id">398470383574303</string>
+	<string name="app_id">398470383574303</string>
 </resources>

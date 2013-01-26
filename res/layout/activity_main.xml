@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-  <TextView
+<!--   <TextView
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        /> -->
 
     <FrameLayout
         android:id="@+id/frgmCont"
@@ -16,8 +16,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="false"
-        android:layout_below="@id/textView1" >
+        android:layout_alignParentTop="true"
+        >
 		
 	</FrameLayout>
 
